@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.014 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.017 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>AirCheck+ · AirATIS</title>
+<title>AirATIS</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="AirATIS">
@@ -33,7 +33,7 @@ button:active{opacity:.75;}
 .mono{font-family:var(--font-mono);}
 
 /* ── HEADER ── */
-.header{background:var(--ink);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:rtl;flex-shrink:0;position:relative;}
+.header{background:var(--ink);padding:calc(10px + env(safe-area-inset-top)) 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:rtl;flex-shrink:0;position:relative;}
 .hdr-clock{flex:1;display:flex;flex-direction:column;align-items:center;color:#f4ecdc;font-family:var(--font-mono);direction:ltr;pointer-events:none;}
 .hdr-clock-lbl{font-size:8px;opacity:.75;letter-spacing:.18em;line-height:1;}
 #utcClock{font-size:15px;font-weight:700;line-height:1;margin-top:3px;}
@@ -79,7 +79,7 @@ button:active{opacity:.75;}
 .nav-btn.done{background:var(--ink);border-color:var(--ink);color:#f4ecdc;}
 .nav-btn.done span{color:var(--gold-lite);}
 .nav-btn:disabled{opacity:.3;}
-.row{height:36px;display:flex;align-items:center;gap:8px;padding:0 10px;border-radius:6px;border:2px solid transparent;background:transparent;text-align:left;width:100%;}
+.row{height:clamp(24px, calc((100svh - 470px) / 9), 38px);display:flex;align-items:center;gap:8px;padding:0 10px;border-radius:6px;border:2px solid transparent;background:transparent;text-align:left;width:100%;}
 .row.filled{background:var(--paper-hi);}
 .row.active{background:var(--active);border-color:var(--gold);}
 .row.unsure{border-color:var(--amber);}
@@ -93,9 +93,9 @@ button:active{opacity:.75;}
 
 /* ── KEYPAD ── */
 .bottom{flex:1;display:flex;flex-direction:column;min-height:0;}
-.kp{flex:1;display:flex;flex-direction:column;gap:6px;padding:8px 14px 0;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;}
+.kp{flex:1;display:flex;flex-direction:column;gap:6px;padding:8px 14px 6px;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;}
 .hint{flex-shrink:0;font-size:13px;font-weight:500;color:var(--ink-muted);text-align:center;}
-.grid{flex:1;display:grid;gap:6px;min-height:0;grid-auto-rows:minmax(36px,1fr);}
+.grid{flex:1;display:grid;gap:6px;min-height:0;grid-auto-rows:minmax(34px,1fr);}
 .g2{grid-template-columns:repeat(2,minmax(0,1fr));}
 .g3{grid-template-columns:repeat(3,minmax(0,1fr));}
 .g7{grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;}
@@ -176,9 +176,8 @@ button:active{opacity:.75;}
   .ap-freq{font-size:11px;}
 }
 @media (max-height:720px){
-  .row{height:27px;}
   .field-row{padding:5px 16px;}
-  .header{padding:7px 16px 6px;}
+  .header{padding:calc(7px + env(safe-area-inset-top)) 16px 6px;}
   .page-footer{padding-top:5px;padding-bottom:calc(5px + env(safe-area-inset-bottom));}
   .row-val{font-size:15px;}
   .tape{padding:4px 12px;}
@@ -192,7 +191,6 @@ button:active{opacity:.75;}
 
 /* ── VERY SHORT SCREENS (iPhone SE 1st gen, 568px) ── */
 @media (max-height:600px){
-  .row{height:23px;}
   .row-val{font-size:13px;}
   .row-lbl{font-size:9px;}
   .age{font-size:8px;padding:1px 5px;}
@@ -240,7 +238,7 @@ button:active{opacity:.75;}
   <div class="sp-tag">Tap-fast ATIS capture</div>
   <div class="sp-line1" id="spLine1"></div>
   <div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div>
-  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.014 · built by eligrt</div>
+  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.017 · built by eligrt</div>
 </div>
 
 <div class="header">
@@ -270,7 +268,7 @@ button:active{opacity:.75;}
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer">AirCheck+ · AirATIS · v1.01.014 · built by eligrt</div>
+<div class="page-footer">AirCheck+ · AirATIS · v1.01.017 · built by eligrt</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -278,7 +276,11 @@ button:active{opacity:.75;}
 const XW_BLUE_MAX = 8;
 const XW_AMBER_MAX = 13;
 const XW_COL = {blue:'#2563c2', amber:'#b45309', red:'#b94a3a'};
-const RECHECK_MIN = 45;          // ATIS age after which the badge turns amber
+const RECHECK_MIN = 45;
+// Auto-advance to the next field when a fixed-length value is complete
+// (never for WIND / CLOUD / REMARKS, which can take an extra part: gust, 2nd layer, more remarks). false = always use ▼ NEXT.
+const AUTO_ADVANCE = true;
+const MAX_CLOUD_LAYERS = 2;          // ATIS age after which the badge turns amber
 const PREDICT_HOURS = 12;        // letter prediction uses last letter logged within this window
 
 // Airfields with ATIS — runways & frequencies per AIP (checked Sep 2026).
@@ -338,13 +340,15 @@ function stepIndex(from, dir, st){
   return i;
 }
 function set(patch, adv){
+  if(adv==='auto') adv = AUTO_ADVANCE;
   const next = Object.assign({}, S, patch);
-  const navOnly = Object.keys(patch).every(k => k==='active' || k==='kpOpen' || k==='unsure');
+  const navOnly = Object.keys(patch).every(k => k==='active' || k==='kpOpen' || k==='unsure' || k==='fresh');
   if(!S.started && !navOnly) next.started = Date.now();
   if(adv){
     const i = stepIndex(next.active, 1, next);
     if(i >= ORDER.length) next.kpOpen = false; else next.active = ORDER[i];
   }
+  if(next.active !== S.active) next.fresh = true;   // first input on a revisited field overwrites it
   S = next; save(); render();
 }
 function cloudCommitPatch(){
@@ -406,10 +410,11 @@ function allowedDigits(){
 }
 
 function digit(d){
+  if(S.fresh){ startEdit(); }
   if(allowedDigits().indexOf(d) < 0) return;
   const s = S;
   switch(s.active){
-    case 'time': { const v=(s.time.length>=4?'':s.time)+d; set({time:v}, v.length===4); break; }
+    case 'time': { const v=(s.time.length>=4?'':s.time)+d; set({time:v}, v.length===4 ? 'auto' : false); break; }
     case 'rwy': set({rwy:(s.rwy.length>=2?'':s.rwy)+d}); break;
     case 'wind': {
       if(s.wmode==='dir' || s.wmode==='done'){
@@ -422,11 +427,11 @@ function digit(d){
         const v = s.wspd+d;
         if(v.length<2) set({wspd:v});
         else if(s.wgstPending) set({wspd:v, wmode:'gst', wgst:''});
-        else set({wspd:v, wmode:'done'}, true);
+        else set({wspd:v, wmode:'done'});                       // stay: a gust (G) may follow
       } else if(s.wmode==='gst'){
         const v = s.wgst+d;
         if(v.length<2) set({wgst:v});
-        else set({wgst:v, wmode:'done', wgstPending:false}, true);
+        else set({wgst:v, wmode:'done', wgstPending:false});
       }
       break;
     }
@@ -434,26 +439,28 @@ function digit(d){
       const base = (s.vbuf.length>=2 || s.vis==='CAVOK' || s.vis==='10 KM+') ? '' : s.vbuf;
       const v = base+d;
       if(v.length<2) set({vbuf:v, vis:v+'_ KM'});
-      else set({vbuf:v, vis:parseInt(v,10)+' KM'}, true);
+      else set({vbuf:v, vis:parseInt(v,10)+' KM'}, 'auto');
       break;
     }
     case 'cloud': {
       if(!s.cpend) return;
       const v = s.cbuf+d;
-      if(v.length>=4) set({clouds:s.clouds.filter(c=>c.c!=='NSC').concat([{c:s.cpend,h:v}]), cpend:'', cbuf:''}, true);
+      if(v.length>=4) set({clouds:s.clouds.filter(c=>c.c!=='NSC').concat([{c:s.cpend,h:v}]), cpend:'', cbuf:''});
       else set({cbuf:v});
       break;
     }
     case 'td': {
       if(s.tstage==='t'){ const v=s.temp+d; set(v.length===2 ? {temp:v, tstage:'d'} : {temp:v}); }
-      else { const v=s.dew+d; set({dew:v}, v.length===2); }
+      else if(s.dew.length>=2) set({temp:d, dew:'', tstage:'t', tneg:false, dneg:false});   // both full → start over
+      else { const v=s.dew+d; set({dew:v}, v.length===2 ? 'auto' : false); }
       break;
     }
-    case 'qnh': { const v=(qnhDone(s.qnh)?'':s.qnh)+d; set({qnh:v}, qnhDone(v)); break; }
+    case 'qnh': { const v=(qnhDone(s.qnh)?'':s.qnh)+d; set({qnh:v}, qnhDone(v) ? 'auto' : false); break; }
   }
 }
 
 function backspace(){
+  S.fresh = false;
   const s = S, cut = x => x.slice(0,-1);
   switch(s.active){
     case 'info': if(s.info) return set({info:''}); break;
@@ -488,15 +495,20 @@ function backspace(){
   goUp();
 }
 
-function clearField(){
-  const m = {
+function emptyPatch(id){
+  return ({
     info:{info:''}, time:{time:''}, rwy:{rwy:''},
     wind:{wdir:'', wspd:'', wgst:'', wmode:'dir', wspec:'', wgstPending:false},
     vis:{vis:'', vbuf:''}, cloud:{clouds:[], cpend:'', cbuf:''},
     td:{temp:'', dew:'', tstage:'t', tneg:false, dneg:false},
     qnh:{qnh:''}, rmk:{rmk:[]}
-  };
-  set(m[S.active]);
+  })[id];
+}
+function clearField(){ set(Object.assign(emptyPatch(S.active), {fresh:false})); }
+// Called before the first real input on a field you navigated back to: start it over
+function startEdit(){
+  if(S.fresh) S = Object.assign({}, S, emptyPatch(S.active));
+  S.fresh = false;
 }
 // Confirm dialog — same pattern as AirNotam's appConfirm
 function appConfirm(o){
@@ -712,7 +724,7 @@ function keypadHTML(){
     body += `<div class="grid g3">` + ['1','2','3','4','5','6','7','8','9'].map(dk).join('') +
       `<button class="key del" data-act="del" aria-label="Delete last digit">⌫</button>` + dk('0') + `<div></div></div>`;
   }
-  return `<div class="kp"><div class="hint">${hintFor()}</div>${body}</div>
+  return `<div class="kp">${body}</div>
     <div class="actions">
       <button class="act act-clearall" data-act="clearall">CLEAR ALL</button>
       <button class="act act-q${s.unsure[s.active]?' on':''}" data-act="unsure" aria-label="Mark as not sure">?</button>
@@ -728,8 +740,13 @@ function windSVG(w){
     const a = w.deg*Math.PI/180, sn = Math.sin(a), cs = Math.cos(a);
     const sx = 60+56*sn, sy = 70-56*cs, ex = 60+16*sn, ey = 70-16*cs;
     const bx = ex+10*sn, by = ey-10*cs, px = cs, py = sn;
-    art = `<line x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}" stroke="${col}" stroke-width="4.5" stroke-linecap="round"/>
-      <polygon points="${ex.toFixed(1)},${ey.toFixed(1)} ${(bx+6*px).toFixed(1)},${(by+6*py).toFixed(1)} ${(bx-6*px).toFixed(1)},${(by-6*py).toFixed(1)}" fill="${col}"/>`;
+    const L = `x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}"`;
+    const P = `points="${ex.toFixed(1)},${ey.toFixed(1)} ${(bx+6*px).toFixed(1)},${(by+6*py).toFixed(1)} ${(bx-6*px).toFixed(1)},${(by-6*py).toFixed(1)}"`;
+    // cream halo first, so the arrow stays visible when it lies over the navy runway
+    art = `<line ${L} stroke="#f4ecdc" stroke-width="9" stroke-linecap="round"/>
+      <polygon ${P} fill="#f4ecdc" stroke="#f4ecdc" stroke-width="4.5" stroke-linejoin="round"/>
+      <line ${L} stroke="${col}" stroke-width="4.5" stroke-linecap="round"/>
+      <polygon ${P} fill="${col}"/>`;
   } else if(w.mode){
     art = `<text x="60" y="10" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#2563c2">${w.mode}</text>`;
   }
@@ -780,12 +797,12 @@ document.addEventListener('click', e => {
   if(!b || b.disabled) return;
   const act = b.dataset.act, arg = b.dataset.arg, s = S;
   switch(act){
-    case 'row': set({active:b.dataset.id, kpOpen:true}); break;
+    case 'row': set({active:b.dataset.id, kpOpen:true, fresh:true}); break;
     case 'up': goUp(); break;
     case 'down': goDown(); break;
-    case 'letter': rememberLetter(s.ap, arg); set({info:arg}, true); break;
-    case 'rwy': set({rwy:arg}, true); break;
-    case 'rwysfx': { const base = s.rwy.replace(/[LRC]$/,''); if(base.length===2) set({rwy:base+arg}, true); break; }
+    case 'letter': rememberLetter(s.ap, arg); set({info:arg, fresh:false}, 'auto'); break;
+    case 'rwy': set({rwy:arg, fresh:false}, 'auto'); break;
+    case 'rwysfx': { const base = s.rwy.replace(/[LRC]$/,''); if(base.length===2) set({rwy:base+arg, fresh:false}, 'auto'); break; }
     case 'rmk': {
       const on = s.rmk.indexOf(arg)>=0;
       set({rmk: on ? s.rmk.filter(x=>x!==arg) : (arg==='NIL' ? ['NIL'] : s.rmk.filter(x=>x!=='NIL').concat([arg]))});
@@ -793,17 +810,22 @@ document.addEventListener('click', e => {
     }
     case 'digit': digit(arg); break;
     case 'del': backspace(); break;
-    case 'calm': set({wspec:'CALM', wdir:'', wspd:'', wgst:'', wmode:'done', wgstPending:false}, true); break;
-    case 'vrb': set({wspec:'VRB', wdir:'', wspd:'', wmode:'spd'}); break;
-    case 'gust': if(s.wspd.length===2) set({wmode:'gst', wgst:''}); else set({wgstPending:!s.wgstPending}); break;
-    case 'cavok': set({vis:'CAVOK', vbuf:'', clouds:[], cpend:'', cbuf:''}, true); break;
-    case 'vis10': set({vis:'10 KM+', vbuf:''}, true); break;
-    case 'cover':
-      if(arg==='NSC') set({clouds:[{c:'NSC',h:''}], cpend:'', cbuf:''}, true);
-      else if(s.cpend && s.cbuf) set(Object.assign(cloudCommitPatch(), {cpend:arg}));
-      else set({cpend:arg, cbuf:''});
+    case 'calm': set({wspec:'CALM', wdir:'', wspd:'', wgst:'', wmode:'done', wgstPending:false, fresh:false}, 'auto'); break;
+    case 'vrb': startEdit(); set({wspec:'VRB', wdir:'', wspd:'', wmode:'spd'}); break;
+    case 'gust': S.fresh = false; if(s.wspd.length===2) set({wmode:'gst', wgst:''}); else set({wgstPending:!s.wgstPending}); break;
+    case 'cavok': set({vis:'CAVOK', vbuf:'', clouds:[], cpend:'', cbuf:'', fresh:false}, 'auto'); break;
+    case 'vis10': set({vis:'10 KM+', vbuf:'', fresh:false}, 'auto'); break;
+    case 'cover': {
+      startEdit();
+      const t = S;
+      if(arg==='NSC'){ set({clouds:[{c:'NSC',h:''}], cpend:'', cbuf:''}, 'auto'); break; }
+      let layers = t.clouds.filter(c=>c.c!=='NSC');
+      if(t.cpend && t.cbuf) layers = layers.concat([{c:t.cpend, h:t.cbuf}]);
+      if(layers.length >= MAX_CLOUD_LAYERS) layers = [];          // a 3rd cover starts the clouds over
+      set({clouds:layers, cpend:arg, cbuf:''});
       break;
-    case 'minus': set(s.tstage==='t' ? {tneg:!s.tneg} : {dneg:!s.dneg}); break;
+    }
+    case 'minus': startEdit(); { const t = S; set(t.tstage==='t' ? {tneg:!t.tneg} : {dneg:!t.dneg}); } break;
     case 'unsure': { const u = Object.assign({}, s.unsure); u[s.active] = !u[s.active]; set({unsure:u}); break; }
     case 'clear': clearField(); break;
     case 'clearall': clearAll(); break;
