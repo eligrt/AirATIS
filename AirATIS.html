@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.008 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.012 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>AirCheck+ · AirATIS</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -27,33 +27,65 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{background:var(--paper);font-family:var(--font-ui);color:var(--ink);}
 body{display:flex;flex-direction:column;height:100svh;overflow:hidden;}
-button,select{font:inherit;color:inherit;cursor:pointer;}
+button,select{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;}
+html,body{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
 button:active{opacity:.75;}
 .mono{font-family:var(--font-mono);}
 
 /* ── HEADER ── */
-.header{background:var(--ink);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:rtl;flex-shrink:0;}
+.header{background:var(--ink);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:rtl;flex-shrink:0;position:relative;}
+.hdr-clock{flex:1;display:flex;flex-direction:column;align-items:center;color:#f4ecdc;font-family:var(--font-mono);direction:ltr;pointer-events:none;}
+.hdr-clock-lbl{font-size:8px;opacity:.75;letter-spacing:.18em;line-height:1;}
+#utcClock{font-size:15px;font-weight:700;line-height:1;margin-top:3px;}
 .header-title{font-size:18px;font-weight:700;color:#f4ecdc;direction:ltr;}
 .back-btn{background:transparent;border:1px solid rgba(244,236,220,.35);border-radius:6px;padding:7px 14px;font-family:var(--font-ui);font-size:13px;font-weight:600;color:rgba(244,236,220,.8);white-space:nowrap;}
 
 /* ── AIRFIELD ROW ── */
 .field-row{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(28,61,110,.06);border-bottom:1px solid var(--paper-edge);}
-.sel-wrap{position:relative;flex:1;height:40px;}
-.sel-wrap select{width:100%;height:40px;-webkit-appearance:none;appearance:none;border-radius:20px;border:1.5px solid var(--ink);background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:0;padding:0 34px 0 14px;}
-.sel-wrap::after{content:'▾';position:absolute;right:16px;top:9px;color:#f4ecdc;font-size:14px;pointer-events:none;}
+.ap-btn{flex:1;min-width:0;height:42px;display:flex;align-items:center;gap:10px;border-radius:21px;border:1.5px solid var(--ink);background:var(--ink);color:#f4ecdc;padding:0 14px 0 16px;text-align:left;}
+.ap-icao{font-family:var(--font-mono);font-weight:700;font-size:14px;letter-spacing:.02em;}
+.ap-name{flex:1;min-width:0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ap-freq{font-family:var(--font-mono);font-size:12px;color:var(--gold-lite);white-space:nowrap;}
+.ap-btn svg{flex-shrink:0;opacity:.85;}
+.amodal{position:fixed;inset:0;z-index:3000;background:rgba(14,35,72,.6);display:none;align-items:center;justify-content:center;padding:20px;}
+.amodal.show{display:flex;}
+.am-card{background:var(--paper);border:2px solid var(--ink);border-radius:14px;width:100%;max-width:340px;padding:18px 18px 14px;box-shadow:0 10px 30px rgba(0,0,0,.3);display:flex;flex-direction:column;gap:8px;}
+.am-ttl{font-size:17px;font-weight:700;color:#0e2348;}
+.am-txt{font-size:13px;color:var(--ink-muted);line-height:1.5;}
+.am-btns{display:flex;gap:8px;margin-top:8px;}
+.am-btns button{flex:1;height:46px;border-radius:8px;font-family:var(--font-ui);font-size:14px;font-weight:700;}
+.am-ok{border:none;background:var(--ink);color:var(--paper-hi);}
+.am-ok.danger{background:#b94a3a;}
+.am-no{border:1px solid var(--paper-edge);background:var(--paper-hi);color:var(--ink-muted);}
+.pick-list{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+.pick-row{display:flex;align-items:center;gap:12px;min-height:56px;padding:6px 12px;border-radius:8px;border:1px solid var(--paper-edge);background:var(--paper-hi);text-align:left;width:100%;}
+.pick-row.on{background:var(--gold-tint);border-color:var(--gold);}
+.pick-icao{font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--ink);width:48px;flex-shrink:0;}
+.pick-name{flex:1;min-width:0;font-size:15px;font-weight:600;color:var(--ink);}
+.pick-freq{font-family:var(--font-mono);font-size:11px;line-height:1.35;color:var(--ink-muted);text-align:right;white-space:nowrap;}
+.pick-check{width:18px;flex-shrink:0;color:var(--ink);}
+.unused-sel{width:100%;height:40px;-webkit-appearance:none;appearance:none;border-radius:20px;border:1.5px solid var(--ink);background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:0;padding:0 34px 0 14px;}
+
 .age{flex-shrink:0;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;border:1px solid var(--paper-edge);color:var(--ink-faint);border-radius:3px;padding:2px 7px;}
 .age.fresh{color:var(--cleared);border-color:rgba(31,111,63,.4);}
 .age.stale{color:var(--amber-ink);border-color:rgba(245,158,11,.6);}
 
 /* ── TAPE ── */
-.tape{flex-shrink:0;padding:6px 12px;display:flex;flex-direction:column;gap:2px;}
+.tape{flex-shrink:0;padding:6px 12px;display:flex;gap:8px;}
+.tape-rows{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+.nav-col{width:54px;flex-shrink:0;display:flex;flex-direction:column;gap:6px;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border-radius:8px;border:1px solid var(--paper-edge);background:var(--paper-hi);color:var(--ink);padding:0;}
+.nav-btn span{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--ink-muted);}
+.nav-btn.done{background:var(--ink);border-color:var(--ink);color:#f4ecdc;}
+.nav-btn.done span{color:var(--gold-lite);}
+.nav-btn:disabled{opacity:.3;}
 .row{height:36px;display:flex;align-items:center;gap:8px;padding:0 10px;border-radius:6px;border:2px solid transparent;background:transparent;text-align:left;width:100%;}
 .row.filled{background:var(--paper-hi);}
 .row.active{background:var(--active);border-color:var(--gold);}
 .row.unsure{border-color:var(--amber);}
 .row.active.unsure{border-color:var(--gold);}
 .dot{width:7px;height:7px;border-radius:4px;flex-shrink:0;}
-.row-lbl{width:82px;flex-shrink:0;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-muted);}
+.row-lbl{width:74px;flex-shrink:0;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-muted);}
 .row-val{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--ink);}
 .row-val.empty{color:var(--ink-empty);}
 .row.unsure .row-val{color:var(--amber-ink);}
@@ -89,6 +121,12 @@ button:active{opacity:.75;}
 .act-clear{width:80px;border:1.5px solid var(--paper-edge);background:transparent;color:var(--ink-muted);font-size:13px;letter-spacing:.06em;}
 .act-next{flex:1;border:0;background:var(--ink);color:#f4ecdc;font-size:16px;letter-spacing:.12em;}
 .act-next.done{background:var(--cleared);}
+.act-clear{flex:1;width:auto;}
+.act-clearall{flex:1;border:1.5px solid rgba(185,74,58,.5);background:transparent;color:#b94a3a;font-size:13px;letter-spacing:.06em;}
+.row.warn .row-val{color:#b94a3a;}
+.w-badge{width:22px;height:22px;border-radius:11px;background:#b94a3a;color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.act-q{width:64px;}
+.key:disabled{opacity:.28;}
 
 /* ── DONE PANEL ── */
 .done{flex:1;display:flex;flex-direction:column;gap:8px;padding:10px 12px;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;overflow-y:auto;}
@@ -127,11 +165,17 @@ button:active{opacity:.75;}
 
 /* ── SHORT SCREENS (iPhone SE etc.) ── */
 @media (max-width:380px){
-  .sel-wrap select{font-size:12px;padding:0 30px 0 12px;}
-  .sel-wrap::after{right:12px;}
+  .back-btn{padding:6px 9px;font-size:12px;}
+  .header-title{font-size:17px;}
+  .ap-btn{padding:0 12px 0 14px;gap:8px;}
+  .ap-name,.ap-icao{font-size:13px;}
+  .ap-freq{font-size:11px;}
 }
 @media (max-height:720px){
-  .row{height:28px;}
+  .row{height:27px;}
+  .field-row{padding:5px 16px;}
+  .header{padding:7px 16px 6px;}
+  .page-footer{padding-top:5px;padding-bottom:calc(5px + env(safe-area-inset-bottom));}
   .row-val{font-size:15px;}
   .tape{padding:4px 12px;}
   .kp{gap:5px;padding-top:6px;}
@@ -140,6 +184,22 @@ button:active{opacity:.75;}
   .strip{height:40px;}
   .strip.pred{height:44px;}
   .actions{height:58px;padding:6px 14px 8px;}
+}
+
+/* ── VERY SHORT SCREENS (iPhone SE 1st gen, 568px) ── */
+@media (max-height:600px){
+  .row{height:23px;}
+  .row-val{font-size:13px;}
+  .row-lbl{font-size:9px;}
+  .age{font-size:8px;padding:1px 5px;}
+  .hint{display:none;}
+  .grid{grid-auto-rows:minmax(28px,1fr);}
+  .strip{height:34px;}
+  .strip.pred{height:38px;}
+  .actions{height:50px;padding:5px 14px 6px;}
+  .field-row{padding:4px 16px;}
+  .ap-btn{height:36px;}
+  .page-footer{display:none;}
 }
 
 /* ── PC LAYOUT ── */
@@ -176,48 +236,61 @@ button:active{opacity:.75;}
   <div class="sp-tag">Tap-fast ATIS capture</div>
   <div class="sp-line1" id="spLine1"></div>
   <div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div>
-  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.008 · built by eligrt</div>
+  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.012 · built by eligrt</div>
 </div>
 
 <div class="header">
   <div class="header-title">AirATIS</div>
+  <div class="hdr-clock"><span class="hdr-clock-lbl">UTC</span><span id="utcClock">--:--</span></div>
   <button class="back-btn" onclick="backToApp()">חזרה ל&nbsp;&nbsp;<span dir="ltr">AirCheck+</span></button>
 </div>
 
 <div class="field-row">
-  <div class="sel-wrap">
-    <select id="apSel" aria-label="Airfield"></select>
-  </div>
+  <button type="button" class="ap-btn" id="apBtn" data-act="appick" aria-haspopup="dialog" aria-label="Choose airfield">
+    <span class="ap-icao" id="apIcao"></span><span class="ap-name" id="apName"></span><span class="ap-freq" id="apFreq"></span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
 </div>
 
 <div class="tape" id="tape"></div>
 <div class="bottom" id="bottom"></div>
 
-<div class="page-footer">AirCheck+ · AirATIS · v1.01.008 · built by eligrt</div>
+<div class="amodal" id="pickModal"><div class="am-card" role="dialog" aria-labelledby="pickTtl">
+  <div class="am-ttl" id="pickTtl">Select airfield</div>
+  <div class="pick-list" id="pickList"></div>
+  <div class="am-btns"><button type="button" class="am-no" data-act="pickclose">Cancel</button></div>
+</div></div>
+
+<div class="amodal" id="amodal"><div class="am-card" role="alertdialog" aria-labelledby="amTtl" aria-describedby="amTxt">
+  <div class="am-ttl" id="amTtl"></div><div class="am-txt" id="amTxt"></div>
+  <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
+</div></div>
+
+<div class="page-footer">AirCheck+ · AirATIS · v1.01.012 · built by eligrt</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
 const XW_LIMIT_KT = 15;          // crosswind warning threshold — set from your POH
-const RECHECK_MIN = 45;          // age after which the ATIS badge turns amber
+const RECHECK_MIN = 45;          // ATIS age after which the badge turns amber
 const PREDICT_HOURS = 12;        // letter prediction uses last letter logged within this window
 
 // Airfields with ATIS — runways & frequencies per AIP (checked Sep 2026).
-// freq = shown in the dropdown; freqFull = shown in the INFO hint.
 const FIELDS = {
-  LLBG:  { name:'Ben Gurion', rwys:['03','21','08','26','12','30'], freq:'132.50/132.80 MHz', freqFull:'ARR 132.50 MHz · DEP 132.80 MHz' },
-  LLHA:  { name:'Haifa',      rwys:['15','33'], freq:'135.40 MHz', freqFull:'135.40 MHz' },
-  LLIB:  { name:'Rosh Pina',  rwys:['15','33'], freq:'132.45 MHz', freqFull:'132.45 MHz' },
-  LLER:  { name:'Ramon',      rwys:['01','19'], freq:'132.55 MHz', freqFull:'132.55 MHz' },
-  OTHER: { name:'Other airfield…', rwys:[], freq:'', freqFull:'' }
+  LLBG:  { name:'Ben Gurion', rwys:['03','21','08','26','12','30'], freq:'132.50/132.80 MHz', freqPick:'ARR 132.50 MHz<br>DEP 132.80 MHz' },
+  LLHA:  { name:'Haifa',      rwys:['15','33'], freq:'135.40 MHz' },
+  LLIB:  { name:'Rosh Pina',  rwys:['15','33'], freq:'132.45 MHz' },
+  LLER:  { name:'Ramon',      rwys:['01','19'], freq:'132.55 MHz' },
+  OTHER: { name:'Other airfield…', rwys:[], freq:'' }
 };
 
-const ORDER = ['info','rwy','wind','vis','cloud','td','qnh','rmk'];
-const LABELS = {info:'INFO',rwy:'RUNWAY',wind:'WIND',vis:'VIS',cloud:'CLOUD',td:'TEMP / DP',qnh:'QNH',rmk:'REMARKS'};
-const DOTS = {info:'#1c3d6e',rwy:'#1c3d6e',wind:'#2563c2',vis:'#c9a800',cloud:'#c95fbd',td:'#c99000',qnh:'#1f6f3f',rmk:'#8a7a5a'};
+const ORDER = ['info','time','rwy','wind','vis','cloud','td','qnh','rmk'];
+const LABELS = {info:'INFO',time:'UPDATED',rwy:'RUNWAY',wind:'WIND',vis:'VIS',cloud:'CLOUD',td:'TEMP / DP',qnh:'QNH',rmk:'REMARKS'};
+const DOTS = {info:'#1c3d6e',time:'#1c3d6e',rwy:'#1c3d6e',wind:'#2563c2',vis:'#c9a800',cloud:'#c95fbd',td:'#c99000',qnh:'#1f6f3f',rmk:'#8a7a5a'};
 const PHON = ['ALFA','BRAVO','CHARLIE','DELTA','ECHO','FOXTROT','GOLF','HOTEL','INDIA','JULIETT','KILO','LIMA','MIKE','NOVEMBER','OSCAR','PAPA','QUEBEC','ROMEO','SIERRA','TANGO','UNIFORM','VICTOR','WHISKEY','XRAY','YANKEE','ZULU'];
 const REMARKS = ['BIRDS','RWY WORKS','TWY CLOSED','GLIDERS','PARACHUTING','WINDSHEAR','MIL ACTIVITY','NIL'];
+const ALL = '0123456789';
 
-const K_STATE = 'airatis_state';
+const K_STATE = 'airatis_state_v2';
 const K_AP    = 'airatis_ap';
 const K_LAST  = 'airatis_last_letters';
 
@@ -235,9 +308,9 @@ function rememberLetter(ap,letter){
 }
 
 function blank(ap){
-  return { ap:ap, active:'info', info:'', rwy:'', wdir:'', wspd:'', wgst:'', wmode:'dir', wspec:'', wgstPending:false,
+  return { ap:ap, active:'info', info:'', time:'', rwy:'', wdir:'', wspd:'', wgst:'', wmode:'dir', wspec:'', wgstPending:false,
     vis:'', vbuf:'', clouds:[], cpend:'', cbuf:'', temp:'', dew:'', tstage:'t', tneg:false, dneg:false,
-    qnh:'', qpre:'10', rmk:[], unsure:{}, last:lastFor(ap), started:null, kpOpen:true };
+    qnh:'', rmk:[], unsure:{}, last:lastFor(ap), started:null, kpOpen:true };
 }
 function loadState(){
   try{
@@ -248,36 +321,94 @@ function loadState(){
   return blank(FIELDS[ap] ? ap : 'LLHA');
 }
 let S = loadState();
+let _amRes = null;
 
 // ── STATE CORE ─────────────────────────────────────────
+function save(){ lsSet(K_STATE, JSON.stringify(S)); }
+function stepIndex(from, dir, st){
+  let i = ORDER.indexOf(from) + dir;
+  if(ORDER[i]==='cloud' && st.vis==='CAVOK') i += dir;
+  return i;
+}
 function set(patch, adv){
   const next = Object.assign({}, S, patch);
-  if(!S.started) next.started = Date.now();
+  const navOnly = Object.keys(patch).every(k => k==='active' || k==='kpOpen' || k==='unsure');
+  if(!S.started && !navOnly) next.started = Date.now();
   if(adv){
-    let i = ORDER.indexOf(next.active) + 1;
-    if(ORDER[i]==='cloud' && next.vis==='CAVOK') i++;
+    const i = stepIndex(next.active, 1, next);
     if(i >= ORDER.length) next.kpOpen = false; else next.active = ORDER[i];
   }
-  S = next;
-  lsSet(K_STATE, JSON.stringify(S));
-  render();
+  S = next; save(); render();
 }
-function back(){
-  let i = ORDER.indexOf(S.active) - 1;
-  if(ORDER[i]==='cloud' && S.vis==='CAVOK') i--;
+function cloudCommitPatch(){
+  return { clouds:S.clouds.filter(c=>c.c!=='NSC').concat([{c:S.cpend, h:S.cbuf}]), cpend:'', cbuf:'' };
+}
+function goDown(){
+  if(!S.kpOpen) return;
+  const p = (S.active==='cloud' && S.cpend && S.cbuf) ? cloudCommitPatch() : {};
+  set(p, true);
+}
+function goUp(){
+  if(!S.kpOpen) return set({kpOpen:true});
+  const i = stepIndex(S.active, -1, S);
   if(i >= 0) set({active:ORDER[i]});
 }
 function curField(){ return FIELDS[S.ap] || FIELDS.OTHER; }
 
-function digit(d){
+function qnhLen(v){ return v[0]==='9' ? 3 : 4; }          // 995 or 1013
+function qnhDone(v){ return !!v && v.length >= qnhLen(v); }
+
+// Which digits make sense next — the rest are greyed out
+function allowedDigits(){
   const s = S;
   switch(s.active){
+    case 'time': {
+      const v = s.time.length>=4 ? '' : s.time;
+      if(v.length===0) return '012';
+      if(v.length===1) return v==='2' ? '0123' : ALL;
+      if(v.length===2) return '012345';
+      return ALL;
+    }
+    case 'rwy': {
+      const v = s.rwy.length>=2 ? '' : s.rwy;
+      if(!v) return '0123';
+      if(v==='0') return '123456789';
+      if(v==='3') return '0123456';
+      return ALL;
+    }
+    case 'wind': {
+      if(s.wmode==='dir' || s.wmode==='done'){
+        const v = s.wmode==='done' ? '' : s.wdir;
+        if(v.length===0) return '0123';
+        if(v.length===1) return v==='3' ? '0123456' : ALL;
+        if(v==='36') return '0';
+        if(v==='00') return '123456789';
+        return ALL;
+      }
+      return ALL;
+    }
+    case 'cloud': return s.cpend ? ALL : '';
+    case 'qnh': {
+      const v = qnhDone(s.qnh) ? '' : s.qnh;
+      if(!v) return '19';
+      if(v==='1') return '0';
+      return ALL;
+    }
+  }
+  return ALL;
+}
+
+function digit(d){
+  if(allowedDigits().indexOf(d) < 0) return;
+  const s = S;
+  switch(s.active){
+    case 'time': { const v=(s.time.length>=4?'':s.time)+d; set({time:v}, v.length===4); break; }
     case 'rwy': set({rwy:(s.rwy.length>=2?'':s.rwy)+d}); break;
     case 'wind': {
       if(s.wmode==='dir' || s.wmode==='done'){
         const base = s.wmode==='done' ? '' : s.wdir;
-        const v = base.length>=2 ? d : base+d;
-        const p = {wdir:v, wspec:'', wmode: v.length===2 ? 'spd' : 'dir'};
+        const v = base+d;
+        const p = {wdir:v, wspec:'', wmode: v.length===3 ? 'spd' : 'dir'};
         if(s.wmode==='done'){ p.wspd=''; p.wgst=''; p.wgstPending=false; }
         set(p);
       } else if(s.wmode==='spd'){
@@ -302,7 +433,7 @@ function digit(d){
     case 'cloud': {
       if(!s.cpend) return;
       const v = s.cbuf+d;
-      if(v.length===2) set({clouds:s.clouds.filter(c=>c.c!=='NSC').concat([{c:s.cpend,h:v}]), cpend:'', cbuf:''}, true);
+      if(v.length>=4) set({clouds:s.clouds.filter(c=>c.c!=='NSC').concat([{c:s.cpend,h:v}]), cpend:'', cbuf:''}, true);
       else set({cbuf:v});
       break;
     }
@@ -311,7 +442,7 @@ function digit(d){
       else { const v=s.dew+d; set({dew:v}, v.length===2); }
       break;
     }
-    case 'qnh': { const v=(s.qnh.length>=2?'':s.qnh)+d; set({qnh:v}, v.length===2); break; }
+    case 'qnh': { const v=(qnhDone(s.qnh)?'':s.qnh)+d; set({qnh:v}, qnhDone(v)); break; }
   }
 }
 
@@ -319,6 +450,7 @@ function backspace(){
   const s = S, cut = x => x.slice(0,-1);
   switch(s.active){
     case 'info': if(s.info) return set({info:''}); break;
+    case 'time': if(s.time) return set({time:cut(s.time)}); break;
     case 'rwy': if(s.rwy) return set({rwy:cut(s.rwy)}); break;
     case 'wind':
       if(s.wspec==='CALM') return set({wspec:'', wmode:'dir'});
@@ -346,18 +478,64 @@ function backspace(){
     case 'qnh': if(s.qnh) return set({qnh:cut(s.qnh)}); break;
     case 'rmk': if(s.rmk.length) return set({rmk:s.rmk.slice(0,-1)}); break;
   }
-  back();
+  goUp();
 }
 
 function clearField(){
   const m = {
-    info:{info:''}, rwy:{rwy:''},
+    info:{info:''}, time:{time:''}, rwy:{rwy:''},
     wind:{wdir:'', wspd:'', wgst:'', wmode:'dir', wspec:'', wgstPending:false},
     vis:{vis:'', vbuf:''}, cloud:{clouds:[], cpend:'', cbuf:''},
     td:{temp:'', dew:'', tstage:'t', tneg:false, dneg:false},
-    qnh:{qnh:'', qpre:'10'}, rmk:{rmk:[]}
+    qnh:{qnh:''}, rmk:{rmk:[]}
   };
   set(m[S.active]);
+}
+// Confirm dialog — same pattern as AirNotam's appConfirm
+function appConfirm(o){
+  document.getElementById('amTtl').textContent = o.title || '';
+  document.getElementById('amTxt').textContent = o.text || '';
+  document.getElementById('amOk').textContent = o.ok || 'OK';
+  document.getElementById('amodal').classList.add('show');
+  return new Promise(r => { _amRes = r; });
+}
+function amodalClose(v){
+  document.getElementById('amodal').classList.remove('show');
+  if(_amRes){ const r = _amRes; _amRes = null; r(v); }
+}
+async function clearAll(){
+  const ok = await appConfirm({ title:'Clear the whole ATIS?', text:'All fields will be erased and you start fresh. This can\'t be undone.', ok:'Clear all' });
+  if(!ok) return;
+  S = blank(S.ap); save(); render();
+}
+
+// Airfield picker — in-app list instead of the phone's native picker
+function openPicker(){
+  document.getElementById('pickList').innerHTML = Object.keys(FIELDS).map(id => {
+    const f = FIELDS[id], on = id===S.ap;
+    const chk = on ? '<svg class="pick-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17.5 19 7"/></svg>' : '<span class="pick-check"></span>';
+    return `<button type="button" class="pick-row${on?' on':''}" data-act="pickap" data-id="${id}">
+      <span class="pick-icao">${id==='OTHER'?'····':id}</span>
+      <span class="pick-name">${id==='OTHER'?'Other airfield':f.name}</span>
+      <span class="pick-freq">${f.freqPick||f.freq}</span>${chk}
+    </button>`;
+  }).join('');
+  document.getElementById('pickModal').classList.add('show');
+}
+function closePicker(){ document.getElementById('pickModal').classList.remove('show'); }
+function chooseAirfield(id){
+  closePicker();
+  if(id===S.ap) return;
+  lsSet(K_AP, id);
+  // airfield change must not start the ATIS age timer
+  S = Object.assign({}, S, {ap:id, rwy:'', last: S.info ? S.last : lastFor(id)});
+  save(); render();
+}
+function tdWarn(){
+  const s = S;
+  if(s.temp.length!==2 || s.dew.length!==2) return false;
+  const t = (s.tneg?-1:1)*parseInt(s.temp,10), d = (s.dneg?-1:1)*parseInt(s.dew,10);
+  return d > t;
 }
 
 // ── DISPLAY ────────────────────────────────────────────
@@ -365,10 +543,11 @@ function valueOf(id){
   const s = S;
   switch(id){
     case 'info': return s.info ? s.info+'  '+PHON[s.info.charCodeAt(0)-65] : '';
+    case 'time': { if(!s.time) return ''; const p=(s.time+'____').slice(0,4); return p.slice(0,2)+':'+p.slice(2)+'Z'; }
     case 'rwy': return s.rwy;
     case 'wind': {
       if(s.wspec==='CALM') return 'CALM';
-      const dir = s.wspec==='VRB' ? 'VRB' : (s.wdir.length===2 ? s.wdir+'0°' : (s.wdir ? s.wdir+'_0°' : ''));
+      const dir = s.wspec==='VRB' ? 'VRB' : (s.wdir ? (s.wdir+'___').slice(0,3)+'°' : '');
       if(!dir && !s.wspd && !s.wgstPending) return '';
       let t = dir || '___°';
       if(s.wmode!=='dir' || s.wspd) t += ' / '+(s.wspd||'__')+' KT';
@@ -377,8 +556,8 @@ function valueOf(id){
     }
     case 'vis': return s.vis;
     case 'cloud': {
-      const parts = s.clouds.map(c => c.h ? c.c+' '+(parseInt(c.h,10)*100) : c.c);
-      if(s.cpend) parts.push(s.cpend+' '+(s.cbuf ? s.cbuf+'_' : '__')+'00');
+      const parts = s.clouds.map(c => c.h ? c.c+' '+parseInt(c.h,10) : c.c);
+      if(s.cpend) parts.push(s.cpend+' '+(s.cbuf||'____'));
       if(s.vis==='CAVOK' && !parts.length) return '(CAVOK)';
       return parts.join(' · ');
     }
@@ -388,7 +567,7 @@ function valueOf(id){
       const d = (s.tstage==='d' || s.dew) ? ' / '+(s.dneg?'M':'')+(s.dew||'__') : '';
       return t+d;
     }
-    case 'qnh': return s.qnh ? s.qpre+(s.qnh.length===2 ? s.qnh : s.qnh+'_') : '';
+    case 'qnh': return s.qnh ? s.qnh+'_'.repeat(Math.max(0, qnhLen(s.qnh)-s.qnh.length)) : '';
     case 'rmk': return s.rmk.join(' · ');
   }
   return '';
@@ -398,17 +577,18 @@ function hintFor(){
   const s = S;
   switch(s.active){
     case 'info': return 'Tap the letter you hear';
+    case 'time': return 'ATIS time (UTC) · 4 digits (1450)';
     case 'rwy': return curField().rwys.length ? 'Tap the runway in use' : 'Type runway number · add L / R / C';
     case 'wind':
-      if(s.wmode==='dir') return 'Direction 2 digits · then speed 2 digits';
+      if(s.wmode==='dir') return 'Direction 3 digits (320) · then speed 2 digits';
       if(s.wmode==='spd') return 'Speed in knots · 2 digits';
       if(s.wmode==='gst') return 'Gust knots · 2 digits';
       return 'Tap G to add a gust · or type to re-enter';
     case 'vis': return 'CAVOK / 10 KM+ · or 2 digits in km (05 → 5 KM)';
-    case 'cloud': return s.cpend ? 'Base · 2 digits, hundreds of ft (25 → 2500)' : 'Pick cover · tap CLOUD again for another layer';
+    case 'cloud': return s.cpend ? 'Base in feet (3500) · 3-digit base (800): tap ▼' : 'Pick cover · tap CLOUD again for another layer';
     case 'td': return s.tstage==='t' ? 'Temperature · 2 digits' : 'Dewpoint · 2 digits';
-    case 'qnh': return 'Last 2 digits (13 → 1013)';
-    case 'rmk': return 'Tap what you heard · then DONE';
+    case 'qnh': return 'QNH 4 digits (1013) · or 3 digits (995)';
+    case 'rmk': return 'Tap what you heard · then ✓';
   }
   return '';
 }
@@ -418,8 +598,8 @@ function windCalc(){
   const rnum = parseInt(s.rwy,10);
   if(s.wspec==='CALM'){ r.hw='0'; r.xw='0'; r.hwL='calm'; r.xwL='calm'; return r; }
   if(s.wspec==='VRB'){ r.hwL='variable'; r.xwL='variable · assume worst'; r.xw = s.wspd ? s.wspd+' KT' : '—'; return r; }
-  if(isNaN(rnum) || s.wdir.length!==2 || s.wspd.length!==2) return r;
-  const rel = (parseInt(s.wdir,10)*10 - rnum*10) * Math.PI/180;
+  if(isNaN(rnum) || s.wdir.length!==3 || s.wspd.length!==2) return r;
+  const rel = (parseInt(s.wdir,10) - rnum*10) * Math.PI/180;
   const spd = parseInt(s.wspd,10), gst = s.wgst.length===2 ? parseInt(s.wgst,10) : 0;
   const hw = Math.round(spd*Math.cos(rel)), xw = Math.round(Math.abs(spd*Math.sin(rel)));
   const xwG = gst ? Math.round(Math.abs(gst*Math.sin(rel))) : 0;
@@ -430,27 +610,51 @@ function windCalc(){
 }
 
 // ── RENDER ─────────────────────────────────────────────
+function utcNow(){ const n=new Date(); return {h:n.getUTCHours(), m:n.getUTCMinutes()}; }
+
 function renderAge(){
   const el = document.getElementById('age');
+  if(!el) return;
   el.className = 'age';
-  if(!S.started){ el.textContent = 'NO ATIS YET'; return; }
-  const min = Math.floor((Date.now()-S.started)/60000);
+  let min = null, word = 'AGO';
+  if(S.time.length===4){
+    const n = utcNow(), t = parseInt(S.time.slice(0,2),10)*60 + parseInt(S.time.slice(2),10);
+    min = (((n.h*60+n.m) - t) % 1440 + 1440) % 1440; word = 'OLD';
+    if(min > 1380) min = 0;   // ATIS time up to 1h ahead of the clock (clock skew / typo) → treat as fresh
+  } else if(S.started){
+    min = Math.floor((Date.now()-S.started)/60000);
+  }
+  if(min === null){ el.textContent = 'NO ATIS YET'; return; }
   if(min >= RECHECK_MIN){ el.textContent = min+' MIN · RECHECK'; el.classList.add('stale'); }
-  else { el.textContent = min+' MIN AGO'; el.classList.add('fresh'); }
+  else { el.textContent = min+' MIN '+word; el.classList.add('fresh'); }
 }
 
+const _svg = p => `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const SVG_UP = _svg('<polyline points="6 15 12 9 18 15"/>');
+const SVG_DOWN = _svg('<polyline points="6 9 12 15 18 9"/>');
+const SVG_OK = _svg('<polyline points="5 12.5 10 17.5 19 7"/>');
 function renderTape(){
-  document.getElementById('tape').innerHTML = ORDER.map(id => {
+  const rows = ORDER.map(id => {
     const v = valueOf(id), act = S.kpOpen && S.active===id, uns = !!S.unsure[id];
-    const cls = 'row' + (v?' filled':'') + (act?' active':'') + (uns?' unsure':'');
+    const warn = id==='td' && tdWarn();
+    const cls = 'row' + (v?' filled':'') + (act?' active':'') + (uns?' unsure':'') + (warn?' warn':'');
     return `<button class="${cls}" data-act="row" data-id="${id}">
       <span class="dot" style="background:${DOTS[id]}"></span>
       <span class="row-lbl">${LABELS[id]}</span>
       <span class="row-val${v?'':' empty'}">${v||'—'}</span>
       ${uns?'<span class="q-badge">?</span>':''}
-      ${id==='info'?'<span class="age" id="age"></span>':''}
+      ${warn?'<span class="w-badge" title="Dewpoint higher than temperature — check">!</span>':''}
+      ${id==='time'?'<span class="age" id="age"></span>':''}
     </button>`;
   }).join('');
+  const last = S.kpOpen && S.active===ORDER[ORDER.length-1];
+  const upOff = S.kpOpen && S.active===ORDER[0];
+  document.getElementById('tape').innerHTML =
+    `<div class="tape-rows">${rows}</div>
+     <div class="nav-col">
+       <button class="nav-btn" data-act="up" aria-label="Previous field" ${upOff?'disabled':''}>${SVG_UP}<span>PREV</span></button>
+       <button class="nav-btn${last?' done':''}" data-act="down" aria-label="${last?'Done':'Next field'}" ${S.kpOpen?'':'disabled'}>${last?SVG_OK+'<span>DONE</span>':SVG_DOWN+'<span>NEXT</span>'}</button>
+     </div>`;
 }
 
 function chip(label, on, act, arg){
@@ -469,7 +673,6 @@ function extrasHTML(){
       const neg = s.tstage==='t' ? s.tneg : s.dneg;
       return chip(s.tstage==='t' ? 'MINUS TEMP' : 'MINUS DEW', neg, 'minus');
     }
-    case 'qnh': return chip('10 __', s.qpre==='10', 'qpre', '10') + chip('9 __', s.qpre==='9', 'qpre', '9');
   }
   return '';
 }
@@ -495,18 +698,16 @@ function keypadHTML(){
   } else {
     const ex = extrasHTML();
     if(ex) body += `<div class="strip">${ex}</div>`;
-    body += `<div class="grid g3">` +
-      ['1','2','3','4','5','6','7','8','9'].map(d => `<button class="key digit" data-act="digit" data-arg="${d}">${d}</button>`).join('') +
-      `<button class="key del" data-act="del" aria-label="Delete last digit">⌫</button>` +
-      `<button class="key digit" data-act="digit" data-arg="0">0</button><div></div></div>`;
+    const ok = allowedDigits();
+    const dk = d => `<button class="key digit" data-act="digit" data-arg="${d}"${ok.indexOf(d)<0?' disabled':''}>${d}</button>`;
+    body += `<div class="grid g3">` + ['1','2','3','4','5','6','7','8','9'].map(dk).join('') +
+      `<button class="key del" data-act="del" aria-label="Delete last digit">⌫</button>` + dk('0') + `<div></div></div>`;
   }
-  const last = s.active==='rmk';
   return `<div class="kp"><div class="hint">${hintFor()}</div>${body}</div>
     <div class="actions">
-      <button class="act act-back" data-act="back">‹ BACK</button>
+      <button class="act act-clearall" data-act="clearall">CLEAR ALL</button>
       <button class="act act-q${s.unsure[s.active]?' on':''}" data-act="unsure" aria-label="Mark as not sure">?</button>
-      <button class="act act-clear" data-act="clear">CLEAR</button>
-      <button class="act act-next${last?' done':''}" data-act="next">${last?'DONE ✓':'NEXT ›'}</button>
+      <button class="act act-clear" data-act="clear">CLEAR FIELD</button>
     </div>`;
 }
 
@@ -531,7 +732,10 @@ function donePanelHTML(){
 }
 
 function render(){
-  document.getElementById('apSel').value = S.ap;
+  const f = curField();
+  document.getElementById('apIcao').textContent = S.ap==='OTHER' ? '' : S.ap;
+  document.getElementById('apName').textContent = S.ap==='OTHER' ? 'Other airfield' : f.name;
+  document.getElementById('apFreq').textContent = f.freq;
   renderTape();
   renderAge();
   document.getElementById('bottom').innerHTML = S.kpOpen ? keypadHTML() : donePanelHTML();
@@ -539,11 +743,15 @@ function render(){
 
 // ── EVENTS ─────────────────────────────────────────────
 document.addEventListener('click', e => {
+  if(e.target.id==='amodal'){ amodalClose(false); return; }
+  if(e.target.id==='pickModal'){ closePicker(); return; }
   const b = e.target.closest('[data-act]');
-  if(!b) return;
+  if(!b || b.disabled) return;
   const act = b.dataset.act, arg = b.dataset.arg, s = S;
   switch(act){
     case 'row': set({active:b.dataset.id, kpOpen:true}); break;
+    case 'up': goUp(); break;
+    case 'down': goDown(); break;
     case 'letter': rememberLetter(s.ap, arg); set({info:arg}, true); break;
     case 'rwy': set({rwy:arg}, true); break;
     case 'rwysfx': { const base = s.rwy.replace(/[LRC]$/,''); if(base.length===2) set({rwy:base+arg}, true); break; }
@@ -561,34 +769,43 @@ document.addEventListener('click', e => {
     case 'vis10': set({vis:'10 KM+', vbuf:''}, true); break;
     case 'cover':
       if(arg==='NSC') set({clouds:[{c:'NSC',h:''}], cpend:'', cbuf:''}, true);
+      else if(s.cpend && s.cbuf) set(Object.assign(cloudCommitPatch(), {cpend:arg}));
       else set({cpend:arg, cbuf:''});
       break;
     case 'minus': set(s.tstage==='t' ? {tneg:!s.tneg} : {dneg:!s.dneg}); break;
-    case 'qpre': set({qpre:arg}); break;
-    case 'back': back(); break;
     case 'unsure': { const u = Object.assign({}, s.unsure); u[s.active] = !u[s.active]; set({unsure:u}); break; }
     case 'clear': clearField(); break;
-    case 'next': set({}, true); break;
-    case 'new': S = blank(s.ap); lsSet(K_STATE, JSON.stringify(S)); render(); break;
+    case 'clearall': clearAll(); break;
+    case 'amok': amodalClose(true); break;
+    case 'amno': amodalClose(false); break;
+    case 'appick': openPicker(); break;
+    case 'pickap': chooseAirfield(b.dataset.id); break;
+    case 'pickclose': closePicker(); break;
+    case 'new': S = blank(s.ap); save(); render(); break;
   }
 });
 
-function initSelect(){
-  const sel = document.getElementById('apSel');
-  sel.innerHTML = Object.keys(FIELDS).map(id =>
-    `<option value="${id}">${id==='OTHER' ? FIELDS[id].name : id+' · '+FIELDS[id].name+' · '+FIELDS[id].freq}</option>`).join('');
-  sel.addEventListener('change', () => {
-    lsSet(K_AP, sel.value);
-    // airfield change must not start the ATIS age timer
-    S = Object.assign({}, S, {ap:sel.value, rwy:'', last: S.info ? S.last : lastFor(sel.value)});
-    lsSet(K_STATE, JSON.stringify(S));
-    render();
-  });
-}
+// No double-tap / pinch zoom — CSS touch-action:manipulation handles double-tap
+// without delaying fast taps; these block the remaining zoom gestures.
+document.addEventListener('dblclick', e => e.preventDefault(), {passive:false});
+document.addEventListener('gesturestart', e => e.preventDefault(), {passive:false});
 
+// AirATIS lives in its own repo — AirCheck+ is resolved against its own URL.
+// ?from= may be a full URL or a file name relative to the AirCheck repo.
+const AIRCHECK_BASE = 'https://eligrt.github.io/AirCheck/';
 function backToApp(){
   const from = new URLSearchParams(window.location.search).get('from') || 'AirCheck_RD.html';
-  window.location.href = from + '?resume=1';
+  const url = new URL(from, AIRCHECK_BASE);
+  url.searchParams.set('resume','1');
+  window.location.href = url.href;
+}
+
+// ── UTC CLOCK ──────────────────────────────────────────
+function tickClock(){
+  const n = utcNow();
+  const t = String(n.h).padStart(2,'0')+':'+String(n.m).padStart(2,'0');
+  const el = document.getElementById('utcClock');
+  if(el.textContent !== t){ el.textContent = t; renderAge(); }
 }
 
 // ── SPLASH (≈3.5s like AirLog, tap to skip, skipped when an ATIS capture is in progress) ──
@@ -617,11 +834,11 @@ function runSplash(){
   }, 250);
 }
 
-initSelect();
 lsSet(K_AP, S.ap);
 render();
+tickClock();
+setInterval(tickClock, 1000);
 runSplash();
-setInterval(renderAge, 15000);
 </script>
 </body>
 </html>
