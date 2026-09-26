@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.003 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.005 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -33,7 +33,7 @@ button:active{opacity:.75;}
 /* ── AIRFIELD ROW ── */
 .field-row{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(28,61,110,.06);border-bottom:1px solid var(--paper-edge);}
 .sel-wrap{position:relative;flex:1;height:40px;}
-.sel-wrap select{width:100%;height:40px;-webkit-appearance:none;appearance:none;border-radius:20px;border:1.5px solid var(--ink);background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-size:14px;font-weight:700;letter-spacing:.04em;padding:0 36px 0 16px;}
+.sel-wrap select{width:100%;height:40px;-webkit-appearance:none;appearance:none;border-radius:20px;border:1.5px solid var(--ink);background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:0;padding:0 34px 0 14px;}
 .sel-wrap::after{content:'▾';position:absolute;right:16px;top:9px;color:#f4ecdc;font-size:14px;pointer-events:none;}
 .age{flex-shrink:0;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;border:1px solid var(--paper-edge);color:var(--ink-faint);border-radius:3px;padding:2px 7px;}
 .age.fresh{color:var(--cleared);border-color:rgba(31,111,63,.4);}
@@ -105,6 +105,10 @@ button:active{opacity:.75;}
 .page-footer{flex-shrink:0;text-align:center;padding:8px 10px calc(8px + env(safe-area-inset-bottom));font-family:var(--font-mono);font-size:9px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid var(--gold-lite);}
 
 /* ── SHORT SCREENS (iPhone SE etc.) ── */
+@media (max-width:380px){
+  .sel-wrap select{font-size:12px;padding:0 30px 0 12px;}
+  .sel-wrap::after{right:12px;}
+}
 @media (max-height:720px){
   .row{height:28px;}
   .row-val{font-size:15px;}
@@ -154,13 +158,12 @@ button:active{opacity:.75;}
   <div class="sel-wrap">
     <select id="apSel" aria-label="Airfield"></select>
   </div>
-  <div class="age" id="age">NO ATIS YET</div>
 </div>
 
 <div class="tape" id="tape"></div>
 <div class="bottom" id="bottom"></div>
 
-<div class="page-footer">AirCheck+ · AirATIS · v1.01.003 · built by eligrt</div>
+<div class="page-footer">AirCheck+ · AirATIS · v1.01.005 · built by eligrt</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -168,14 +171,14 @@ const XW_LIMIT_KT = 15;          // crosswind warning threshold — set from you
 const RECHECK_MIN = 45;          // age after which the ATIS badge turns amber
 const PREDICT_HOURS = 12;        // letter prediction uses last letter logged within this window
 
-// Runway lists: VERIFY AGAINST AIP before operational use
+// Airfields with ATIS — runways & frequencies per AIP (checked Sep 2026).
+// freq = shown in the dropdown; freqFull = shown in the INFO hint.
 const FIELDS = {
-  LLBG:  { name:'Ben Gurion', rwys:['03','21','08','26','12','30'] },
-  LLHZ:  { name:'Herzliya',   rwys:['11','29'] },
-  LLHA:  { name:'Haifa',      rwys:['16','34'] },
-  LLIB:  { name:'Rosh Pina',  rwys:['03','21'] },
-  LLER:  { name:'Ramon',      rwys:['01','19'] },
-  OTHER: { name:'Other airfield…', rwys:[] }
+  LLBG:  { name:'Ben Gurion', rwys:['03','21','08','26','12','30'], freq:'132.50/132.80 MHz', freqFull:'ARR 132.50 MHz · DEP 132.80 MHz' },
+  LLHA:  { name:'Haifa',      rwys:['15','33'], freq:'135.40 MHz', freqFull:'135.40 MHz' },
+  LLIB:  { name:'Rosh Pina',  rwys:['15','33'], freq:'132.45 MHz', freqFull:'132.45 MHz' },
+  LLER:  { name:'Ramon',      rwys:['01','19'], freq:'132.55 MHz', freqFull:'132.55 MHz' },
+  OTHER: { name:'Other airfield…', rwys:[], freq:'', freqFull:'' }
 };
 
 const ORDER = ['info','rwy','wind','vis','cloud','td','qnh','rmk'];
@@ -364,7 +367,7 @@ function valueOf(id){
 function hintFor(){
   const s = S;
   switch(s.active){
-    case 'info': return 'Tap the letter you hear';
+    case 'info': return curField().freqFull ? 'ATIS ' + curField().freqFull : 'Tap the letter you hear';
     case 'rwy': return curField().rwys.length ? 'Tap the runway in use' : 'Type runway number · add L / R / C';
     case 'wind':
       if(s.wmode==='dir') return 'Direction 2 digits · then speed 2 digits';
@@ -415,6 +418,7 @@ function renderTape(){
       <span class="row-lbl">${LABELS[id]}</span>
       <span class="row-val${v?'':' empty'}">${v||'—'}</span>
       ${uns?'<span class="q-badge">?</span>':''}
+      ${id==='info'?'<span class="age" id="age"></span>':''}
     </button>`;
   }).join('');
 }
@@ -498,8 +502,8 @@ function donePanelHTML(){
 
 function render(){
   document.getElementById('apSel').value = S.ap;
-  renderAge();
   renderTape();
+  renderAge();
   document.getElementById('bottom').innerHTML = S.kpOpen ? keypadHTML() : donePanelHTML();
 }
 
@@ -542,10 +546,13 @@ document.addEventListener('click', e => {
 function initSelect(){
   const sel = document.getElementById('apSel');
   sel.innerHTML = Object.keys(FIELDS).map(id =>
-    `<option value="${id}">${id==='OTHER' ? FIELDS[id].name : id+' · '+FIELDS[id].name}</option>`).join('');
+    `<option value="${id}">${id==='OTHER' ? FIELDS[id].name : id+' · '+FIELDS[id].name+' · '+FIELDS[id].freq}</option>`).join('');
   sel.addEventListener('change', () => {
     lsSet(K_AP, sel.value);
-    set({ap:sel.value, rwy:'', last: S.info ? S.last : lastFor(sel.value)});
+    // airfield change must not start the ATIS age timer
+    S = Object.assign({}, S, {ap:sel.value, rwy:'', last: S.info ? S.last : lastFor(sel.value)});
+    lsSet(K_STATE, JSON.stringify(S));
+    render();
   });
 }
 
