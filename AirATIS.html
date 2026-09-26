@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<!-- AirCheck+ · AirATIS.html · v1.01.003 · built by eligrt -->
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>AirCheck+ · AirATIS</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4ecdc;--paper-hi:#fbf6e8;--paper-edge:#e3d4ad;
+  --ink:#1c3d6e;--ink-muted:#5a4a3a;--ink-faint:#8a7a5a;--ink-empty:#b3a684;
+  --gold:#c8a04a;--gold-lite:#d4b878;--gold-tint:#f1e2bc;--active:#fbf1d6;
+  --cleared:#1f6f3f;--amber:#f59e0b;--amber-ink:#b45309;
+  --font-ui:'IBM Plex Sans Hebrew',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{background:var(--paper);font-family:var(--font-ui);color:var(--ink);}
+body{display:flex;flex-direction:column;height:100svh;overflow:hidden;}
+button,select{font:inherit;color:inherit;cursor:pointer;}
+button:active{opacity:.75;}
+.mono{font-family:var(--font-mono);}
+
+/* ── HEADER ── */
+.header{background:var(--ink);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:rtl;flex-shrink:0;}
+.header-title{font-size:18px;font-weight:700;color:#f4ecdc;direction:ltr;}
+.back-btn{background:transparent;border:1px solid rgba(244,236,220,.35);border-radius:6px;padding:7px 14px;font-family:var(--font-ui);font-size:13px;font-weight:600;color:rgba(244,236,220,.8);white-space:nowrap;}
+
+/* ── AIRFIELD ROW ── */
+.field-row{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(28,61,110,.06);border-bottom:1px solid var(--paper-edge);}
+.sel-wrap{position:relative;flex:1;height:40px;}
+.sel-wrap select{width:100%;height:40px;-webkit-appearance:none;appearance:none;border-radius:20px;border:1.5px solid var(--ink);background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-size:14px;font-weight:700;letter-spacing:.04em;padding:0 36px 0 16px;}
+.sel-wrap::after{content:'▾';position:absolute;right:16px;top:9px;color:#f4ecdc;font-size:14px;pointer-events:none;}
+.age{flex-shrink:0;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;border:1px solid var(--paper-edge);color:var(--ink-faint);border-radius:3px;padding:2px 7px;}
+.age.fresh{color:var(--cleared);border-color:rgba(31,111,63,.4);}
+.age.stale{color:var(--amber-ink);border-color:rgba(245,158,11,.6);}
+
+/* ── TAPE ── */
+.tape{flex-shrink:0;padding:6px 12px;display:flex;flex-direction:column;gap:2px;}
+.row{height:36px;display:flex;align-items:center;gap:8px;padding:0 10px;border-radius:6px;border:2px solid transparent;background:transparent;text-align:left;width:100%;}
+.row.filled{background:var(--paper-hi);}
+.row.active{background:var(--active);border-color:var(--gold);}
+.row.unsure{border-color:var(--amber);}
+.row.active.unsure{border-color:var(--gold);}
+.dot{width:7px;height:7px;border-radius:4px;flex-shrink:0;}
+.row-lbl{width:82px;flex-shrink:0;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-muted);}
+.row-val{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--ink);}
+.row-val.empty{color:var(--ink-empty);}
+.row.unsure .row-val{color:var(--amber-ink);}
+.q-badge{width:22px;height:22px;border-radius:11px;background:var(--amber);color:#1a1308;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* ── KEYPAD ── */
+.bottom{flex:1;display:flex;flex-direction:column;min-height:0;}
+.kp{flex:1;display:flex;flex-direction:column;gap:6px;padding:8px 14px 0;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;}
+.hint{flex-shrink:0;font-size:13px;font-weight:500;color:var(--ink-muted);text-align:center;}
+.grid{flex:1;display:grid;gap:6px;min-height:0;grid-auto-rows:minmax(36px,1fr);}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr));}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr));}
+.g7{grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;}
+.strip{flex-shrink:0;display:flex;gap:5px;height:44px;}
+.strip.pred{height:50px;gap:6px;}
+.key{border-radius:8px;border:1px solid var(--paper-edge);background:#fff;font-family:var(--font-mono);font-weight:700;padding:0;min-width:0;}
+.key.digit{font-size:24px;}
+.key.del{background:#efe5cf;font-size:22px;}
+.key.letter{font-size:20px;border-radius:6px;}
+.key.rwy{font-size:36px;border-width:1.5px;}
+.key.chip{font-size:13px;border-width:1.5px;flex:1;letter-spacing:.04em;}
+.key.on{background:var(--gold-tint);border-color:var(--gold);}
+.key.predkey{flex:1;background:var(--gold-tint);border:1.5px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.predkey .L{font-size:22px;line-height:1;}
+.predkey .W{font-size:10px;letter-spacing:.1em;color:var(--ink-muted);}
+
+/* ── ACTIONS ── */
+.actions{flex-shrink:0;height:64px;display:flex;gap:8px;padding:8px 14px 10px;background:var(--paper-hi);}
+.act{border-radius:6px;font-family:var(--font-mono);font-weight:700;}
+.act-back{width:72px;border:1.5px solid var(--gold-lite);background:transparent;color:var(--ink-muted);font-size:14px;}
+.act-q{width:56px;border:1.5px solid var(--amber);background:transparent;color:var(--amber-ink);font-family:var(--font-ui);font-size:22px;}
+.act-q.on{background:var(--amber);color:#1a1308;}
+.act-clear{width:80px;border:1.5px solid var(--paper-edge);background:transparent;color:var(--ink-muted);font-size:13px;letter-spacing:.06em;}
+.act-next{flex:1;border:0;background:var(--ink);color:#f4ecdc;font-size:16px;letter-spacing:.12em;}
+.act-next.done{background:var(--cleared);}
+
+/* ── DONE PANEL ── */
+.done{flex:1;display:flex;flex-direction:column;gap:8px;padding:10px 12px;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;overflow-y:auto;}
+.card{background:#fff;border:1px solid var(--paper-edge);border-radius:8px;padding:10px 14px;display:flex;flex-direction:column;gap:6px;}
+.card-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:#2563c2;}
+.comp{display:flex;gap:12px;}
+.comp>div{flex:1;}
+.comp-val{font-family:var(--font-mono);font-size:24px;font-weight:700;}
+.comp-val.warn{color:var(--amber-ink);}
+.comp-sub{font-size:13px;color:var(--ink-muted);}
+.warn-box{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.5);color:#7a4a00;border-radius:4px;padding:6px 10px;font-size:13px;font-weight:700;}
+.call{background:var(--ink);color:#f4ecdc;border-radius:8px;padding:10px 14px;}
+.call-lbl{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.15em;color:var(--gold-lite);}
+.call-txt{font-size:19px;font-weight:700;}
+.fix-hint{font-size:13px;color:var(--ink-muted);text-align:center;}
+.spacer{flex:1;}
+.new-btn{flex-shrink:0;height:56px;border-radius:6px;border:0;background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-weight:700;font-size:15px;letter-spacing:.1em;}
+
+/* ── FOOTER ── */
+.page-footer{flex-shrink:0;text-align:center;padding:8px 10px calc(8px + env(safe-area-inset-bottom));font-family:var(--font-mono);font-size:9px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid var(--gold-lite);}
+
+/* ── SHORT SCREENS (iPhone SE etc.) ── */
+@media (max-height:720px){
+  .row{height:28px;}
+  .row-val{font-size:15px;}
+  .tape{padding:4px 12px;}
+  .kp{gap:5px;padding-top:6px;}
+  .hint{font-size:12px;}
+  .grid{grid-auto-rows:minmax(32px,1fr);gap:5px;}
+  .strip{height:40px;}
+  .strip.pred{height:44px;}
+  .actions{height:58px;padding:6px 14px 8px;}
+}
+
+/* ── PC LAYOUT ── */
+@media(min-width:600px){
+  html{background:#1a1a1c;}
+  body{max-width:430px;margin:0 auto;border-left:2px solid var(--gold);border-right:2px solid var(--gold);box-shadow:0 0 60px rgba(0,0,0,.6);}
+}
+#rotateGuard{display:none;}
+@media (orientation:landscape) and (max-height:500px) and (hover:none){
+  #rotateGuard{display:flex;position:fixed;inset:0;z-index:2147483647;align-items:center;justify-content:center;direction:rtl;background:rgba(14,20,30,.58);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
+  #rotateGuard .rg-inner{text-align:center;padding:0 32px;max-width:420px;}
+  #rotateGuard .rg-icon{font-size:52px;color:#fff;line-height:1;margin-bottom:18px;}
+  #rotateGuard .rg-text{font-size:17px;color:#fff;line-height:1.65;margin:0;}
+}
+</style>
+</head>
+<body>
+<div id="rotateGuard" role="alertdialog" aria-modal="true" aria-label="נא לסובב את המכשיר למצב אנכי">
+  <div class="rg-inner">
+    <div class="rg-icon">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="4" y="2" width="12" height="20" rx="2" transform="rotate(30 12 12)"/>
+        <path d="M3.5 14a9 9 0 0 0 14 4"/>
+        <path d="M17.5 20v-3h-3"/>
+      </svg>
+    </div>
+    <p class="rg-text">משיקולי בטיחות טיסה, האפליקציה עובדת במצב אנכי (portrait) בלבד. נא לסובב את המכשיר.</p>
+  </div>
+</div>
+
+<div class="header">
+  <div class="header-title">AirATIS</div>
+  <button class="back-btn" onclick="backToApp()">חזרה ל&nbsp;&nbsp;<span dir="ltr">AirCheck+</span></button>
+</div>
+
+<div class="field-row">
+  <div class="sel-wrap">
+    <select id="apSel" aria-label="Airfield"></select>
+  </div>
+  <div class="age" id="age">NO ATIS YET</div>
+</div>
+
+<div class="tape" id="tape"></div>
+<div class="bottom" id="bottom"></div>
+
+<div class="page-footer">AirCheck+ · AirATIS · v1.01.003 · built by eligrt</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+const XW_LIMIT_KT = 15;          // crosswind warning threshold — set from your POH
+const RECHECK_MIN = 45;          // age after which the ATIS badge turns amber
+const PREDICT_HOURS = 12;        // letter prediction uses last letter logged within this window
+
+// Runway lists: VERIFY AGAINST AIP before operational use
+const FIELDS = {
+  LLBG:  { name:'Ben Gurion', rwys:['03','21','08','26','12','30'] },
+  LLHZ:  { name:'Herzliya',   rwys:['11','29'] },
+  LLHA:  { name:'Haifa',      rwys:['16','34'] },
+  LLIB:  { name:'Rosh Pina',  rwys:['03','21'] },
+  LLER:  { name:'Ramon',      rwys:['01','19'] },
+  OTHER: { name:'Other airfield…', rwys:[] }
+};
+
+const ORDER = ['info','rwy','wind','vis','cloud','td','qnh','rmk'];
+const LABELS = {info:'INFO',rwy:'RUNWAY',wind:'WIND',vis:'VIS',cloud:'CLOUD',td:'TEMP / DP',qnh:'QNH',rmk:'REMARKS'};
+const DOTS = {info:'#1c3d6e',rwy:'#1c3d6e',wind:'#2563c2',vis:'#c9a800',cloud:'#c95fbd',td:'#c99000',qnh:'#1f6f3f',rmk:'#8a7a5a'};
+const PHON = ['ALFA','BRAVO','CHARLIE','DELTA','ECHO','FOXTROT','GOLF','HOTEL','INDIA','JULIETT','KILO','LIMA','MIKE','NOVEMBER','OSCAR','PAPA','QUEBEC','ROMEO','SIERRA','TANGO','UNIFORM','VICTOR','WHISKEY','XRAY','YANKEE','ZULU'];
+const REMARKS = ['BIRDS','RWY WORKS','TWY CLOSED','GLIDERS','PARACHUTING','WINDSHEAR','MIL ACTIVITY','NIL'];
+
+const K_STATE = 'airatis_state';
+const K_AP    = 'airatis_ap';
+const K_LAST  = 'airatis_last_letters';
+
+// ── STORAGE ────────────────────────────────────────────
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+function lastMap(){ try{ return JSON.parse(lsGet(K_LAST)||'{}'); }catch(e){ return {}; } }
+function lastFor(ap){
+  const e = lastMap()[ap];
+  if(!e || !e.letter) return '';
+  return (Date.now()-e.t) < PREDICT_HOURS*3600000 ? e.letter : '';
+}
+function rememberLetter(ap,letter){
+  const m = lastMap(); m[ap] = {letter:letter, t:Date.now()}; lsSet(K_LAST, JSON.stringify(m));
+}
+
+function blank(ap){
+  return { ap:ap, active:'info', info:'', rwy:'', wdir:'', wspd:'', wgst:'', wmode:'dir', wspec:'', wgstPending:false,
+    vis:'', vbuf:'', clouds:[], cpend:'', cbuf:'', temp:'', dew:'', tstage:'t', tneg:false, dneg:false,
+    qnh:'', qpre:'10', rmk:[], unsure:{}, last:lastFor(ap), started:null, kpOpen:true };
+}
+function loadState(){
+  try{
+    const s = JSON.parse(lsGet(K_STATE)||'null');
+    if(s && FIELDS[s.ap]) return Object.assign(blank(s.ap), s);
+  }catch(e){}
+  const ap = lsGet(K_AP);
+  return blank(FIELDS[ap] ? ap : 'LLHA');
+}
+let S = loadState();
+
+// ── STATE CORE ─────────────────────────────────────────
+function set(patch, adv){
+  const next = Object.assign({}, S, patch);
+  if(!S.started) next.started = Date.now();
+  if(adv){
+    let i = ORDER.indexOf(next.active) + 1;
+    if(ORDER[i]==='cloud' && next.vis==='CAVOK') i++;
+    if(i >= ORDER.length) next.kpOpen = false; else next.active = ORDER[i];
+  }
+  S = next;
+  lsSet(K_STATE, JSON.stringify(S));
+  render();
+}
+function back(){
+  let i = ORDER.indexOf(S.active) - 1;
+  if(ORDER[i]==='cloud' && S.vis==='CAVOK') i--;
+  if(i >= 0) set({active:ORDER[i]});
+}
+function curField(){ return FIELDS[S.ap] || FIELDS.OTHER; }
+
+function digit(d){
+  const s = S;
+  switch(s.active){
+    case 'rwy': set({rwy:(s.rwy.length>=2?'':s.rwy)+d}); break;
+    case 'wind': {
+      if(s.wmode==='dir' || s.wmode==='done'){
+        const base = s.wmode==='done' ? '' : s.wdir;
+        const v = base.length>=2 ? d : base+d;
+        const p = {wdir:v, wspec:'', wmode: v.length===2 ? 'spd' : 'dir'};
+        if(s.wmode==='done'){ p.wspd=''; p.wgst=''; p.wgstPending=false; }
+        set(p);
+      } else if(s.wmode==='spd'){
+        const v = s.wspd+d;
+        if(v.length<2) set({wspd:v});
+        else if(s.wgstPending) set({wspd:v, wmode:'gst', wgst:''});
+        else set({wspd:v, wmode:'done'}, true);
+      } else if(s.wmode==='gst'){
+        const v = s.wgst+d;
+        if(v.length<2) set({wgst:v});
+        else set({wgst:v, wmode:'done', wgstPending:false}, true);
+      }
+      break;
+    }
+    case 'vis': {
+      const base = (s.vbuf.length>=2 || s.vis==='CAVOK' || s.vis==='10 KM+') ? '' : s.vbuf;
+      const v = base+d;
+      if(v.length<2) set({vbuf:v, vis:v+'_ KM'});
+      else set({vbuf:v, vis:parseInt(v,10)+' KM'}, true);
+      break;
+    }
+    case 'cloud': {
+      if(!s.cpend) return;
+      const v = s.cbuf+d;
+      if(v.length===2) set({clouds:s.clouds.filter(c=>c.c!=='NSC').concat([{c:s.cpend,h:v}]), cpend:'', cbuf:''}, true);
+      else set({cbuf:v});
+      break;
+    }
+    case 'td': {
+      if(s.tstage==='t'){ const v=s.temp+d; set(v.length===2 ? {temp:v, tstage:'d'} : {temp:v}); }
+      else { const v=s.dew+d; set({dew:v}, v.length===2); }
+      break;
+    }
+    case 'qnh': { const v=(s.qnh.length>=2?'':s.qnh)+d; set({qnh:v}, v.length===2); break; }
+  }
+}
+
+function backspace(){
+  const s = S, cut = x => x.slice(0,-1);
+  switch(s.active){
+    case 'info': if(s.info) return set({info:''}); break;
+    case 'rwy': if(s.rwy) return set({rwy:cut(s.rwy)}); break;
+    case 'wind':
+      if(s.wspec==='CALM') return set({wspec:'', wmode:'dir'});
+      if(s.wgst) return set({wgst:cut(s.wgst), wmode:'gst'});
+      if(s.wmode==='gst') return set({wmode:'done', wgstPending:false});
+      if(s.wspd) return set({wspd:cut(s.wspd), wmode:'spd'});
+      if(s.wspec==='VRB') return set({wspec:'', wmode:'dir'});
+      if(s.wdir) return set({wdir:cut(s.wdir), wmode:'dir'});
+      if(s.wgstPending) return set({wgstPending:false});
+      break;
+    case 'vis':
+      if(s.vbuf){ const v=cut(s.vbuf); return set({vbuf:v, vis: v ? v+'_ KM' : ''}); }
+      if(s.vis) return set({vis:''});
+      break;
+    case 'cloud':
+      if(s.cbuf) return set({cbuf:cut(s.cbuf)});
+      if(s.cpend) return set({cpend:''});
+      if(s.clouds.length){ const l=s.clouds[s.clouds.length-1]; return set({clouds:s.clouds.slice(0,-1), cpend:l.h?l.c:'', cbuf:l.h?cut(l.h):''}); }
+      break;
+    case 'td':
+      if(s.tstage==='d' && s.dew) return set({dew:cut(s.dew)});
+      if(s.tstage==='d') return set({tstage:'t', temp:cut(s.temp)});
+      if(s.temp) return set({temp:cut(s.temp)});
+      break;
+    case 'qnh': if(s.qnh) return set({qnh:cut(s.qnh)}); break;
+    case 'rmk': if(s.rmk.length) return set({rmk:s.rmk.slice(0,-1)}); break;
+  }
+  back();
+}
+
+function clearField(){
+  const m = {
+    info:{info:''}, rwy:{rwy:''},
+    wind:{wdir:'', wspd:'', wgst:'', wmode:'dir', wspec:'', wgstPending:false},
+    vis:{vis:'', vbuf:''}, cloud:{clouds:[], cpend:'', cbuf:''},
+    td:{temp:'', dew:'', tstage:'t', tneg:false, dneg:false},
+    qnh:{qnh:'', qpre:'10'}, rmk:{rmk:[]}
+  };
+  set(m[S.active]);
+}
+
+// ── DISPLAY ────────────────────────────────────────────
+function valueOf(id){
+  const s = S;
+  switch(id){
+    case 'info': return s.info ? s.info+'  '+PHON[s.info.charCodeAt(0)-65] : '';
+    case 'rwy': return s.rwy;
+    case 'wind': {
+      if(s.wspec==='CALM') return 'CALM';
+      const dir = s.wspec==='VRB' ? 'VRB' : (s.wdir.length===2 ? s.wdir+'0°' : (s.wdir ? s.wdir+'_0°' : ''));
+      if(!dir && !s.wspd && !s.wgstPending) return '';
+      let t = dir || '___°';
+      if(s.wmode!=='dir' || s.wspd) t += ' / '+(s.wspd||'__')+' KT';
+      if(s.wmode==='gst' || s.wgst || s.wgstPending) t += ' G'+(s.wgst||'__');
+      return t;
+    }
+    case 'vis': return s.vis;
+    case 'cloud': {
+      const parts = s.clouds.map(c => c.h ? c.c+' '+(parseInt(c.h,10)*100) : c.c);
+      if(s.cpend) parts.push(s.cpend+' '+(s.cbuf ? s.cbuf+'_' : '__')+'00');
+      if(s.vis==='CAVOK' && !parts.length) return '(CAVOK)';
+      return parts.join(' · ');
+    }
+    case 'td': {
+      if(!s.temp && !s.dew && s.tstage==='t') return '';
+      const t = (s.tneg?'M':'')+(s.temp||'__');
+      const d = (s.tstage==='d' || s.dew) ? ' / '+(s.dneg?'M':'')+(s.dew||'__') : '';
+      return t+d;
+    }
+    case 'qnh': return s.qnh ? s.qpre+(s.qnh.length===2 ? s.qnh : s.qnh+'_') : '';
+    case 'rmk': return s.rmk.join(' · ');
+  }
+  return '';
+}
+
+function hintFor(){
+  const s = S;
+  switch(s.active){
+    case 'info': return 'Tap the letter you hear';
+    case 'rwy': return curField().rwys.length ? 'Tap the runway in use' : 'Type runway number · add L / R / C';
+    case 'wind':
+      if(s.wmode==='dir') return 'Direction 2 digits · then speed 2 digits';
+      if(s.wmode==='spd') return 'Speed in knots · 2 digits';
+      if(s.wmode==='gst') return 'Gust knots · 2 digits';
+      return 'Tap G to add a gust · or type to re-enter';
+    case 'vis': return 'CAVOK / 10 KM+ · or 2 digits in km (05 → 5 KM)';
+    case 'cloud': return s.cpend ? 'Base · 2 digits, hundreds of ft (25 → 2500)' : 'Pick cover · tap CLOUD again for another layer';
+    case 'td': return s.tstage==='t' ? 'Temperature · 2 digits' : 'Dewpoint · 2 digits';
+    case 'qnh': return 'Last 2 digits (13 → 1013)';
+    case 'rmk': return 'Tap what you heard · then DONE';
+  }
+  return '';
+}
+
+function windCalc(){
+  const s = S, r = {hw:'—', hwL:'headwind', xw:'—', xwL:'crosswind', warn:false};
+  const rnum = parseInt(s.rwy,10);
+  if(s.wspec==='CALM'){ r.hw='0'; r.xw='0'; r.hwL='calm'; r.xwL='calm'; return r; }
+  if(s.wspec==='VRB'){ r.hwL='variable'; r.xwL='variable · assume worst'; r.xw = s.wspd ? s.wspd+' KT' : '—'; return r; }
+  if(isNaN(rnum) || s.wdir.length!==2 || s.wspd.length!==2) return r;
+  const rel = (parseInt(s.wdir,10)*10 - rnum*10) * Math.PI/180;
+  const spd = parseInt(s.wspd,10), gst = s.wgst.length===2 ? parseInt(s.wgst,10) : 0;
+  const hw = Math.round(spd*Math.cos(rel)), xw = Math.round(Math.abs(spd*Math.sin(rel)));
+  const xwG = gst ? Math.round(Math.abs(gst*Math.sin(rel))) : 0;
+  r.hw = Math.abs(hw)+' KT'; r.hwL = hw>=0 ? 'headwind' : 'TAILWIND';
+  r.xw = xw+(xwG ? '–'+xwG : '')+' KT'; r.xwL = 'crosswind from '+(Math.sin(rel)>=0 ? 'right' : 'left');
+  r.warn = Math.max(xw,xwG) > XW_LIMIT_KT;
+  return r;
+}
+
+// ── RENDER ─────────────────────────────────────────────
+function renderAge(){
+  const el = document.getElementById('age');
+  el.className = 'age';
+  if(!S.started){ el.textContent = 'NO ATIS YET'; return; }
+  const min = Math.floor((Date.now()-S.started)/60000);
+  if(min >= RECHECK_MIN){ el.textContent = min+' MIN · RECHECK'; el.classList.add('stale'); }
+  else { el.textContent = min+' MIN AGO'; el.classList.add('fresh'); }
+}
+
+function renderTape(){
+  document.getElementById('tape').innerHTML = ORDER.map(id => {
+    const v = valueOf(id), act = S.kpOpen && S.active===id, uns = !!S.unsure[id];
+    const cls = 'row' + (v?' filled':'') + (act?' active':'') + (uns?' unsure':'');
+    return `<button class="${cls}" data-act="row" data-id="${id}">
+      <span class="dot" style="background:${DOTS[id]}"></span>
+      <span class="row-lbl">${LABELS[id]}</span>
+      <span class="row-val${v?'':' empty'}">${v||'—'}</span>
+      ${uns?'<span class="q-badge">?</span>':''}
+    </button>`;
+  }).join('');
+}
+
+function chip(label, on, act, arg){
+  return `<button class="key chip${on?' on':''}" data-act="${act}" data-arg="${arg||''}">${label}</button>`;
+}
+
+function extrasHTML(){
+  const s = S;
+  switch(s.active){
+    case 'rwy': return ['L','R','C'].map(x => chip(x, s.rwy.endsWith(x), 'rwysfx', x)).join('');
+    case 'wind': return chip('CALM', s.wspec==='CALM', 'calm') + chip('VRB', s.wspec==='VRB', 'vrb') +
+      chip('G · GUST', s.wgstPending || s.wmode==='gst' || !!s.wgst, 'gust');
+    case 'vis': return chip('CAVOK', s.vis==='CAVOK', 'cavok') + chip('10 KM+', s.vis==='10 KM+', 'vis10');
+    case 'cloud': return ['FEW','SCT','BKN','OVC','NSC'].map(c => chip(c, s.cpend===c, 'cover', c)).join('');
+    case 'td': {
+      const neg = s.tstage==='t' ? s.tneg : s.dneg;
+      return chip(s.tstage==='t' ? 'MINUS TEMP' : 'MINUS DEW', neg, 'minus');
+    }
+    case 'qnh': return chip('10 __', s.qpre==='10', 'qpre', '10') + chip('9 __', s.qpre==='9', 'qpre', '9');
+  }
+  return '';
+}
+
+function keypadHTML(){
+  const s = S, f = curField();
+  let body = '';
+  if(s.active==='info'){
+    if(s.last){
+      const b = s.last.charCodeAt(0)-65;
+      const pred = [1,2,3].map(k => { const i=(b+k)%26; const L=String.fromCharCode(65+i);
+        return `<button class="key predkey" data-act="letter" data-arg="${L}"><span class="L">${L}</span><span class="W">${PHON[i]}</span></button>`; }).join('');
+      body += `<div class="strip pred">${pred}</div>`;
+    }
+    body += `<div class="grid g7">` + PHON.map((w,i) => { const L=String.fromCharCode(65+i);
+      return `<button class="key letter${s.info===L?' on':''}" data-act="letter" data-arg="${L}" aria-label="${w}">${L}</button>`; }).join('') + `</div>`;
+  } else if(s.active==='rwy' && f.rwys.length){
+    body += `<div class="grid ${f.rwys.length>2?'g3':'g2'}">` +
+      f.rwys.map(r => `<button class="key rwy${s.rwy===r?' on':''}" data-act="rwy" data-arg="${r}">${r}</button>`).join('') + `</div>`;
+  } else if(s.active==='rmk'){
+    body += `<div class="grid g2">` +
+      REMARKS.map(k => `<button class="key chip${s.rmk.indexOf(k)>=0?' on':''}" data-act="rmk" data-arg="${k}">${k}</button>`).join('') + `</div>`;
+  } else {
+    const ex = extrasHTML();
+    if(ex) body += `<div class="strip">${ex}</div>`;
+    body += `<div class="grid g3">` +
+      ['1','2','3','4','5','6','7','8','9'].map(d => `<button class="key digit" data-act="digit" data-arg="${d}">${d}</button>`).join('') +
+      `<button class="key del" data-act="del" aria-label="Delete last digit">⌫</button>` +
+      `<button class="key digit" data-act="digit" data-arg="0">0</button><div></div></div>`;
+  }
+  const last = s.active==='rmk';
+  return `<div class="kp"><div class="hint">${hintFor()}</div>${body}</div>
+    <div class="actions">
+      <button class="act act-back" data-act="back">‹ BACK</button>
+      <button class="act act-q${s.unsure[s.active]?' on':''}" data-act="unsure" aria-label="Mark as not sure">?</button>
+      <button class="act act-clear" data-act="clear">CLEAR</button>
+      <button class="act act-next${last?' done':''}" data-act="next">${last?'DONE ✓':'NEXT ›'}</button>
+    </div>`;
+}
+
+function donePanelHTML(){
+  const w = windCalc();
+  const word = S.info ? PHON[S.info.charCodeAt(0)-65] : '';
+  const cap = word ? word.charAt(0)+word.slice(1).toLowerCase() : '____';
+  return `<div class="done">
+    <div class="card">
+      <div class="card-lbl">WIND ON RWY ${S.rwy||'—'}</div>
+      <div class="comp">
+        <div><div class="comp-val">${w.hw}</div><div class="comp-sub">${w.hwL}</div></div>
+        <div><div class="comp-val${w.warn?' warn':''}">${w.xw}</div><div class="comp-sub">${w.xwL}</div></div>
+      </div>
+      ${w.warn?`<div class="warn-box">Above your crosswind limit (${XW_LIMIT_KT} KT)</div>`:''}
+    </div>
+    <div class="call"><div class="call-lbl">ON FIRST CALL</div><div class="call-txt">“…with information ${cap}”</div></div>
+    <div class="fix-hint">Tap any line above to fix it</div>
+    <div class="spacer"></div>
+    <button class="new-btn" data-act="new">NEW ATIS</button>
+  </div>`;
+}
+
+function render(){
+  document.getElementById('apSel').value = S.ap;
+  renderAge();
+  renderTape();
+  document.getElementById('bottom').innerHTML = S.kpOpen ? keypadHTML() : donePanelHTML();
+}
+
+// ── EVENTS ─────────────────────────────────────────────
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if(!b) return;
+  const act = b.dataset.act, arg = b.dataset.arg, s = S;
+  switch(act){
+    case 'row': set({active:b.dataset.id, kpOpen:true}); break;
+    case 'letter': rememberLetter(s.ap, arg); set({info:arg}, true); break;
+    case 'rwy': set({rwy:arg}, true); break;
+    case 'rwysfx': { const base = s.rwy.replace(/[LRC]$/,''); if(base.length===2) set({rwy:base+arg}, true); break; }
+    case 'rmk': {
+      const on = s.rmk.indexOf(arg)>=0;
+      set({rmk: on ? s.rmk.filter(x=>x!==arg) : (arg==='NIL' ? ['NIL'] : s.rmk.filter(x=>x!=='NIL').concat([arg]))});
+      break;
+    }
+    case 'digit': digit(arg); break;
+    case 'del': backspace(); break;
+    case 'calm': set({wspec:'CALM', wdir:'', wspd:'', wgst:'', wmode:'done', wgstPending:false}, true); break;
+    case 'vrb': set({wspec:'VRB', wdir:'', wspd:'', wmode:'spd'}); break;
+    case 'gust': if(s.wspd.length===2) set({wmode:'gst', wgst:''}); else set({wgstPending:!s.wgstPending}); break;
+    case 'cavok': set({vis:'CAVOK', vbuf:'', clouds:[], cpend:'', cbuf:''}, true); break;
+    case 'vis10': set({vis:'10 KM+', vbuf:''}, true); break;
+    case 'cover':
+      if(arg==='NSC') set({clouds:[{c:'NSC',h:''}], cpend:'', cbuf:''}, true);
+      else set({cpend:arg, cbuf:''});
+      break;
+    case 'minus': set(s.tstage==='t' ? {tneg:!s.tneg} : {dneg:!s.dneg}); break;
+    case 'qpre': set({qpre:arg}); break;
+    case 'back': back(); break;
+    case 'unsure': { const u = Object.assign({}, s.unsure); u[s.active] = !u[s.active]; set({unsure:u}); break; }
+    case 'clear': clearField(); break;
+    case 'next': set({}, true); break;
+    case 'new': S = blank(s.ap); lsSet(K_STATE, JSON.stringify(S)); render(); break;
+  }
+});
+
+function initSelect(){
+  const sel = document.getElementById('apSel');
+  sel.innerHTML = Object.keys(FIELDS).map(id =>
+    `<option value="${id}">${id==='OTHER' ? FIELDS[id].name : id+' · '+FIELDS[id].name}</option>`).join('');
+  sel.addEventListener('change', () => {
+    lsSet(K_AP, sel.value);
+    set({ap:sel.value, rwy:'', last: S.info ? S.last : lastFor(sel.value)});
+  });
+}
+
+function backToApp(){
+  const from = new URLSearchParams(window.location.search).get('from') || 'AirCheck_RD.html';
+  window.location.href = from + '?resume=1';
+}
+
+initSelect();
+lsSet(K_AP, S.ap);
+render();
+setInterval(renderAge, 15000);
+</script>
+</body>
+</html>
