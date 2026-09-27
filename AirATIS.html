@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.017 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.018 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -92,7 +92,7 @@ button:active{opacity:.75;}
 .q-badge{width:22px;height:22px;border-radius:11px;background:var(--amber);color:#1a1308;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
 /* ── KEYPAD ── */
-.bottom{flex:1;display:flex;flex-direction:column;min-height:0;}
+.bottom{flex:1;display:flex;flex-direction:column;min-height:0;position:relative;}
 .kp{flex:1;display:flex;flex-direction:column;gap:6px;padding:8px 14px 6px;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;}
 .hint{flex-shrink:0;font-size:13px;font-weight:500;color:var(--ink-muted);text-align:center;}
 .grid{flex:1;display:grid;gap:6px;min-height:0;grid-auto-rows:minmax(34px,1fr);}
@@ -129,25 +129,33 @@ button:active{opacity:.75;}
 .key:disabled{opacity:.28;}
 
 /* ── DONE PANEL ── */
-.done{flex:1;display:flex;flex-direction:column;gap:8px;padding:10px 12px;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;overflow-y:auto;}
-.card{background:var(--paper);border:1.5px solid var(--gold-lite);border-radius:8px;padding:10px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 2px 8px rgba(28,61,110,.12);}
+.done{flex:1;display:flex;flex-direction:column;gap:7px;padding:8px 12px 10px;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;overflow-y:auto;}
+.card{background:var(--paper);border:1.5px solid var(--gold-lite);border-radius:8px;padding:8px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 2px 8px rgba(28,61,110,.12);}
 .card-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:#2563c2;}
 .comp{display:flex;gap:12px;}
 .wrow{display:flex;align-items:center;gap:14px;}
-.wsvg{width:104px;height:121px;flex-shrink:0;}
-.wnums{flex:1;display:flex;flex-direction:column;gap:10px;min-width:0;}
+.wsvg{width:86px;height:100px;flex-shrink:0;}
+.wnums{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0;}
 .comp-val.tail{color:var(--amber-ink);}
 .comp>div{flex:1;}
-.comp-val{font-family:var(--font-mono);font-size:24px;font-weight:700;}
+.comp-val{font-family:var(--font-mono);font-size:22px;font-weight:700;line-height:1.15;}
 .comp-val.warn{color:var(--amber-ink);}
 .comp-sub{font-size:13px;color:var(--ink-muted);}
 .warn-box{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.5);color:#7a4a00;border-radius:4px;padding:6px 10px;font-size:13px;font-weight:700;}
-.call{background:var(--ink);color:#f4ecdc;border-radius:8px;padding:10px 14px;}
+.call{background:var(--ink);color:#f4ecdc;border-radius:8px;padding:8px 14px;}
 .call-lbl{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.15em;color:var(--gold-lite);}
-.call-txt{font-size:19px;font-weight:700;}
-.fix-hint{font-size:13px;color:var(--ink-muted);text-align:center;}
+.call-txt{font-size:18px;font-weight:700;}
+.fix-hint{font-size:12px;color:var(--ink-muted);text-align:center;}
 .spacer{flex:1;}
-.new-btn{flex-shrink:0;height:56px;border-radius:6px;border:0;background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-weight:700;font-size:15px;letter-spacing:.1em;}
+.new-btn{flex-shrink:0;height:52px;border-radius:6px;border:0;background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-weight:700;font-size:15px;letter-spacing:.1em;}
+
+/* ── SCROLL CUE (same pattern as LSA Toolbox) ── */
+.scroll-fade{position:absolute;left:0;right:0;bottom:0;height:56px;pointer-events:none;z-index:15;background:linear-gradient(to bottom, rgba(251,246,232,0), var(--paper-hi));transition:opacity .35s ease;}
+.scroll-btn{position:absolute;left:50%;bottom:10px;width:38px;height:38px;border-radius:50%;background:var(--paper-hi);border:1px solid var(--paper-edge);display:grid;place-items:center;z-index:16;box-shadow:0 4px 14px rgba(43,38,32,.12);transform:translateX(-50%);animation:bob 1.8s ease-in-out infinite;padding:0;transition:opacity .35s ease;}
+.scroll-btn svg{width:18px;height:18px;stroke:var(--gold-deep,#8a6a2a);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.scroll-fade.hide,.scroll-btn.hide{opacity:0;pointer-events:none;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(4px)}}
+@media (prefers-reduced-motion:reduce){.scroll-btn{animation:none}}
 
 /* ── FOOTER ── */
 .page-footer{flex-shrink:0;text-align:center;padding:8px 10px calc(8px + env(safe-area-inset-bottom));font-family:var(--font-mono);font-size:9px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid var(--gold-lite);}
@@ -238,7 +246,7 @@ button:active{opacity:.75;}
   <div class="sp-tag">Tap-fast ATIS capture</div>
   <div class="sp-line1" id="spLine1"></div>
   <div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div>
-  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.017 · built by eligrt</div>
+  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.018 · built by eligrt</div>
 </div>
 
 <div class="header">
@@ -268,7 +276,7 @@ button:active{opacity:.75;}
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer">AirCheck+ · AirATIS · v1.01.017 · built by eligrt</div>
+<div class="page-footer">AirCheck+ · AirATIS · v1.01.018 · built by eligrt</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -776,7 +784,9 @@ function donePanelHTML(){
     <div class="fix-hint">Tap any line above to fix it</div>
     <div class="spacer"></div>
     <button class="new-btn" data-act="new">NEW ATIS</button>
-  </div>`;
+  </div>
+  <div class="scroll-fade hide" id="scrollFade" aria-hidden="true"></div>
+  <button class="scroll-btn hide" id="scrollBtn" data-act="scrollmore" aria-label="Scroll down"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>`;
 }
 
 function render(){
@@ -787,7 +797,20 @@ function render(){
   renderTape();
   renderAge();
   document.getElementById('bottom').innerHTML = S.kpOpen ? keypadHTML() : donePanelHTML();
+  if(!S.kpOpen){
+    const d = document.querySelector('.done');
+    d.addEventListener('scroll', updateScrollCue, {passive:true});
+    requestAnimationFrame(updateScrollCue);
+  }
 }
+// Show fade + bobbing chevron only while there is more below (hides at the bottom)
+function updateScrollCue(){
+  const d = document.querySelector('.done'), f = document.getElementById('scrollFade'), b = document.getElementById('scrollBtn');
+  if(!d || !f || !b) return;
+  const hide = d.scrollHeight <= d.clientHeight + 8 || d.scrollTop + d.clientHeight >= d.scrollHeight - 8;
+  f.classList.toggle('hide', hide); b.classList.toggle('hide', hide);
+}
+window.addEventListener('resize', updateScrollCue);
 
 // ── EVENTS ─────────────────────────────────────────────
 document.addEventListener('click', e => {
@@ -829,6 +852,7 @@ document.addEventListener('click', e => {
     case 'unsure': { const u = Object.assign({}, s.unsure); u[s.active] = !u[s.active]; set({unsure:u}); break; }
     case 'clear': clearField(); break;
     case 'clearall': clearAll(); break;
+    case 'scrollmore': { const d = document.querySelector('.done'); if(d) d.scrollBy({top: d.clientHeight*0.8, behavior:'smooth'}); break; }
     case 'amok': amodalClose(true); break;
     case 'amno': amodalClose(false); break;
     case 'appick': openPicker(); break;
