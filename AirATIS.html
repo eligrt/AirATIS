@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.020 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.022 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -160,6 +160,35 @@ button:active{opacity:.75;}
 .spacer{flex:1;}
 .new-btn{flex-shrink:0;height:52px;border-radius:6px;border:0;background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-weight:700;font-size:15px;letter-spacing:.1em;}
 
+/* ── FINISHED SCREEN: read-only, so values and the wind card use the free space ── */
+body.done-mode .row{min-height:42px;padding:4px 10px;}
+body.done-mode .row-val{font-size:clamp(18px, 5vw, 22px);}
+body.done-mode .row-val .l2{font-size:.75em;}
+body.done-mode .row-lbl{font-size:10px;}
+body.done-mode .card{flex:1;justify-content:center;}
+body.done-mode .card-lbl{font-size:11px;}
+body.done-mode .wrow{gap:18px;}
+body.done-mode .wsvg{height:clamp(90px, calc(100svh - 660px), 160px);width:auto;aspect-ratio:120/140;}
+body.done-mode .comp-val{font-size:clamp(22px, 7vw, 32px);}
+body.done-mode .comp-sub{font-size:14px;}
+body.done-mode .wnums{gap:8px;}
+body.done-mode .call-txt{font-size:clamp(18px, 5.2vw, 22px);}
+@media (max-height:700px){
+  body.done-mode .row{min-height:38px;padding:3px 10px;}
+  body.done-mode .row-val{font-size:clamp(17px, 4.8vw, 20px);}
+  body.done-mode .new-btn{height:46px;}
+}
+@media (max-width:340px){ body.done-mode .row-val{font-size:16px;} }
+
+/* ── REMARK CHIPS: 3x3 with icons ── */
+.key.rmkchip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;letter-spacing:.03em;padding:2px;line-height:1.1;text-align:center;}
+.rmk-ico{width:28px;height:28px;flex-shrink:0;}
+.key.rmkchip.other{border-style:dashed;}
+/* RMK can hold several items + free text: wrap instead of cutting off */
+.row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.2;}
+.txt-in{height:48px;border-radius:8px;border:1.5px solid var(--gold-lite);background:var(--paper-hi);padding:0 12px;font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--ink);text-transform:uppercase;outline:none;width:100%;box-sizing:border-box;}
+.txt-in:focus{border-color:var(--ink);}
+
 /* ── SCROLL CUE (same pattern as LSA Toolbox) ── */
 .scroll-fade{position:absolute;left:0;right:0;bottom:0;height:56px;pointer-events:none;z-index:15;background:linear-gradient(to bottom, rgba(251,246,232,0), var(--paper-hi));transition:opacity .35s ease;}
 .scroll-btn{position:absolute;left:50%;bottom:10px;width:38px;height:38px;border-radius:50%;background:var(--paper-hi);border:1px solid var(--paper-edge);display:grid;place-items:center;z-index:16;box-shadow:0 4px 14px rgba(43,38,32,.12);transform:translateX(-50%);animation:bob 1.8s ease-in-out infinite;padding:0;transition:opacity .35s ease;}
@@ -267,7 +296,7 @@ button:active{opacity:.75;}
   <div class="sp-tag">Tap-fast ATIS capture</div>
   <div class="sp-line1" id="spLine1"></div>
   <div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div>
-  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.020 · built by eligrt</div>
+  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.022 · built by eligrt</div>
 </div>
 
 <div class="header">
@@ -292,12 +321,19 @@ button:active{opacity:.75;}
   <div class="am-btns"><button type="button" class="am-no" data-act="pickclose">Cancel</button></div>
 </div></div>
 
+<div class="amodal" id="txtModal"><div class="am-card" role="dialog" aria-labelledby="txtTtl">
+  <div class="am-ttl" id="txtTtl">Other remark</div>
+  <div class="am-txt">A few words, when no button fits.</div>
+  <input id="txtIn" class="txt-in" maxlength="30" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="e.g. CRANE N OF RWY">
+  <div class="am-btns"><button type="button" class="am-no" data-act="txtcancel">Cancel</button><button type="button" class="am-ok" data-act="txtok">Save</button></div>
+</div></div>
+
 <div class="amodal" id="amodal"><div class="am-card" role="alertdialog" aria-labelledby="amTtl" aria-describedby="amTxt">
   <div class="am-ttl" id="amTtl"></div><div class="am-txt" id="amTxt"></div>
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer">AirCheck+ · AirATIS · v1.01.020 · built by eligrt</div>
+<div class="page-footer">AirCheck+ · AirATIS · v1.01.022 · built by eligrt</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -327,7 +363,21 @@ const LAYOUT = {info:'half',time:'half',rwy:'half',wind:'half',vis:'half',cloud:
 const GRID_ORDER = ORDER;   // screen order = broadcast order (read left to right, then down)
 const DOTS = {info:'#1c3d6e',time:'#1c3d6e',rwy:'#1c3d6e',wind:'#2563c2',vis:'#c9a800',cloud:'#c95fbd',td:'#c99000',qnh:'#1f6f3f',rmk:'#8a7a5a'};
 const PHON = ['ALFA','BRAVO','CHARLIE','DELTA','ECHO','FOXTROT','GOLF','HOTEL','INDIA','JULIETT','KILO','LIMA','MIKE','NOVEMBER','OSCAR','PAPA','QUEBEC','ROMEO','SIERRA','TANGO','UNIFORM','VICTOR','WHISKEY','XRAY','YANKEE','ZULU'];
-const REMARKS = ['BIRDS','RWY WORKS','TWY CLOSED','GLIDERS','PARACHUTING','WINDSHEAR','MIL ACTIVITY','NIL'];
+const REMARKS = ['BIRDS','RWY WORKS','TWY CLOSED','GLIDERS','PARACHUTING','WINDSHEAR','MIL ACTIVITY','RWY WET'];
+const RMK_TXT_MAX = 30;
+// small stroke icons for the remark chips (24x24 viewBox)
+const RMK_ICON = {
+  'BIRDS':        '<path d="M2 11c2.5-2.5 5-2.5 7 0c2-2.5 4.5-2.5 7 0"/><path d="M10 17c1.5-1.5 3-1.5 4.5 0c1.5-1.5 3-1.5 4.5 0"/>',
+  'RWY WORKS':    '<path d="M12 3l5 16H7z"/><path d="M9 12h6"/><path d="M5 21h14"/>',
+  'TWY CLOSED':   '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8l8 8M16 8l-8 8"/>',
+  'GLIDERS':      '<path d="M1 11h22"/><path d="M12 7v12"/><path d="M9 19h6"/>',
+  'PARACHUTING':  '<path d="M3 10a9 7 0 0 1 18 0z"/><path d="M4 10l8 8l8-8"/><path d="M12 10v8"/><circle cx="12" cy="20" r="1.3"/>',
+  'WINDSHEAR':    '<path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h15"/><path d="M3 16h9a3 3 0 1 1-3 3"/><path d="M19 13l2 3l-2 3"/>',
+  'MIL ACTIVITY': '<path d="M12 2l2 7l7 4v2l-7-2l-.5 5l2.5 2v1.5l-4-1l-4 1V20l2.5-2l-.5-5l-7 2v-2l7-4z"/>',
+  'RWY WET':      '<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/>',
+  'OTHER':        '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/>'
+};
+const rmkIcon = k => `<svg class="rmk-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${RMK_ICON[k]}</svg>`;
 const ALL = '0123456789';
 
 const K_STATE = 'airatis_state_v2';
@@ -350,7 +400,7 @@ function rememberLetter(ap,letter){
 function blank(ap){
   return { ap:ap, active:'info', info:'', time:'', rwy:'', wdir:'', wspd:'', wgst:'', wmode:'dir', wspec:'', wgstPending:false, wv1:'', wv2:'',
     vis:'', vbuf:'', clouds:[], cpend:'', cbuf:'', temp:'', dew:'', tstage:'t', tneg:false, dneg:false,
-    qnh:'', rmk:[], unsure:{}, last:lastFor(ap), started:null, kpOpen:true };
+    qnh:'', rmk:[], rmkTxt:'', unsure:{}, last:lastFor(ap), started:null, kpOpen:true };
 }
 function loadState(){
   try{
@@ -540,7 +590,7 @@ function emptyPatch(id){
     wind:{wdir:'', wspd:'', wgst:'', wmode:'dir', wspec:'', wgstPending:false, wv1:'', wv2:''},
     vis:{vis:'', vbuf:''}, cloud:{clouds:[], cpend:'', cbuf:''},
     td:{temp:'', dew:'', tstage:'t', tneg:false, dneg:false},
-    qnh:{qnh:''}, rmk:{rmk:[]}
+    qnh:{qnh:''}, rmk:{rmk:[], rmkTxt:''}
   })[id];
 }
 function clearField(){ set(Object.assign(emptyPatch(S.active), {fresh:false})); }
@@ -628,7 +678,7 @@ function valueOf(id){
       return t+d;
     }
     case 'qnh': return s.qnh ? s.qnh+'_'.repeat(Math.max(0, qnhLen(s.qnh)-s.qnh.length)) : '';
-    case 'rmk': return s.rmk.join(' · ');
+    case 'rmk': return s.rmk.concat(s.rmkTxt ? ['“'+s.rmkTxt+'”'] : []).join(' · ');
   }
   return '';
 }
@@ -782,8 +832,9 @@ function keypadHTML(){
     body += `<div class="grid ${f.rwys.length>2?'g3':'g2'}">` +
       f.rwys.map(r => `<button class="key rwy${s.rwy===r?' on':''}" data-act="rwy" data-arg="${r}">${r}</button>`).join('') + `</div>`;
   } else if(s.active==='rmk'){
-    body += `<div class="grid g2">` +
-      REMARKS.map(k => `<button class="key chip${s.rmk.indexOf(k)>=0?' on':''}" data-act="rmk" data-arg="${k}">${k}</button>`).join('') + `</div>`;
+    body += `<div class="grid g3">` +
+      REMARKS.map(k => `<button class="key chip rmkchip${s.rmk.indexOf(k)>=0?' on':''}" data-act="rmk" data-arg="${k}">${rmkIcon(k)}<span>${k}</span></button>`).join('') +
+      `<button class="key chip rmkchip other${s.rmkTxt?' on':''}" data-act="rmkother">${rmkIcon('OTHER')}<span>${s.rmkTxt ? 'EDIT TEXT' : 'OTHER'}</span></button></div>`;
   } else {
     const ex = extrasHTML();
     if(ex) body += `<div class="strip">${ex}</div>`;
@@ -862,6 +913,7 @@ function render(){
   document.getElementById('apFreq').textContent = f.freq;
   renderTape();
   renderAge();
+  document.body.classList.toggle('done-mode', !S.kpOpen);
   document.getElementById('bottom').innerHTML = S.kpOpen ? keypadHTML() : donePanelHTML();
   if(!S.kpOpen){
     const d = document.querySelector('.done');
@@ -925,6 +977,9 @@ document.addEventListener('click', e => {
     case 'appick': openPicker(); break;
     case 'pickap': chooseAirfield(b.dataset.id); break;
     case 'pickclose': closePicker(); break;
+    case 'rmkother': { const i = document.getElementById('txtIn'); i.value = s.rmkTxt || ''; document.getElementById('txtModal').classList.add('show'); setTimeout(()=>i.focus(), 50); break; }
+    case 'txtcancel': document.getElementById('txtModal').classList.remove('show'); break;
+    case 'txtok': { const v = document.getElementById('txtIn').value.trim().toUpperCase().slice(0, RMK_TXT_MAX); document.getElementById('txtModal').classList.remove('show'); set({rmkTxt:v, rmk:s.rmk.filter(x=>x!=='NIL')}); break; }
     case 'new': S = blank(s.ap); save(); render(); break;
   }
 });
