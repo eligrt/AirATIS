@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.022 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.023 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -77,10 +77,17 @@ button:active{opacity:.75;}
 
 /* ── TAPE ── */
 .tape{flex-shrink:0;padding:6px 12px;display:flex;gap:8px;}
-.tape-rows{flex:1;min-width:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;align-content:start;}
+.tape-rows{flex:1;min-width:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;align-content:start;
+  --h1:clamp(38px, 5.2svh, 46px); --h2:clamp(54px, 7.6svh, 64px);
+  grid-template-rows:var(--h1) var(--h2) var(--h2) var(--h1) var(--h1);}
+.tape-rows .row{min-height:0;overflow:hidden;}
+body.done-mode .tape-rows{grid-template-rows:none;}
+body.done-mode .tape-rows .row{overflow:visible;}
 .row.full{grid-column:1 / -1;}
 .row-val .l2{display:block;font-size:.8em;opacity:.85;line-height:1.1;}
-.row-val .lyr{display:block;line-height:1.15;}
+.row-val .lyr{display:block;line-height:1.08;}
+.tape-rows .row-val .lyr, .tape-rows .row-val .l2{font-size:.92em;}
+body.done-mode .row-val .lyr{font-size:1em;line-height:1.15;}
 .row .q-badge,.row .w-badge{position:absolute;top:5px;right:6px;width:18px;height:18px;font-size:12px;}
 .row .dot{width:6px;height:6px;}
 
@@ -96,8 +103,8 @@ button:active{opacity:.75;}
 .row.unsure{border-color:var(--amber);}
 .row.active.unsure{border-color:var(--gold);}
 .dot{width:7px;height:7px;border-radius:4px;flex-shrink:0;}
-.row-lbl{display:flex;align-items:center;gap:5px;flex-shrink:0;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--ink-muted);}
-.row-val{width:100%;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.15;font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--ink);}
+.row-lbl{display:flex;align-items:center;gap:5px;flex-shrink:0;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-muted);}
+.row-val{width:100%;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.15;font-family:var(--font-mono);font-size:clamp(16px, 4.5vw, 19px);font-weight:700;color:var(--ink);}
 .row-val.empty{color:var(--ink-empty);}
 .row.unsure .row-val{color:var(--amber-ink);}
 .q-badge{width:22px;height:22px;border-radius:11px;background:var(--amber);color:#1a1308;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -185,9 +192,16 @@ body.done-mode .call-txt{font-size:clamp(18px, 5.2vw, 22px);}
 .rmk-ico{width:28px;height:28px;flex-shrink:0;}
 .key.rmkchip.other{border-style:dashed;}
 /* RMK can hold several items + free text: wrap instead of cutting off */
-.row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.2;}
+body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.2;}
 .txt-in{height:48px;border-radius:8px;border:1.5px solid var(--gold-lite);background:var(--paper-hi);padding:0 12px;font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--ink);text-transform:uppercase;outline:none;width:100%;box-sizing:border-box;}
 .txt-in:focus{border-color:var(--ink);}
+
+/* ── TAP FEEDBACK: short gold flash on whatever was pressed ── */
+@keyframes tapLight{0%{background:var(--gold-tint);border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,160,74,.55);transform:scale(.95);}100%{box-shadow:0 0 0 3px rgba(200,160,74,0);transform:scale(1);}}
+@keyframes tapDark{0%{box-shadow:0 0 0 4px rgba(200,160,74,.8);transform:scale(.96);}100%{box-shadow:0 0 0 4px rgba(200,160,74,0);transform:scale(1);}}
+.tap-flash{animation:tapLight .45s ease-out;}
+.nav-btn.done.tap-flash,.new-btn.tap-flash,.ap-btn.tap-flash,.am-ok.tap-flash,.act-q.on.tap-flash,.back-btn.tap-flash{animation:tapDark .45s ease-out;}
+@media (prefers-reduced-motion:reduce){.tap-flash{animation-duration:.25s;}}
 
 /* ── SCROLL CUE (same pattern as LSA Toolbox) ── */
 .scroll-fade{position:absolute;left:0;right:0;bottom:0;height:56px;pointer-events:none;z-index:15;background:linear-gradient(to bottom, rgba(251,246,232,0), var(--paper-hi));transition:opacity .35s ease;}
@@ -217,7 +231,7 @@ body.done-mode .call-txt{font-size:clamp(18px, 5.2vw, 22px);}
 
 /* ── SHORT SCREENS (iPhone SE etc.) ── */
 @media (max-width:420px){
-  .row-val{font-size:15px;}
+  .row-val{font-size:16px;}
   .nav-col{width:46px;}
   .tape{gap:6px;padding:6px 10px;}
   .row{padding:4px 7px;}
@@ -296,7 +310,7 @@ body.done-mode .call-txt{font-size:clamp(18px, 5.2vw, 22px);}
   <div class="sp-tag">Tap-fast ATIS capture</div>
   <div class="sp-line1" id="spLine1"></div>
   <div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div>
-  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.022 · built by eligrt</div>
+  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.023 · built by eligrt</div>
 </div>
 
 <div class="header">
@@ -333,7 +347,7 @@ body.done-mode .call-txt{font-size:clamp(18px, 5.2vw, 22px);}
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer">AirCheck+ · AirATIS · v1.01.022 · built by eligrt</div>
+<div class="page-footer">AirCheck+ · AirATIS · v1.01.023 · built by eligrt</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -931,6 +945,33 @@ function updateScrollCue(){
 window.addEventListener('resize', updateScrollCue);
 
 // ── EVENTS ─────────────────────────────────────────────
+// ── TAP FEEDBACK ─────────────────────────────────────────
+// The screen redraws right after every tap, so the phone's own press effect is lost.
+// Remember what was pressed and flash it (gold, like a selected remark) after the redraw.
+let _tap = null;
+function tapKey(b){ return {act:b.dataset.act||'', arg:b.dataset.arg||'', id:b.dataset.id||'', elId:b.id||''}; }
+function findTap(t){
+  if(!t) return null;
+  if(t.elId) return document.getElementById(t.elId);
+  let sel = `[data-act="${t.act}"]`;
+  if(t.arg) sel += `[data-arg="${t.arg}"]`;
+  if(t.id) sel += `[data-id="${t.id}"]`;
+  return document.querySelector(sel);
+}
+function flashTap(t){
+  const el = findTap(t);
+  if(!el) return;
+  el.classList.remove('tap-flash'); void el.offsetWidth; el.classList.add('tap-flash');
+  setTimeout(() => el.classList.remove('tap-flash'), 480);
+}
+document.addEventListener('pointerdown', e => {
+  const b = e.target.closest('button');
+  if(!b || b.disabled) return;
+  _tap = tapKey(b);
+  b.classList.add('tap-flash');
+}, {passive:true});
+document.addEventListener('click', () => { if(_tap){ const t = _tap; _tap = null; requestAnimationFrame(() => flashTap(t)); } });
+
 document.addEventListener('click', e => {
   if(e.target.id==='amodal'){ amodalClose(false); return; }
   if(e.target.id==='pickModal'){ closePicker(); return; }
