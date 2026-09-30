@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.023 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.024 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -187,6 +187,62 @@ body.done-mode .call-txt{font-size:clamp(18px, 5.2vw, 22px);}
 }
 @media (max-width:340px){ body.done-mode .row-val{font-size:16px;} }
 
+/* ── SUMMARY: one-glance card layout, tap any card to fix it ── */
+body.done-mode .tape{display:none;}
+body.done-mode .hdr-age{display:none;}
+.done.sum{gap:10px;padding:10px 14px 12px;background:var(--paper);border-top:0;}
+.sm-hero-top,.sm-age,.sm-wpic,.sm-wtxt,.sm-tile,.sm-rmk{font:inherit;text-align:left;}
+.sm-hero-top{color:#f4ecdc;}
+.sm-hero{flex-shrink:0;display:flex;flex-direction:column;gap:6px;background:var(--ink);border-radius:16px;padding:12px 14px;color:#f4ecdc;}
+.sm-hero-top{display:flex;align-items:center;gap:14px;background:none;border:0;padding:0;width:100%;position:relative;}
+.sm-letter{width:64px;height:64px;border-radius:12px;background:var(--gold);color:var(--ink);font-family:var(--font-mono);font-size:44px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sm-letter.empty{background:rgba(244,236,220,.15);color:rgba(244,236,220,.5);}
+.sm-call{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.sm-call-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--gold-lite);}
+.sm-call-txt{font-size:clamp(18px, 5.4vw, 22px);font-weight:700;line-height:1.15;color:#f4ecdc;}
+.sm-age{display:flex;align-items:center;gap:8px;background:none;border:0;padding:2px 0;width:100%;font-family:var(--font-mono);color:#f4ecdc;position:relative;}
+.sm-age-t{font-size:13px;font-weight:700;}
+.sm-bar{flex:1;height:8px;border-radius:4px;background:rgba(244,236,220,.18);display:flex;overflow:hidden;}
+.sm-bar i{display:block;height:100%;border-radius:4px;transition:width .4s ease;}
+.sm-age-v{font-size:13px;font-weight:700;white-space:nowrap;}
+.sm-hero .q-badge{position:absolute;top:-4px;right:-4px;}
+.sm-wind{flex-shrink:0;position:relative;display:flex;align-items:center;gap:10px;background:var(--paper-hi);border:1.5px solid var(--paper-edge);border-radius:16px;padding:8px 12px;}
+.sm-wind.uns{border-color:var(--amber);}
+.sm-wpic{background:none;border:0;padding:0;flex-shrink:0;display:flex;}
+.sm-wpic svg{height:clamp(116px, calc(100svh - 600px), 180px);width:auto;aspect-ratio:1;}
+.sm-wtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;background:none;border:0;padding:0;color:var(--ink);}
+.sm-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-muted);}
+.sm-wv{font-family:var(--font-mono);font-size:clamp(19px, 5.6vw, 22px);font-weight:700;line-height:1.15;}
+.sm-wvar{display:block;font-family:var(--font-mono);font-size:15px;font-weight:700;}
+.sm-comp{font-family:var(--font-mono);font-size:clamp(18px, 5.2vw, 21px);font-weight:700;line-height:1.1;}
+.sm-comp.tail{color:var(--amber-ink);}
+.sm-sub{font-size:12px;color:var(--ink-muted);}
+.sm-grid{flex-shrink:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.sm-tile{position:relative;display:flex;align-items:center;gap:10px;min-height:clamp(62px, 9.5svh, 84px);padding:8px 12px;border-radius:14px;background:var(--paper-hi);border:1.5px solid var(--paper-edge);color:var(--ink);width:100%;min-width:0;}
+.sm-tile.uns{border-color:var(--amber);}
+.sm-ico{width:clamp(30px, 9vw, 38px);height:clamp(30px, 9vw, 38px);flex-shrink:0;}
+.sm-tbox{display:flex;flex-direction:column;gap:1px;min-width:0;}
+.sm-tv{font-family:var(--font-mono);font-size:clamp(20px, 6.4vw, 26px);font-weight:700;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sm-tv.sm2{font-size:clamp(14px, 4.4vw, 17px);line-height:1.2;}
+.sm-tv.empty{color:var(--ink-empty);}
+.sm-tv.warn{color:#b94a3a;}
+.sm-tile .q-badge,.sm-tile .w-badge,.sm-wind .q-badge{position:absolute;top:6px;right:6px;width:20px;height:20px;font-size:12px;}
+.sm-rmk{flex-shrink:0;position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;background:none;border:0;padding:0;width:100%;}
+.sm-rc{min-height:56px;border-radius:12px;background:var(--active);border:1.5px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--ink);text-align:center;line-height:1.1;padding:4px 2px;}
+.sm-rc svg{width:22px;height:22px;}
+.sm-rc.txt{grid-column:1 / -1;min-height:44px;flex-direction:row;gap:8px;font-family:var(--font-mono);font-size:13px;padding:6px 10px;}
+.sm-rc.none{grid-column:1 / -1;min-height:44px;background:transparent;border:1.5px dashed var(--paper-edge);color:var(--ink-faint);font-size:12px;letter-spacing:.08em;}
+.sm-rmk .q-badge{position:absolute;top:-6px;right:-6px;}
+/* old ATIS popup */
+.st-card{align-items:center;text-align:center;gap:10px;}
+.st-ico{width:64px;height:64px;border-radius:32px;background:#fbe3df;border:2px solid #b94a3a;display:flex;align-items:center;justify-content:center;}
+.st-row{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--ink);}
+.st-L{width:40px;height:40px;border-radius:8px;background:var(--gold);font-size:26px;display:flex;align-items:center;justify-content:center;}
+.st-age{color:#b94a3a;}
+.st-btn{width:100%;height:56px;border-radius:12px;font-family:var(--font-mono);font-size:16px;font-weight:700;letter-spacing:.08em;}
+.st-new{margin-top:6px;border:0;background:var(--ink);color:#f4ecdc;}
+.st-keep{border:2px solid var(--ink);background:transparent;color:var(--ink);}
+
 /* ── REMARK CHIPS: 3x3 with icons ── */
 .key.rmkchip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;letter-spacing:.03em;padding:2px;line-height:1.1;text-align:center;}
 .rmk-ico{width:28px;height:28px;flex-shrink:0;}
@@ -200,7 +256,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 @keyframes tapLight{0%{background:var(--gold-tint);border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,160,74,.55);transform:scale(.95);}100%{box-shadow:0 0 0 3px rgba(200,160,74,0);transform:scale(1);}}
 @keyframes tapDark{0%{box-shadow:0 0 0 4px rgba(200,160,74,.8);transform:scale(.96);}100%{box-shadow:0 0 0 4px rgba(200,160,74,0);transform:scale(1);}}
 .tap-flash{animation:tapLight .45s ease-out;}
-.nav-btn.done.tap-flash,.new-btn.tap-flash,.ap-btn.tap-flash,.am-ok.tap-flash,.act-q.on.tap-flash,.back-btn.tap-flash{animation:tapDark .45s ease-out;}
+.nav-btn.done.tap-flash,.new-btn.tap-flash,.st-new.tap-flash,.ap-btn.tap-flash,.am-ok.tap-flash,.act-q.on.tap-flash,.back-btn.tap-flash{animation:tapDark .45s ease-out;}
 @media (prefers-reduced-motion:reduce){.tap-flash{animation-duration:.25s;}}
 
 /* ── SCROLL CUE (same pattern as LSA Toolbox) ── */
@@ -310,7 +366,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="sp-tag">Tap-fast ATIS capture</div>
   <div class="sp-line1" id="spLine1"></div>
   <div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div>
-  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.023 · built by eligrt</div>
+  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.024 · built by eligrt</div>
 </div>
 
 <div class="header">
@@ -347,7 +403,16 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer">AirCheck+ · AirATIS · v1.01.023 · built by eligrt</div>
+<div class="amodal" id="staleModal"><div class="am-card st-card" role="alertdialog" aria-labelledby="stTtl" aria-describedby="stTxt">
+  <div class="st-ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#b94a3a" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+  <div class="am-ttl" id="stTtl">This ATIS is old</div>
+  <div class="st-row"><span class="st-L" id="stL"></span><span><span id="stTime"></span> · <span class="st-age" id="stAge"></span></span></div>
+  <div class="am-txt" id="stTxt">A newer letter is probably on the air.</div>
+  <button type="button" class="st-btn st-new" data-act="stalenew">START NEW ATIS</button>
+  <button type="button" class="st-btn st-keep" data-act="stalekeep">KEEP THIS ONE</button>
+</div></div>
+
+<div class="page-footer">AirCheck+ · AirATIS · v1.01.024 · built by eligrt</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -865,54 +930,163 @@ function keypadHTML(){
     </div>`;
 }
 
-// Top-down runway (heading up) with the wind arrow from where it blows
+// Top-down runway (heading up) with the wind arrow from where it blows.
+// The runway number sits in a round "magnifier" lens at the approach end.
 function windSVG(w){
-  const col = XW_COL[w.band];
-  let art = '';
+  const col = XW_COL[w.band], C = 100, R = 88;
+  const pt = (deg, r) => { const a = deg*Math.PI/180; return [C + r*Math.sin(a), C - r*Math.cos(a)]; };
+  const f = n => n.toFixed(1);
+  let arc = '', art = '';
+  if(w.span !== undefined){
+    const [x1,y1] = pt(w.v1, R), [x2,y2] = pt(w.v1 + w.span, R);
+    arc = `<path d="M${f(x1)} ${f(y1)} A${R} ${R} 0 ${w.span>180?1:0} 1 ${f(x2)} ${f(y2)}" fill="none" stroke="${col}" stroke-opacity=".35" stroke-width="12" stroke-linecap="round"/>`;
+  }
   if(w.deg !== null){
     const a = w.deg*Math.PI/180, sn = Math.sin(a), cs = Math.cos(a);
-    const sx = 60+56*sn, sy = 70-56*cs, ex = 60+16*sn, ey = 70-16*cs;
-    const bx = ex+10*sn, by = ey-10*cs, px = cs, py = sn;
-    const L = `x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}"`;
-    const P = `points="${ex.toFixed(1)},${ey.toFixed(1)} ${(bx+6*px).toFixed(1)},${(by+6*py).toFixed(1)} ${(bx-6*px).toFixed(1)},${(by-6*py).toFixed(1)}"`;
+    const [sx,sy] = pt(w.deg, R), [ex,ey] = pt(w.deg, 26), [bx,by] = pt(w.deg, 40);
+    const L = `x1="${f(sx)}" y1="${f(sy)}" x2="${f(bx)}" y2="${f(by)}"`;
+    const P = `points="${f(ex)},${f(ey)} ${f(bx+8*cs)},${f(by+8*sn)} ${f(bx-8*cs)},${f(by-8*sn)}"`;
     // cream halo first, so the arrow stays visible when it lies over the navy runway
-    art = `<line ${L} stroke="#f4ecdc" stroke-width="9" stroke-linecap="round"/>
-      <polygon ${P} fill="#f4ecdc" stroke="#f4ecdc" stroke-width="4.5" stroke-linejoin="round"/>
-      <line ${L} stroke="${col}" stroke-width="4.5" stroke-linecap="round"/>
+    art = `<line ${L} stroke="#fbf6e8" stroke-width="13" stroke-linecap="round"/>
+      <polygon ${P} fill="#fbf6e8" stroke="#fbf6e8" stroke-width="6" stroke-linejoin="round"/>
+      <line ${L} stroke="${col}" stroke-width="6.5" stroke-linecap="round"/>
       <polygon ${P} fill="${col}"/>`;
+  } else if(w.mode){
+    art = `<text x="100" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="#2563c2">${w.mode}</text>`;
   }
-  if(w.span !== undefined){
-    const R = 56, A = d => (w.v1 + d) * Math.PI/180;
-    const x1 = 60+R*Math.sin(A(0)), y1 = 70-R*Math.cos(A(0)), x2 = 60+R*Math.sin(A(w.span)), y2 = 70-R*Math.cos(A(w.span));
-    art = `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} A${R} ${R} 0 ${w.span>180?1:0} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="${col}" stroke-opacity=".35" stroke-width="9" stroke-linecap="round"/>` + art;
-  }
-  if(w.deg === null && w.mode){
-    art = `<text x="60" y="10" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#2563c2">${w.mode}</text>`;
-  }
-  return `<svg class="wsvg" viewBox="0 0 120 140" aria-hidden="true">
-    <circle cx="60" cy="70" r="56" fill="none" stroke="#b89a5e" stroke-width="1.6" stroke-dasharray="4 4"/>
-    <rect x="50" y="18" width="20" height="104" rx="2" fill="#1c3d6e"/>
-    <line x1="60" y1="26" x2="60" y2="100" stroke="#f4ecdc" stroke-width="1.6" stroke-dasharray="6 5"/>
-    <text x="60" y="116" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" fill="#f4ecdc">${S.rwy||''}</text>
-    ${art}</svg>`;
+  const rw = S.rwy || '--', fs = rw.length > 2 ? 22 : 28;
+  return `<svg viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="88" fill="none" stroke="#b89a5e" stroke-width="2" stroke-dasharray="5 5"/>
+    ${arc}
+    <rect x="86" y="20" width="28" height="156" rx="3" fill="#1c3d6e"/>
+    <line x1="100" y1="32" x2="100" y2="130" stroke="#f4ecdc" stroke-width="2" stroke-dasharray="8 7"/>
+    ${art}
+    <circle cx="100" cy="164" r="30" fill="#1c3d6e" stroke="#c8a04a" stroke-width="4"/>
+    <text x="100" y="${164 + fs*0.36}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="700" fill="#f4ecdc">${rw}</text>
+  </svg>`;
 }
+
+// ── ATIS AGE (one source for the summary bar and the old-ATIS popup) ──
+const AGE_GREEN_MAX = 40;    // min: bar green up to here
+const AGE_OLD_MIN = 60;      // min: bar full + red above this, and the old-ATIS popup
+const AGE_COL = {green:'#9fe0b5', amber:'#f5b94a', red:'#ff8a7a'};
+function ageMin(){
+  if(S.time.length===4){
+    const n = utcNow(), t = parseInt(S.time.slice(0,2),10)*60 + parseInt(S.time.slice(2),10);
+    const m = (((n.h*60+n.m) - t) % 1440 + 1440) % 1440;
+    return m > 1380 ? {min:null, ahead:true} : {min:m};
+  }
+  if(S.started) return {min:Math.floor((Date.now()-S.started)/60000)};
+  return {min:null};
+}
+function ageText(min){ return min < 60 ? min+' MIN OLD' : Math.floor(min/60)+' H '+String(min%60).padStart(2,'0')+' OLD'; }
+function ageView(){
+  const a = ageMin();
+  if(a.ahead) return {w:0, col:AGE_COL.amber, txt:'CHECK TIME'};
+  if(a.min === null) return {w:0, col:'rgba(244,236,220,.55)', txt:'-'};
+  const m = a.min;
+  return { w: Math.min(m/AGE_OLD_MIN, 1)*100, txt: ageText(m),
+           col: m <= AGE_GREEN_MAX ? AGE_COL.green : (m <= AGE_OLD_MIN ? AGE_COL.amber : AGE_COL.red) };
+}
+function updateSumAge(){
+  const bar = document.getElementById('smBar'), v = document.getElementById('smAgeV');
+  if(bar && v){ const a = ageView(); bar.style.width = a.w+'%'; bar.style.background = a.col; v.style.color = a.col; v.textContent = a.txt; }
+  checkStale();
+}
+
+// Old-ATIS popup: once per ATIS per app open, when it is more than 1 hr old
+let _staleSeen = '', _splashOn = false;
+function checkStale(){
+  if(_splashOn || !(S.info || S.time)) return;
+  const a = ageMin();
+  if(a.min === null || a.min <= AGE_OLD_MIN) return;
+  const key = S.info+'|'+S.time+'|'+S.started;
+  if(_staleSeen === key) return;
+  if(document.querySelector('.amodal.show')) return;       // never on top of another dialog
+  _staleSeen = key;
+  document.getElementById('stL').textContent = S.info || '?';
+  document.getElementById('stTime').textContent = S.time.length===4 ? S.time+'Z' : 'ATIS';
+  document.getElementById('stAge').textContent = ageText(a.min);
+  document.getElementById('staleModal').classList.add('show');
+}
+function closeStale(){ document.getElementById('staleModal').classList.remove('show'); }
+
+// Wind as heard: 120/06 G09, CALM, VRB/05 - and the variable sector on its own line
+function windMain(){
+  const s = S;
+  if(s.wspec==='CALM') return 'CALM';
+  const dir = s.wspec==='VRB' ? 'VRB' : s.wdir;
+  if(!dir && !s.wspd) return '';
+  return (dir||'---')+'/'+(s.wspd||'--')+(s.wgst ? ' G'+s.wgst : '');
+}
+function windVar(){ const s = S; return (s.wv1.length===3 && s.wv2.length===3) ? 'V'+s.wv1+'-'+s.wv2 : ''; }
+
+const SM_ICON = {
+  vis:   '<path d="M2 12s4-7 10-7s10 7 10 7s-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  cloud: '<path d="M7 18h10a4 4 0 0 0 .5-8a6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18z"/>',
+  td:    '<path d="M10 14V4a2 2 0 0 1 4 0v10a4 4 0 1 1-4 0z"/>',
+  qnh:   '<circle cx="12" cy="13" r="8"/><path d="M12 13l4-4"/><path d="M12 5v1.5M5 13h1.5M17.5 13H19"/>'
+};
+const smIcon = id => `<svg class="sm-ico" viewBox="0 0 24 24" fill="none" stroke="${DOTS[id]}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SM_ICON[id]}</svg>`;
+const QB = '<span class="q-badge">?</span>';
+
+function smTile(id, label, val, cls){
+  const uns = !!S.unsure[id], warn = id==='td' && tdWarn();
+  return `<button class="sm-tile${uns?' uns':''}" data-act="row" data-id="${id}">
+    ${smIcon(id)}
+    <span class="sm-tbox"><span class="sm-lbl">${label}</span><span class="sm-tv${cls?' '+cls:''}${val?'':' empty'}${warn?' warn':''}">${val||'-'}</span></span>
+    ${uns?QB:''}${warn?'<span class="w-badge" title="Dewpoint higher than temperature - check">!</span>':''}
+  </button>`;
+}
+
 function donePanelHTML(){
-  const w = windCalc();
-  const word = S.info ? PHON[S.info.charCodeAt(0)-65] : '';
+  const s = S, w = windCalc(), a = ageView();
+  const word = s.info ? PHON[s.info.charCodeAt(0)-65] : '';
   const cap = word ? word.charAt(0)+word.slice(1).toLowerCase() : '____';
-  return `<div class="done">
-    <div class="card">
-      <div class="card-lbl">WIND ON RWY ${S.rwy||'-'}</div>
-      <div class="wrow">
-        ${windSVG(w)}
-        <div class="wnums">
-          <div><div class="comp-val${w.tail?' tail':''}">${w.hw}</div><div class="comp-sub">${w.hwL}</div></div>
-          <div><div class="comp-val" style="color:${XW_COL[w.band]}">${w.xw}</div><div class="comp-sub">${w.xwL}</div></div>
-        </div>
-      </div>
+  const uI = !!s.unsure.info, uT = !!s.unsure.time, uR = !!s.unsure.rwy, uW = !!s.unsure.wind;
+  // wind text side
+  const wm = windMain(), wv = windVar();
+  const comps = (w.deg !== null || w.mode) ? `
+      <div><div class="sm-comp${w.tail?' tail':''}">${w.hw}</div><div class="sm-sub">${w.hwL}</div></div>
+      <div><div class="sm-comp" style="color:${XW_COL[w.band]}">${w.xw}</div><div class="sm-sub">${w.xwL}</div></div>` : '';
+  // tiles
+  const cl = s.vis==='CAVOK' && !s.clouds.length ? 'CAVOK'
+    : s.clouds.map(c => c.h ? c.c+' '+parseInt(c.h,10) : c.c).join('<br>');
+  const td = (s.temp || s.dew) ? (s.tneg?'M':'')+(s.temp||'--')+'/'+(s.dneg?'M':'')+(s.dew||'--') : '';
+  // remarks
+  const rc = s.rmk.map(k => `<span class="sm-rc">${RMK_ICON[k] ? rmkIcon(k) : ''}<span>${k}</span></span>`)
+    .concat(s.rmkTxt ? [`<span class="sm-rc txt">${rmkIcon('OTHER')}<span>“${s.rmkTxt}”</span></span>`] : []);
+  const rmkBody = rc.length ? rc.join('') : '<span class="sm-rc none">NO REMARKS · TAP TO ADD</span>';
+  return `<div class="done sum">
+    <div class="sm-hero">
+      <button class="sm-hero-top" data-act="row" data-id="info">
+        <span class="sm-letter${s.info?'':' empty'}">${s.info||'?'}</span>
+        <span class="sm-call"><span class="sm-call-lbl">ON FIRST CALL</span><span class="sm-call-txt">“…with information ${cap}”</span></span>
+        ${uI?QB:''}
+      </button>
+      <button class="sm-age" data-act="row" data-id="time" aria-label="ATIS time and age">
+        <span class="sm-age-t">${s.time.length===4 ? s.time+'Z' : '--:--'}</span>
+        <span class="sm-bar"><i id="smBar" style="width:${a.w}%;background:${a.col}"></i></span>
+        <span class="sm-age-v" id="smAgeV" style="color:${a.col}">${a.txt}</span>
+        ${uT?QB:''}
+      </button>
     </div>
-    <div class="call"><div class="call-lbl">ON FIRST CALL</div><div class="call-txt">“…with information ${cap}”</div></div>
-    <div class="fix-hint">Tap any line above to fix it</div>
+    <div class="sm-wind${uR||uW?' uns':''}">
+      <button class="sm-wpic" data-act="row" data-id="rwy" aria-label="Runway ${s.rwy||'not set'}">${windSVG(w)}</button>
+      <button class="sm-wtxt" data-act="row" data-id="wind">
+        <div><div class="sm-lbl">RWY ${s.rwy||'-'} · WIND</div><div class="sm-wv">${wm||'-'}</div>${wv?`<span class="sm-wvar" style="color:${XW_COL[w.band]}">${wv}</span>`:''}</div>
+        ${comps}
+      </button>
+      ${uR||uW?QB:''}
+    </div>
+    <div class="sm-grid">
+      ${smTile('vis','VIS', s.vis==='CAVOK' ? 'CAVOK' : s.vis)}
+      ${smTile('cloud','CLOUD', cl, s.clouds.length>1 ? 'sm2' : '')}
+      ${smTile('td','T / DP', td)}
+      ${smTile('qnh','QNH', s.qnh)}
+    </div>
+    <button class="sm-rmk" data-act="row" data-id="rmk" aria-label="Remarks">${rmkBody}${s.unsure.rmk?QB:''}</button>
+    <div class="fix-hint">Tap any card to fix it</div>
     <div class="spacer"></div>
     <button class="new-btn" data-act="new">NEW ATIS</button>
   </div>
@@ -934,6 +1108,7 @@ function render(){
     d.addEventListener('scroll', updateScrollCue, {passive:true});
     requestAnimationFrame(updateScrollCue);
   }
+  checkStale();
 }
 // Show fade + bobbing chevron only while there is more below (hides at the bottom)
 function updateScrollCue(){
@@ -975,6 +1150,7 @@ document.addEventListener('click', () => { if(_tap){ const t = _tap; _tap = null
 document.addEventListener('click', e => {
   if(e.target.id==='amodal'){ amodalClose(false); return; }
   if(e.target.id==='pickModal'){ closePicker(); return; }
+  if(e.target.id==='staleModal'){ closeStale(); return; }
   const b = e.target.closest('[data-act]');
   if(!b || b.disabled) return;
   const act = b.dataset.act, arg = b.dataset.arg, s = S;
@@ -1022,6 +1198,8 @@ document.addEventListener('click', e => {
     case 'txtcancel': document.getElementById('txtModal').classList.remove('show'); break;
     case 'txtok': { const v = document.getElementById('txtIn').value.trim().toUpperCase().slice(0, RMK_TXT_MAX); document.getElementById('txtModal').classList.remove('show'); set({rmkTxt:v, rmk:s.rmk.filter(x=>x!=='NIL')}); break; }
     case 'new': S = blank(s.ap); save(); render(); break;
+    case 'stalenew': closeStale(); S = blank(s.ap); save(); render(); break;
+    case 'stalekeep': closeStale(); break;
   }
 });
 
@@ -1045,21 +1223,22 @@ function tickClock(){
   const n = utcNow();
   const t = String(n.h).padStart(2,'0')+':'+String(n.m).padStart(2,'0');
   const el = document.getElementById('utcClock');
-  if(el.textContent !== t){ el.textContent = t; renderAge(); }
+  if(el.textContent !== t){ el.textContent = t; renderAge(); updateSumAge(); }
 }
 
 // ── SPLASH (≈3.5s like AirLog, tap to skip, skipped when an ATIS capture is in progress) ──
 function runSplash(){
   const sp = document.getElementById('splash');
   const inProgress = S.started && (Date.now()-S.started) < 2*3600000;
-  if(inProgress) return;
+  if(inProgress){ _splashOn = false; checkStale(); return; }
   document.getElementById('spIcon').src = document.getElementById('appIcon').href;
   sp.classList.remove('gone');
+  _splashOn = true;
   let done = false;
   const close = () => {
     if(done) return; done = true;
     sp.classList.add('fade');
-    setTimeout(() => sp.classList.add('gone'), 460);
+    setTimeout(() => { sp.classList.add('gone'); _splashOn = false; checkStale(); }, 460);
   };
   sp.addEventListener('click', close);
   const l1 = document.getElementById('spLine1'), l2 = document.getElementById('spLine2');
@@ -1075,6 +1254,7 @@ function runSplash(){
 }
 
 lsSet(K_AP, S.ap);
+_splashOn = true;          // runSplash clears it (at once when the splash is skipped)
 render();
 tickClock();
 setInterval(tickClock, 1000);
