@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.025 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.027 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -26,6 +26,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{background:var(--paper);font-family:var(--font-ui);color:var(--ink);}
+html{height:100%;height:var(--app-h, 100%);overflow:hidden;}
 body{display:flex;flex-direction:column;height:100svh;height:var(--app-h, 100svh);overflow:hidden;}
 button,select{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;}
 html,body{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
@@ -268,7 +269,12 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 @media (prefers-reduced-motion:reduce){.scroll-btn{animation:none}}
 
 /* ── FOOTER ── */
-.page-footer{flex-shrink:0;text-align:center;padding:8px 10px calc(8px + env(safe-area-inset-bottom));font-family:var(--font-mono);font-size:9px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid var(--gold-lite);}
+.page-footer{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:8px;direction:rtl;text-align:center;padding:8px 10px calc(8px + env(safe-area-inset-bottom));font-family:var(--font-mono);font-size:9px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid var(--gold-lite);}
+
+.footer-refresh{flex-shrink:0;background:none;border:0;padding:4px 0;font-family:var(--font-ui);font-size:11px;color:var(--ink-muted);text-decoration:underline;text-underline-offset:2px;opacity:.75;letter-spacing:.02em;text-transform:none;}
+.footer-refresh:active{opacity:.4;}
+.footer-ver{direction:ltr;}
+.footer-pad{width:40px;flex-shrink:0;}
 
 /* ── SPLASH ── */
 #splash{position:fixed;inset:0;z-index:500;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;transition:opacity .45s ease;cursor:pointer;}
@@ -366,7 +372,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="sp-tag">Tap-fast ATIS capture</div>
   <div class="sp-line1" id="spLine1"></div>
   <div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div>
-  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.025 · built by eligrt</div>
+  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.027 · built by eligrt</div>
 </div>
 
 <div class="header">
@@ -412,7 +418,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <button type="button" class="st-btn st-keep" data-act="stalekeep">KEEP THIS ONE</button>
 </div></div>
 
-<div class="page-footer">AirCheck+ · AirATIS · v1.01.025 · built by eligrt</div>
+<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.027 · built by eligrt</span><span class="footer-pad"></span></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -1200,6 +1206,7 @@ document.addEventListener('click', e => {
     case 'new': S = blank(s.ap); save(); render(); break;
     case 'stalenew': closeStale(); S = blank(s.ap); save(); render(); break;
     case 'stalekeep': closeStale(); break;
+    case 'reload': forceReload(); break;
   }
 });
 
@@ -1253,13 +1260,41 @@ function runSplash(){
   }, 250);
 }
 
-// Full-height fix: on an iPhone home-screen app, CSS 100vh/svh comes out shorter than the
-// real screen and leaves an empty strip under the footer. Use the real window height instead.
-function setAppHeight(){ document.documentElement.style.setProperty('--app-h', window.innerHeight+'px'); }
+// Full-height fix: on an iPhone home-screen app, CSS 100vh/svh AND window.innerHeight both come out
+// shorter than the real screen and leave an empty strip under the footer. The app covers the whole
+// screen there (portrait only), so use the screen height; everywhere else use the window height.
+function setAppHeight(){
+  const iosApp = window.navigator.standalone === true;
+  const h = iosApp ? Math.max(window.innerHeight, screen.height) : window.innerHeight;
+  document.documentElement.style.setProperty('--app-h', h+'px');
+}
 setAppHeight();
 window.addEventListener('resize', () => { setAppHeight(); updateScrollCue(); });
 window.addEventListener('orientationchange', () => setTimeout(setAppHeight, 300));
-window.addEventListener('pageshow', setAppHeight);
+// iOS can restore the app with a stale, shorter viewport: re-measure on every return (same as AirCheck)
+function refitAppHeight(){ setAppHeight(); setTimeout(setAppHeight, 250); setTimeout(setAppHeight, 800); }
+window.addEventListener('pageshow', refitAppHeight);
+window.addEventListener('focus', refitAppHeight);
+document.addEventListener('visibilitychange', () => { if(!document.hidden) refitAppHeight(); });
+
+// "רענון" in the footer: force a fresh copy from the server, not the cached page.
+// A unique ?r= makes the browser treat it as a new address; the ATIS itself stays (it is in localStorage).
+async function forceReload(){
+  try{
+    if('caches' in window){ const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); }
+    if(navigator.serviceWorker){ const regs = await navigator.serviceWorker.getRegistrations(); await Promise.all(regs.map(r => r.unregister())); }
+  }catch(e){}
+  const u = new URL(window.location.href);
+  u.searchParams.set('r', Date.now());
+  window.location.replace(u.href);
+}
+// After a forced refresh, take ?r= back out of the address so it does not pile up
+(function(){
+  try{
+    const u = new URL(window.location.href);
+    if(u.searchParams.has('r')){ u.searchParams.delete('r'); history.replaceState(null, '', u.pathname + u.search + u.hash); }
+  }catch(e){}
+})();
 
 lsSet(K_AP, S.ap);
 _splashOn = true;          // runSplash clears it (at once when the splash is skipped)
