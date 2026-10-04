@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.031 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.032 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -192,7 +192,7 @@ body.done-mode .call-txt{font-size:clamp(18px, 5.2vw, 22px);}
 body.done-mode .tape{display:none;}
 body.done-mode .hdr-age{display:none;}
 .done.sum{gap:10px;padding:10px 14px 12px;background:var(--paper);border-top:0;}
-.sm-hero-top,.sm-age,.sm-wpic,.sm-tile,.sm-rmk{font:inherit;text-align:left;}
+.sm-hero-top,.sm-age,.sm-wpic-btn,.sm-tile,.sm-rmk{font:inherit;text-align:left;}
 .sm-hero-top{color:#f4ecdc;}
 .sm-hero{flex-shrink:0;display:flex;flex-direction:column;gap:6px;background:var(--ink);border-radius:16px;padding:12px 14px;color:#f4ecdc;}
 .sm-hero-top{display:flex;align-items:center;gap:14px;background:none;border:0;padding:0;width:100%;position:relative;}
@@ -209,9 +209,14 @@ body.done-mode .hdr-age{display:none;}
 .sm-hero .q-badge{position:absolute;top:-4px;right:-4px;}
 .sm-wind{flex-shrink:0;position:relative;display:flex;align-items:center;gap:10px;background:var(--paper-hi);border:1.5px solid var(--paper-edge);border-radius:16px;padding:8px 12px;}
 .sm-wind.uns{border-color:var(--amber);}
-.sm-wpic{background:none;border:0;padding:0;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;}
-.sm-wmode{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--gold-deep,#8a6a2a);white-space:nowrap;}
-.sm-wpic svg{height:clamp(116px, calc(var(--app-h, 100svh) - 600px), 180px);width:auto;aspect-ratio:1;}
+.sm-wpic{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.sm-wpic-btn{background:none;border:0;padding:0;display:flex;}
+.sm-seg{display:flex;height:28px;border:1.5px solid var(--ink);border-radius:14px;overflow:hidden;}
+.sm-seg button{border:0;background:transparent;color:var(--ink);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;padding:0 11px;transition:background .2s,color .2s;}
+.sm-seg button+button{border-left:1.5px solid var(--ink);}
+.sm-seg button.on{background:var(--ink);color:#f4ecdc;}
+.sm-seg button.tap-flash{animation:none;}
+.sm-wpic-btn svg{height:clamp(110px, calc(var(--app-h, 100svh) - 630px), 176px);width:auto;aspect-ratio:1;}
 .sm-wtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;color:var(--ink);}
 .sm-wrwy{align-self:flex-start;background:var(--paper);border:1.5px solid var(--paper-edge);border-radius:8px;padding:3px 10px;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--ink-muted);text-align:left;}
 .sm-wrwy b{font-size:17px;color:var(--ink);letter-spacing:0;margin-left:2px;}
@@ -420,7 +425,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
     <div class="sp-lines"><div class="sp-line1" id="spLine1"></div><div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div></div>
   </div>
   <div class="wl-body" id="wlBody"></div>
-  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.031 · built by eligrt</span><span class="footer-pad"></span></div>
+  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.032 · built by eligrt</span><span class="footer-pad"></span></div>
 </div>
 
 <div class="header">
@@ -457,7 +462,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.031 · built by eligrt</span><span class="footer-pad"></span></div>
+<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.032 · built by eligrt</span><span class="footer-pad"></span></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -1028,12 +1033,18 @@ function windSVG(w){
     </g>
   </svg>`;
 }
-function windModeLbl(){ return (_northUp ? 'N UP' : 'RWY UP') + ' · TAP TO TURN'; }
+// RWY / N switch under the picture - shows the current view, either side can be tapped
+function windSwitch(){
+  return `<div class="sm-seg" role="group" aria-label="Runway picture view">
+    <button type="button" class="${_northUp?'':'on'}" data-act="nup" data-arg="0" aria-pressed="${!_northUp}">RWY ▲</button>
+    <button type="button" class="${_northUp?'on':''}" data-act="nup" data-arg="1" aria-pressed="${_northUp}">N ▲</button>
+  </div>`;
+}
 // Turn the picture smoothly (about 0.7 s) between the two views
 let _turnRaf = 0;
 function turnRunway(){
   _northUp = !_northUp; lsSet(K_NUP, _northUp ? '1' : '0');
-  const lbl = document.getElementById('wsLbl'); if(lbl) lbl.textContent = windModeLbl();
+  document.querySelectorAll('.sm-seg button').forEach(x => { const on = (x.dataset.arg==='1') === _northUp; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
   const gA = document.getElementById('wsA'), gB = document.getElementById('wsB');
   if(!gA || !gB) return;
   const H = rwyHdg(), to = _northUp ? 1 : 0, from = 1 - to;
@@ -1142,7 +1153,7 @@ function donePanelHTML(){
       </button>
     </div>
     <div class="sm-wind${uR||uW?' uns':''}">
-      <button class="sm-wpic" data-act="turn" aria-label="Turn the runway picture">${windSVG(w)}<span class="sm-wmode" id="wsLbl">${windModeLbl()}</span></button>
+      <div class="sm-wpic"><button class="sm-wpic-btn" data-act="turn" aria-label="Turn the runway picture">${windSVG(w)}</button>${windSwitch()}</div>
       <div class="sm-wtxt">
         <button class="sm-wrwy" data-act="row" data-id="rwy">RWY <b>${s.rwy||'-'}</b></button>
         <button class="sm-wwind" data-act="row" data-id="wind">
@@ -1270,6 +1281,7 @@ document.addEventListener('click', e => {
     case 'txtok': { const v = document.getElementById('txtIn').value.trim().toUpperCase().slice(0, RMK_TXT_MAX); document.getElementById('txtModal').classList.remove('show'); set({rmkTxt:v, rmk:s.rmk.filter(x=>x!=='NIL')}); break; }
     case 'new': showWelcome(true); break;
     case 'turn': turnRunway(); break;
+    case 'nup': if((arg==='1') !== _northUp) turnRunway(); break;
     case 'wlcont': hideWelcome(); break;
     case 'wlnew': {   // show the pressed tile for a moment, then start the new ATIS there
       const id = b.dataset.id; b.classList.add('wl-press');
