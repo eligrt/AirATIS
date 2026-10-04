@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.027 · built by eligrt -->
+<!-- AirCheck+ · AirATIS.html · v1.01.031 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -192,7 +192,7 @@ body.done-mode .call-txt{font-size:clamp(18px, 5.2vw, 22px);}
 body.done-mode .tape{display:none;}
 body.done-mode .hdr-age{display:none;}
 .done.sum{gap:10px;padding:10px 14px 12px;background:var(--paper);border-top:0;}
-.sm-hero-top,.sm-age,.sm-wpic,.sm-wtxt,.sm-tile,.sm-rmk{font:inherit;text-align:left;}
+.sm-hero-top,.sm-age,.sm-wpic,.sm-tile,.sm-rmk{font:inherit;text-align:left;}
 .sm-hero-top{color:#f4ecdc;}
 .sm-hero{flex-shrink:0;display:flex;flex-direction:column;gap:6px;background:var(--ink);border-radius:16px;padding:12px 14px;color:#f4ecdc;}
 .sm-hero-top{display:flex;align-items:center;gap:14px;background:none;border:0;padding:0;width:100%;position:relative;}
@@ -209,9 +209,13 @@ body.done-mode .hdr-age{display:none;}
 .sm-hero .q-badge{position:absolute;top:-4px;right:-4px;}
 .sm-wind{flex-shrink:0;position:relative;display:flex;align-items:center;gap:10px;background:var(--paper-hi);border:1.5px solid var(--paper-edge);border-radius:16px;padding:8px 12px;}
 .sm-wind.uns{border-color:var(--amber);}
-.sm-wpic{background:none;border:0;padding:0;flex-shrink:0;display:flex;}
+.sm-wpic{background:none;border:0;padding:0;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.sm-wmode{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--gold-deep,#8a6a2a);white-space:nowrap;}
 .sm-wpic svg{height:clamp(116px, calc(var(--app-h, 100svh) - 600px), 180px);width:auto;aspect-ratio:1;}
-.sm-wtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;background:none;border:0;padding:0;color:var(--ink);}
+.sm-wtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;color:var(--ink);}
+.sm-wrwy{align-self:flex-start;background:var(--paper);border:1.5px solid var(--paper-edge);border-radius:8px;padding:3px 10px;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--ink-muted);text-align:left;}
+.sm-wrwy b{font-size:17px;color:var(--ink);letter-spacing:0;margin-left:2px;}
+.sm-wwind{display:flex;flex-direction:column;gap:6px;background:none;border:0;padding:0;color:var(--ink);font:inherit;text-align:left;width:100%;}
 .sm-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-muted);}
 .sm-wv{font-family:var(--font-mono);font-size:clamp(19px, 5.6vw, 22px);font-weight:700;line-height:1.15;}
 .sm-wvar{display:block;font-family:var(--font-mono);font-size:15px;font-weight:700;}
@@ -224,6 +228,7 @@ body.done-mode .hdr-age{display:none;}
 .sm-ico{width:clamp(30px, 9vw, 38px);height:clamp(30px, 9vw, 38px);flex-shrink:0;}
 .sm-tbox{display:flex;flex-direction:column;gap:1px;min-width:0;}
 .sm-tv{font-family:var(--font-mono);font-size:clamp(20px, 6.4vw, 26px);font-weight:700;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sm-tv.smm{font-size:clamp(17px, 5.2vw, 21px);}
 .sm-tv.sm2{font-size:clamp(14px, 4.4vw, 17px);line-height:1.2;}
 .sm-tv.empty{color:var(--ink-empty);}
 .sm-tv.warn{color:#b94a3a;}
@@ -234,15 +239,6 @@ body.done-mode .hdr-age{display:none;}
 .sm-rc.txt{grid-column:1 / -1;min-height:44px;flex-direction:row;gap:8px;font-family:var(--font-mono);font-size:13px;padding:6px 10px;}
 .sm-rc.none{grid-column:1 / -1;min-height:44px;background:transparent;border:1.5px dashed var(--paper-edge);color:var(--ink-faint);font-size:12px;letter-spacing:.08em;}
 .sm-rmk .q-badge{position:absolute;top:-6px;right:-6px;}
-/* old ATIS popup */
-.st-card{align-items:center;text-align:center;gap:10px;}
-.st-ico{width:64px;height:64px;border-radius:32px;background:#fbe3df;border:2px solid #b94a3a;display:flex;align-items:center;justify-content:center;}
-.st-row{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--ink);}
-.st-L{width:40px;height:40px;border-radius:8px;background:var(--gold);font-size:26px;display:flex;align-items:center;justify-content:center;}
-.st-age{color:#b94a3a;}
-.st-btn{width:100%;height:56px;border-radius:12px;font-family:var(--font-mono);font-size:16px;font-weight:700;letter-spacing:.08em;}
-.st-new{margin-top:6px;border:0;background:var(--ink);color:#f4ecdc;}
-.st-keep{border:2px solid var(--ink);background:transparent;color:var(--ink);}
 
 /* ── REMARK CHIPS: 3x3 with icons ── */
 .key.rmkchip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;letter-spacing:.03em;padding:2px;line-height:1.1;text-align:center;}
@@ -257,7 +253,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 @keyframes tapLight{0%{background:var(--gold-tint);border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,160,74,.55);transform:scale(.95);}100%{box-shadow:0 0 0 3px rgba(200,160,74,0);transform:scale(1);}}
 @keyframes tapDark{0%{box-shadow:0 0 0 4px rgba(200,160,74,.8);transform:scale(.96);}100%{box-shadow:0 0 0 4px rgba(200,160,74,0);transform:scale(1);}}
 .tap-flash{animation:tapLight .45s ease-out;}
-.nav-btn.done.tap-flash,.new-btn.tap-flash,.st-new.tap-flash,.ap-btn.tap-flash,.am-ok.tap-flash,.act-q.on.tap-flash,.back-btn.tap-flash{animation:tapDark .45s ease-out;}
+.nav-btn.done.tap-flash,.new-btn.tap-flash,.wl-cont.tap-flash,.wl-pill.tap-flash,.ap-btn.tap-flash,.am-ok.tap-flash,.act-q.on.tap-flash,.back-btn.tap-flash{animation:tapDark .45s ease-out;}
 @media (prefers-reduced-motion:reduce){.tap-flash{animation-duration:.25s;}}
 
 /* ── SCROLL CUE (same pattern as LSA Toolbox) ── */
@@ -273,23 +269,69 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 
 .footer-refresh{flex-shrink:0;background:none;border:0;padding:4px 0;font-family:var(--font-ui);font-size:11px;color:var(--ink-muted);text-decoration:underline;text-underline-offset:2px;opacity:.75;letter-spacing:.02em;text-transform:none;}
 .footer-refresh:active{opacity:.4;}
-.footer-ver{direction:ltr;}
-.footer-pad{width:40px;flex-shrink:0;}
+.footer-ver{flex:1;text-align:center;direction:ltr;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;letter-spacing:.06em;}
+.footer-pad{display:none;}
 
-/* ── SPLASH ── */
-#splash{position:fixed;inset:0;z-index:500;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;transition:opacity .45s ease;cursor:pointer;}
+/* ── SPLASH -> WELCOME: the splash animates into the start screen ── */
+#splash{position:fixed;top:0;left:0;right:0;margin:0 auto;width:100%;height:100svh;height:var(--app-h, 100svh);z-index:500;background:var(--paper);display:flex;flex-direction:column;align-items:stretch;overflow:hidden;transition:opacity .3s ease;}
+@media(min-width:600px){#splash{max-width:430px;}}
 #splash.fade{opacity:0;pointer-events:none;}
 #splash.gone{display:none;}
-.sp-icon{width:180px;height:180px;border-radius:40px;box-shadow:0 10px 30px rgba(28,61,110,.18);margin-bottom:22px;}
-.sp-title{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:.02em;}
-.sp-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep,#8a6a2a);margin-top:8px;margin-bottom:26px;padding-left:.3em;}
+.wl-top{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 16px 0;opacity:0;pointer-events:none;transition:opacity .4s ease .2s;}
+#splash.lobby .wl-top{opacity:1;pointer-events:auto;}
+.wl-back{background:transparent;border:1px solid var(--gold-lite);border-radius:6px;padding:6px 11px;font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ink-muted);}
+.wl-clock{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--ink);}
+.wl-clock span{font-size:9px;letter-spacing:.18em;color:var(--ink-faint);margin-right:5px;}
+.sp-logo{flex-shrink:0;display:flex;flex-direction:column;align-items:center;margin-top:calc((var(--app-h, 100svh) - 470px) / 2);transition:margin-top .55s cubic-bezier(.2,.8,.2,1);}
+#splash.lobby .sp-logo{margin-top:0;}
+.sp-icon{width:180px;height:180px;border-radius:40px;box-shadow:0 10px 30px rgba(28,61,110,.18);margin-bottom:22px;transition:width .55s cubic-bezier(.2,.8,.2,1),height .55s cubic-bezier(.2,.8,.2,1),border-radius .55s,margin .55s;}
+#splash.lobby .sp-icon{width:72px;height:72px;border-radius:17px;margin-bottom:6px;box-shadow:0 6px 16px rgba(28,61,110,.16);}
+.sp-title{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:.02em;transition:font-size .55s;}
+#splash.lobby .sp-title{font-size:22px;}
+.sp-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep,#8a6a2a);margin-top:6px;margin-bottom:26px;padding-left:.3em;transition:margin .55s;}
+#splash.lobby .sp-tag{margin-top:2px;margin-bottom:12px;font-size:10px;}
+.sp-lines{display:flex;flex-direction:column;align-items:center;max-height:80px;overflow:hidden;transition:max-height .4s ease,opacity .25s ease;}
+#splash.lobby .sp-lines{max-height:0;opacity:0;}
 .sp-line1{font-size:19px;font-weight:600;color:var(--ink);min-height:28px;text-align:center;}
 .sp-line2{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--ink-muted);margin-top:8px;min-height:20px;opacity:0;transition:opacity .4s ease;}
 .sp-line2.show{opacity:1;}
 .sp-cursor{display:inline-block;width:2px;height:1em;background:var(--gold);margin-left:2px;vertical-align:-2px;animation:blink .8s step-end infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.sp-foot{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
-@media (prefers-reduced-motion:reduce){#splash{transition:none}.sp-cursor{animation:none}}
+.wl-body{flex:1;min-height:0;overflow-y:auto;display:none;flex-direction:column;gap:12px;padding:2px 16px 12px;}
+#splash.lobby .wl-body{display:flex;animation:wlIn .45s ease .25s both;}
+@keyframes wlIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+#splash.instant *{transition:none !important;animation:none !important;}
+.sp-foot{flex-shrink:0;margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;direction:rtl;padding:8px 14px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--gold-lite);font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+/* continue card - the preferred (navy) choice */
+.wl-cont{flex-shrink:0;display:flex;flex-direction:column;gap:10px;background:var(--ink);border:0;border-radius:18px;padding:14px 14px 12px;text-align:left;font-family:var(--font-ui);color:#f4ecdc;width:100%;}
+.wl-cont-top{display:flex;align-items:center;gap:14px;width:100%;}
+.wl-L{width:60px;height:60px;border-radius:12px;background:var(--gold);color:var(--ink);font-family:var(--font-mono);font-size:40px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wl-L.empty{background:rgba(244,236,220,.15);color:rgba(244,236,220,.5);}
+.wl-cont-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.wl-lbl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--gold-lite);}
+.wl-cont-name{font-size:clamp(16px, 4.8vw, 19px);font-weight:700;line-height:1.2;}
+.wl-age{display:flex;align-items:center;gap:8px;width:100%;font-family:var(--font-mono);font-size:13px;font-weight:700;}
+.wl-bar{flex:1;height:8px;border-radius:4px;background:rgba(244,236,220,.18);display:flex;overflow:hidden;}
+.wl-bar i{display:block;height:100%;border-radius:4px;}
+/* new ATIS panel - the secondary choice */
+.wl-new{flex-shrink:0;background:var(--gold-tint);border:1.5px solid var(--gold-lite);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px;}
+.wl-new-ttl{display:flex;align-items:baseline;gap:8px;padding:0 4px;flex-wrap:wrap;}
+.wl-new-ttl b{font-size:17px;font-weight:700;color:var(--ink);}
+.wl-new-ttl span{font-size:12px;color:var(--ink-muted);}
+.wl-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.wl-tile{position:relative;height:clamp(74px, calc(var(--app-h, 100svh) * .105), 98px);border-radius:14px;border:1.5px solid var(--paper-edge);background:var(--paper-hi);color:var(--ink);font-family:var(--font-ui);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:9px 12px;gap:1px;text-align:left;width:100%;}
+/* pressed: the tile goes navy for a moment, so the pilot sees which field was taken */
+.wl-tile,.wl-pill{transition:background .12s,color .12s,border-color .12s,transform .12s;}
+.wl-tile.wl-press,.wl-other.wl-press{background:var(--ink);border-color:var(--ink);color:#f4ecdc;transform:scale(.95);}
+.wl-tile.wl-press .wl-name{color:rgba(244,236,220,.8);}
+.wl-tile.wl-press .wl-pill{background:var(--gold);color:var(--ink);}
+.wl-tile.tap-flash,.wl-other.tap-flash{animation:none;}
+.wl-pill{display:flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:14px;background:var(--ink);color:#f4ecdc;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;margin-bottom:auto;}
+.wl-pill svg{width:12px;height:12px;}
+.wl-icao{font-family:var(--font-mono);font-size:clamp(20px, 6vw, 23px);font-weight:700;line-height:1.1;}
+.wl-name{font-size:14px;font-weight:600;color:var(--ink-muted);}
+.wl-other{height:46px;border-radius:12px;border:1.5px dashed var(--gold);background:transparent;color:var(--ink-muted);font-family:var(--font-ui);font-size:15px;font-weight:700;}
+@media (prefers-reduced-motion:reduce){#splash *{transition:none !important;animation:none !important;}}
 
 /* ── SHORT SCREENS (iPhone SE etc.) ── */
 @media (max-width:420px){
@@ -367,12 +409,18 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 </div>
 
 <div id="splash" class="gone" aria-hidden="true">
-  <img class="sp-icon" id="spIcon" alt="">
-  <div class="sp-title">AirATIS</div>
-  <div class="sp-tag">Tap-fast ATIS capture</div>
-  <div class="sp-line1" id="spLine1"></div>
-  <div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div>
-  <div class="sp-foot">AirCheck+ · AirATIS · v1.01.027 · built by eligrt</div>
+  <div class="wl-top">
+    <button type="button" class="wl-back" dir="rtl" onclick="backToApp()">חזרה ל&nbsp;&nbsp;<span dir="ltr">AirCheck+</span></button>
+    <div class="wl-clock"><span>UTC</span><b id="wlClock">--:--</b></div>
+  </div>
+  <div class="sp-logo">
+    <img class="sp-icon" id="spIcon" alt="">
+    <div class="sp-title">AirATIS</div>
+    <div class="sp-tag">Tap-fast ATIS capture</div>
+    <div class="sp-lines"><div class="sp-line1" id="spLine1"></div><div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div></div>
+  </div>
+  <div class="wl-body" id="wlBody"></div>
+  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.031 · built by eligrt</span><span class="footer-pad"></span></div>
 </div>
 
 <div class="header">
@@ -394,7 +442,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 <div class="amodal" id="pickModal"><div class="am-card" role="dialog" aria-labelledby="pickTtl">
   <div class="am-ttl" id="pickTtl">Select airfield</div>
   <div class="pick-list" id="pickList"></div>
-  <div class="am-btns"><button type="button" class="am-no" data-act="pickclose">Cancel</button></div>
+  <div class="am-btns"><button type="button" class="am-no" id="pickCancel" data-act="pickclose">Cancel</button></div>
 </div></div>
 
 <div class="amodal" id="txtModal"><div class="am-card" role="dialog" aria-labelledby="txtTtl">
@@ -409,16 +457,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="amodal" id="staleModal"><div class="am-card st-card" role="alertdialog" aria-labelledby="stTtl" aria-describedby="stTxt">
-  <div class="st-ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#b94a3a" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-  <div class="am-ttl" id="stTtl">This ATIS is old</div>
-  <div class="st-row"><span class="st-L" id="stL"></span><span><span id="stTime"></span> · <span class="st-age" id="stAge"></span></span></div>
-  <div class="am-txt" id="stTxt">A newer letter is probably on the air.</div>
-  <button type="button" class="st-btn st-new" data-act="stalenew">START NEW ATIS</button>
-  <button type="button" class="st-btn st-keep" data-act="stalekeep">KEEP THIS ONE</button>
-</div></div>
-
-<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.027 · built by eligrt</span><span class="footer-pad"></span></div>
+<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.031 · built by eligrt</span><span class="footer-pad"></span></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -700,6 +739,7 @@ async function clearAll(){
   const ok = await appConfirm({ title:'Clear the whole ATIS?', text:'All fields will be erased and you start fresh. This can\'t be undone.', ok:'Clear all' });
   if(!ok) return;
   S = blank(S.ap); save(); render();
+  showWelcome(true);
 }
 
 // Airfield picker - in-app list instead of the phone's native picker
@@ -936,12 +976,27 @@ function keypadHTML(){
     </div>`;
 }
 
-// Top-down runway (heading up) with the wind arrow from where it blows.
-// The runway number sits in a round "magnifier" lens at the approach end.
+// Top-down runway picture with the wind arrow from where it blows.
+// Two views, tap to switch: RWY UP (runway pointing up - best for the crosswind) and
+// N UP (runway at its real heading, like a compass). The compass ring (N/E/S/W) shows real
+// directions in both. Text stays upright. The choice is remembered.
+const K_NUP = 'airatis_north_up';
+let _northUp = lsGet(K_NUP) === '1';
+// Runway heading as the shortest turn from straight up: -170..180 (RWY 33 = -30, a small turn left,
+// not 330 the long way round)
+function rwyHdg(){ const n = parseInt(S.rwy, 10); if(isNaN(n)) return 0; const h = (n*10) % 360; return h > 180 ? h - 360 : h; }
 function windSVG(w){
   const col = XW_COL[w.band], C = 100, R = 88;
   const pt = (deg, r) => { const a = deg*Math.PI/180; return [C + r*Math.sin(a), C - r*Math.cos(a)]; };
   const f = n => n.toFixed(1);
+  const H = rwyHdg(), A = _northUp ? 0 : -H, B = _northUp ? H : 0;
+  // compass ring: 30 deg ticks + N/E/S/W at real bearings (group A)
+  let ring = `<circle cx="100" cy="100" r="88" fill="none" stroke="#b89a5e" stroke-width="2" stroke-dasharray="5 5"/>`;
+  for(let d = 0; d < 360; d += 30){ const [x1,y1] = pt(d, 88), [x2,y2] = pt(d, 80); ring += `<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="#b89a5e" stroke-width="2"/>`; }
+  [['N',0,15,'#a87c2e'],['E',90,12,'#8a7a5a'],['S',180,12,'#8a7a5a'],['W',270,12,'#8a7a5a']].forEach(([l,d,fs,c]) => {
+    const [x,y] = pt(d, 99);
+    ring += `<text class="ws-ca" data-x="${f(x)}" data-y="${f(y)}" x="${f(x)}" y="${f(y+fs*0.36)}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="700" fill="${c}" transform="rotate(${-A} ${f(x)} ${f(y)})">${l}</text>`;
+  });
   let arc = '', art = '';
   if(w.span !== undefined){
     const [x1,y1] = pt(w.v1, R), [x2,y2] = pt(w.v1 + w.span, R);
@@ -958,21 +1013,47 @@ function windSVG(w){
       <line ${L} stroke="${col}" stroke-width="6.5" stroke-linecap="round"/>
       <polygon ${P} fill="${col}"/>`;
   } else if(w.mode){
-    art = `<text x="100" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="#2563c2">${w.mode}</text>`;
+    art = `<text id="wsMode" x="100" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="#2563c2" transform="rotate(${-B} 100 9)">${w.mode}</text>`;
   }
   const rw = S.rwy || '--', fs = rw.length > 2 ? 22 : 28;
-  return `<svg viewBox="0 0 200 200" aria-hidden="true">
-    <circle cx="100" cy="100" r="88" fill="none" stroke="#b89a5e" stroke-width="2" stroke-dasharray="5 5"/>
-    ${arc}
-    <rect x="86" y="20" width="28" height="156" rx="3" fill="#1c3d6e"/>
-    <line x1="100" y1="32" x2="100" y2="130" stroke="#f4ecdc" stroke-width="2" stroke-dasharray="8 7"/>
-    ${art}
-    <circle cx="100" cy="164" r="30" fill="#1c3d6e" stroke="#c8a04a" stroke-width="4"/>
-    <text x="100" y="${164 + fs*0.36}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="700" fill="#f4ecdc">${rw}</text>
+  return `<svg viewBox="-12 -12 224 224" aria-hidden="true">
+    <g id="wsA" transform="rotate(${A} 100 100)">${ring}</g>
+    <g id="wsB" transform="rotate(${B} 100 100)">
+      ${arc}
+      <rect x="86" y="20" width="28" height="156" rx="3" fill="#1c3d6e"/>
+      <line x1="100" y1="32" x2="100" y2="130" stroke="#f4ecdc" stroke-width="2" stroke-dasharray="8 7"/>
+      ${art}
+      <circle cx="100" cy="164" r="30" fill="#1c3d6e" stroke="#c8a04a" stroke-width="4"/>
+      <text id="wsLens" x="100" y="${164 + fs*0.36}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="${fs}" font-weight="700" fill="#f4ecdc" transform="rotate(${-B} 100 164)">${rw}</text>
+    </g>
   </svg>`;
 }
+function windModeLbl(){ return (_northUp ? 'N UP' : 'RWY UP') + ' · TAP TO TURN'; }
+// Turn the picture smoothly (about 0.7 s) between the two views
+let _turnRaf = 0;
+function turnRunway(){
+  _northUp = !_northUp; lsSet(K_NUP, _northUp ? '1' : '0');
+  const lbl = document.getElementById('wsLbl'); if(lbl) lbl.textContent = windModeLbl();
+  const gA = document.getElementById('wsA'), gB = document.getElementById('wsB');
+  if(!gA || !gB) return;
+  const H = rwyHdg(), to = _northUp ? 1 : 0, from = 1 - to;
+  const lens = document.getElementById('wsLens'), mode = document.getElementById('wsMode'), marks = [...document.querySelectorAll('.ws-ca')];
+  const paint = n => {                      // n: 0 = RWY UP, 1 = N UP
+    const A = -H*(1-n), B = H*n;
+    gA.setAttribute('transform', `rotate(${A} 100 100)`);
+    gB.setAttribute('transform', `rotate(${B} 100 100)`);
+    if(lens) lens.setAttribute('transform', `rotate(${-B} 100 164)`);
+    if(mode) mode.setAttribute('transform', `rotate(${-B} 100 9)`);
+    marks.forEach(m => m.setAttribute('transform', `rotate(${-A} ${m.dataset.x} ${m.dataset.y})`));
+  };
+  cancelAnimationFrame(_turnRaf);
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ paint(to); return; }
+  const t0 = performance.now(), dur = 700, ease = t => 1 - Math.pow(1 - t, 3);
+  const step = now => { const t = Math.min((now - t0)/dur, 1); paint(from + (to - from)*ease(t)); if(t < 1) _turnRaf = requestAnimationFrame(step); };
+  _turnRaf = requestAnimationFrame(step);
+}
 
-// ── ATIS AGE (one source for the summary bar and the old-ATIS popup) ──
+// ── ATIS AGE (one source for the summary bar and the welcome Continue card) ──
 const AGE_GREEN_MAX = 40;    // min: bar green up to here
 const AGE_OLD_MIN = 60;      // min: bar full + red above this, and the old-ATIS popup
 const AGE_COL = {green:'#9fe0b5', amber:'#f5b94a', red:'#ff8a7a'};
@@ -997,25 +1078,8 @@ function ageView(){
 function updateSumAge(){
   const bar = document.getElementById('smBar'), v = document.getElementById('smAgeV');
   if(bar && v){ const a = ageView(); bar.style.width = a.w+'%'; bar.style.background = a.col; v.style.color = a.col; v.textContent = a.txt; }
-  checkStale();
 }
 
-// Old-ATIS popup: once per ATIS per app open, when it is more than 1 hr old
-let _staleSeen = '', _splashOn = false;
-function checkStale(){
-  if(_splashOn || !(S.info || S.time)) return;
-  const a = ageMin();
-  if(a.min === null || a.min <= AGE_OLD_MIN) return;
-  const key = S.info+'|'+S.time+'|'+S.started;
-  if(_staleSeen === key) return;
-  if(document.querySelector('.amodal.show')) return;       // never on top of another dialog
-  _staleSeen = key;
-  document.getElementById('stL').textContent = S.info || '?';
-  document.getElementById('stTime').textContent = S.time.length===4 ? S.time+'Z' : 'ATIS';
-  document.getElementById('stAge').textContent = ageText(a.min);
-  document.getElementById('staleModal').classList.add('show');
-}
-function closeStale(){ document.getElementById('staleModal').classList.remove('show'); }
 
 // Wind as heard: 120/06 G09, CALM, VRB/05 - and the variable sector on its own line
 function windMain(){
@@ -1078,16 +1142,19 @@ function donePanelHTML(){
       </button>
     </div>
     <div class="sm-wind${uR||uW?' uns':''}">
-      <button class="sm-wpic" data-act="row" data-id="rwy" aria-label="Runway ${s.rwy||'not set'}">${windSVG(w)}</button>
-      <button class="sm-wtxt" data-act="row" data-id="wind">
-        <div><div class="sm-lbl">RWY ${s.rwy||'-'} · WIND</div><div class="sm-wv">${wm||'-'}</div>${wv?`<span class="sm-wvar" style="color:${XW_COL[w.band]}">${wv}</span>`:''}</div>
-        ${comps}
-      </button>
+      <button class="sm-wpic" data-act="turn" aria-label="Turn the runway picture">${windSVG(w)}<span class="sm-wmode" id="wsLbl">${windModeLbl()}</span></button>
+      <div class="sm-wtxt">
+        <button class="sm-wrwy" data-act="row" data-id="rwy">RWY <b>${s.rwy||'-'}</b></button>
+        <button class="sm-wwind" data-act="row" data-id="wind">
+          <div><div class="sm-lbl">WIND</div><div class="sm-wv">${wm||'-'}</div>${wv?`<span class="sm-wvar" style="color:${XW_COL[w.band]}">${wv}</span>`:''}</div>
+          ${comps}
+        </button>
+      </div>
       ${uR||uW?QB:''}
     </div>
     <div class="sm-grid">
       ${smTile('vis','VIS', s.vis==='CAVOK' ? 'CAVOK' : s.vis)}
-      ${smTile('cloud','CLOUD', cl, s.clouds.length>1 ? 'sm2' : '')}
+      ${smTile('cloud','CLOUD', cl, s.clouds.length>1 ? 'sm2' : (cl.length>6 ? 'smm' : ''))}
       ${smTile('td','T / DP', td)}
       ${smTile('qnh','QNH', s.qnh)}
     </div>
@@ -1114,7 +1181,6 @@ function render(){
     d.addEventListener('scroll', updateScrollCue, {passive:true});
     requestAnimationFrame(updateScrollCue);
   }
-  checkStale();
 }
 // Show fade + bobbing chevron only while there is more below (hides at the bottom)
 function updateScrollCue(){
@@ -1156,7 +1222,6 @@ document.addEventListener('click', () => { if(_tap){ const t = _tap; _tap = null
 document.addEventListener('click', e => {
   if(e.target.id==='amodal'){ amodalClose(false); return; }
   if(e.target.id==='pickModal'){ closePicker(); return; }
-  if(e.target.id==='staleModal'){ closeStale(); return; }
   const b = e.target.closest('[data-act]');
   if(!b || b.disabled) return;
   const act = b.dataset.act, arg = b.dataset.arg, s = S;
@@ -1203,9 +1268,14 @@ document.addEventListener('click', e => {
     case 'rmkother': { const i = document.getElementById('txtIn'); i.value = s.rmkTxt || ''; document.getElementById('txtModal').classList.add('show'); setTimeout(()=>i.focus(), 50); break; }
     case 'txtcancel': document.getElementById('txtModal').classList.remove('show'); break;
     case 'txtok': { const v = document.getElementById('txtIn').value.trim().toUpperCase().slice(0, RMK_TXT_MAX); document.getElementById('txtModal').classList.remove('show'); set({rmkTxt:v, rmk:s.rmk.filter(x=>x!=='NIL')}); break; }
-    case 'new': S = blank(s.ap); save(); render(); break;
-    case 'stalenew': closeStale(); S = blank(s.ap); save(); render(); break;
-    case 'stalekeep': closeStale(); break;
+    case 'new': showWelcome(true); break;
+    case 'turn': turnRunway(); break;
+    case 'wlcont': hideWelcome(); break;
+    case 'wlnew': {   // show the pressed tile for a moment, then start the new ATIS there
+      const id = b.dataset.id; b.classList.add('wl-press');
+      setTimeout(() => { lsSet(K_AP, id); S = blank(id); save(); render(); hideWelcome(); }, 280);
+      break;
+    }
     case 'reload': forceReload(); break;
   }
 });
@@ -1230,33 +1300,72 @@ function tickClock(){
   const n = utcNow();
   const t = String(n.h).padStart(2,'0')+':'+String(n.m).padStart(2,'0');
   const el = document.getElementById('utcClock');
-  if(el.textContent !== t){ el.textContent = t; renderAge(); updateSumAge(); }
+  if(el.textContent !== t){ el.textContent = t; renderAge(); updateSumAge(); const w = document.getElementById('wlClock'); if(w) w.textContent = t; if(welcomeOn()) renderWelcome(); }
 }
 
-// ── SPLASH (≈3.5s like AirLog, tap to skip, skipped when an ATIS capture is in progress) ──
+// ── SPLASH -> WELCOME ─────────────────────────────────
+// The splash plays on every open (tap to skip) and then turns into the welcome screen:
+// CONTINUE the current ATIS (navy, preferred) or start a NEW ATIS at an airfield - one tap either way.
+const PLUS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+const WL_ORDER = ['LLIB','LLHA','LLER','LLBG'];
+function hasAtis(){ return !!(S.info || S.time || S.started); }
+function welcomeHTML(){
+  const s = S, f = FIELDS[s.ap] || FIELDS.OTHER, a = ageView(), has = hasAtis();
+  const word = s.info ? PHON[s.info.charCodeAt(0)-65] : '';
+  const name = (s.ap==='OTHER' ? 'Other airfield' : s.ap+' '+f.name) + (word ? ' · '+word.charAt(0)+word.slice(1).toLowerCase() : '');
+  const cont = has ? `<button type="button" class="wl-cont" data-act="wlcont">
+      <span class="wl-cont-top">
+        <span class="wl-L${s.info?'':' empty'}">${s.info||'?'}</span>
+        <span class="wl-cont-txt"><span class="wl-lbl">CONTINUE</span><span class="wl-cont-name">${name}</span></span>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d4b878" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      </span>
+      <span class="wl-age"><span>${s.time.length===4 ? s.time+'Z' : '--:--'}</span><span class="wl-bar"><i style="width:${a.w}%;background:${a.col}"></i></span><span style="color:${a.col}">${a.txt}</span></span>
+    </button>` : '';
+  // fixed order, top-left to bottom-right - never changes
+  const tiles = WL_ORDER.filter(id => FIELDS[id]).map(id => `<button type="button" class="wl-tile" data-act="wlnew" data-id="${id}">
+      <span class="wl-pill">${PLUS_SVG}NEW</span>
+      <span class="wl-icao">${id}</span><span class="wl-name">${FIELDS[id].name}</span>
+    </button>`).join('');
+  return cont + `<div class="wl-new">
+      <div class="wl-new-ttl"><b>${has ? 'Or start a new ATIS' : 'Start a new ATIS'}</b><span>- tap the airfield</span></div>
+      <div class="wl-grid">${tiles}</div>
+      <button type="button" class="wl-other" data-act="wlnew" data-id="OTHER">+ Other airfield</button>
+    </div>`;
+}
+function renderWelcome(){ const b = document.getElementById('wlBody'); if(b) b.innerHTML = welcomeHTML(); }
+function welcomeOn(){ const sp = document.getElementById('splash'); return sp && !sp.classList.contains('gone'); }
+// instant = straight to the finished welcome screen (NEW ATIS), no animation
+function showWelcome(instant){
+  const sp = document.getElementById('splash');
+  renderWelcome();
+  sp.classList.remove('gone','fade');
+  if(instant) sp.classList.add('instant','lobby');      // stays until the welcome closes - no second fade
+  else sp.classList.add('lobby');
+  sp.setAttribute('aria-hidden','false');
+}
+function hideWelcome(){
+  const sp = document.getElementById('splash');
+  sp.classList.add('fade');
+  setTimeout(() => { sp.classList.add('gone'); sp.classList.remove('fade','instant'); }, 300);
+  sp.setAttribute('aria-hidden','true');
+}
 function runSplash(){
   const sp = document.getElementById('splash');
-  const inProgress = S.started && (Date.now()-S.started) < 2*3600000;
-  if(inProgress){ _splashOn = false; checkStale(); return; }
   document.getElementById('spIcon').src = document.getElementById('appIcon').href;
+  renderWelcome();
   sp.classList.remove('gone');
-  _splashOn = true;
   let done = false;
-  const close = () => {
-    if(done) return; done = true;
-    sp.classList.add('fade');
-    setTimeout(() => { sp.classList.add('gone'); _splashOn = false; checkStale(); }, 460);
-  };
-  sp.addEventListener('click', close);
   const l1 = document.getElementById('spLine1'), l2 = document.getElementById('spLine2');
   const text = 'Hear it once. Got it all.';
+  const toWelcome = () => { if(done) return; done = true; l1.textContent = text; showWelcome(false); };
+  sp.addEventListener('click', () => { if(!sp.classList.contains('lobby')) toWelcome(); });
   let i = 0;
   setTimeout(function tick(){
     if(done) return;
     i++;
     l1.innerHTML = text.slice(0,i) + '<span class="sp-cursor"></span>';
     if(i < text.length) setTimeout(tick, 45);
-    else { l1.textContent = text; l2.classList.add('show'); setTimeout(close, 1900); }
+    else { l1.textContent = text; l2.classList.add('show'); setTimeout(toWelcome, 1300); }
   }, 250);
 }
 
@@ -1297,7 +1406,6 @@ async function forceReload(){
 })();
 
 lsSet(K_AP, S.ap);
-_splashOn = true;          // runSplash clears it (at once when the splash is skipped)
 render();
 tickClock();
 setInterval(tickClock, 1000);
