@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirCheck+ · AirATIS.html · v1.01.032 · built by eligrt -->
+<!-- AirATIS.html · v1.01.036 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -35,7 +35,7 @@ button:active{opacity:.75;}
 
 /* ── HEADER ── */
 .header{background:var(--ink);padding:calc(10px + env(safe-area-inset-top)) 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:rtl;flex-shrink:0;position:relative;}
-.hdr-clock{flex:1;display:flex;flex-direction:column;align-items:center;color:#f4ecdc;font-family:var(--font-mono);direction:ltr;pointer-events:none;}
+.hdr-clock{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;color:#f4ecdc;font-family:var(--font-mono);direction:ltr;pointer-events:none;}
 .hdr-clock-lbl{font-size:9px;opacity:.75;letter-spacing:.18em;line-height:1;}
 .hdr-clock-row{display:flex;align-items:baseline;gap:6px;}
 .hdr-age{margin-top:4px;font-size:9px;font-weight:700;letter-spacing:.1em;line-height:1;padding:2px 6px;border-radius:3px;color:rgba(244,236,220,.55);border:1px solid rgba(244,236,220,.25);}
@@ -43,8 +43,11 @@ button:active{opacity:.75;}
 .hdr-age.stale{color:#f5b94a;border-color:rgba(245,185,74,.6);}
 .hdr-age.check{color:#f5b94a;border-color:rgba(245,185,74,.6);}
 #utcClock{font-size:16px;font-weight:700;line-height:1;}
-.header-title{font-size:18px;font-weight:700;color:#f4ecdc;direction:ltr;}
-.back-btn{background:transparent;border:1px solid rgba(244,236,220,.35);border-radius:6px;padding:7px 14px;font-family:var(--font-ui);font-size:13px;font-weight:600;color:rgba(244,236,220,.8);white-space:nowrap;}
+.hdr-rail{display:flex;align-items:center;gap:10px;min-width:0;}
+.hdr-glyph{width:38px;height:38px;flex:0 0 38px;border-radius:9px;overflow:hidden;border:1px solid var(--gold);background:var(--paper);}
+.hdr-glyph img{width:100%;height:100%;display:block;object-fit:cover}
+.hdr-title h1{font-size:16.5px;line-height:1.25;font-weight:700;letter-spacing:-.1px;color:#f4ecdc;direction:ltr;text-align:right;}
+.hdr-title p{color:var(--gold-lite);font-weight:500;margin-top:1px;line-height:1.3;font-size:10.5px;direction:ltr;text-align:right;}
 
 /* ── AIRFIELD ROW ── */
 .field-row{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:5px 16px;background:rgba(28,61,110,.06);border-bottom:1px solid var(--paper-edge);}
@@ -258,7 +261,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 @keyframes tapLight{0%{background:var(--gold-tint);border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,160,74,.55);transform:scale(.95);}100%{box-shadow:0 0 0 3px rgba(200,160,74,0);transform:scale(1);}}
 @keyframes tapDark{0%{box-shadow:0 0 0 4px rgba(200,160,74,.8);transform:scale(.96);}100%{box-shadow:0 0 0 4px rgba(200,160,74,0);transform:scale(1);}}
 .tap-flash{animation:tapLight .45s ease-out;}
-.nav-btn.done.tap-flash,.new-btn.tap-flash,.wl-cont.tap-flash,.wl-pill.tap-flash,.ap-btn.tap-flash,.am-ok.tap-flash,.act-q.on.tap-flash,.back-btn.tap-flash{animation:tapDark .45s ease-out;}
+.nav-btn.done.tap-flash,.new-btn.tap-flash,.wl-cont.tap-flash,.wl-pill.tap-flash,.ap-btn.tap-flash,.am-ok.tap-flash,.act-q.on.tap-flash{animation:tapDark .45s ease-out;}
 @media (prefers-reduced-motion:reduce){.tap-flash{animation-duration:.25s;}}
 
 /* ── SCROLL CUE (same pattern as LSA Toolbox) ── */
@@ -278,17 +281,17 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 .footer-pad{display:none;}
 
 /* ── SPLASH -> WELCOME: the splash animates into the start screen ── */
-#splash{position:fixed;top:0;left:0;right:0;margin:0 auto;width:100%;height:100svh;height:var(--app-h, 100svh);z-index:500;background:var(--paper);display:flex;flex-direction:column;align-items:stretch;overflow:hidden;transition:opacity .3s ease;}
-@media(min-width:600px){#splash{max-width:430px;}}
+#splash{position:fixed;top:0;left:0;right:0;margin:0 auto;width:100%;height:100svh;height:var(--app-h, 100svh);z-index:500;background:var(--paper);display:flex;flex-direction:column;align-items:stretch;overflow:hidden;transition:opacity .45s ease-in-out;}
+@media(min-width:600px){#splash{max-width:430px;box-sizing:border-box;border-left:2px solid var(--gold);border-right:2px solid var(--gold);box-shadow:0 0 60px rgba(0,0,0,.6);}}
 #splash.fade{opacity:0;pointer-events:none;}
 #splash.gone{display:none;}
-.wl-top{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 16px 0;opacity:0;pointer-events:none;transition:opacity .4s ease .2s;}
+.wl-top{opacity:0;pointer-events:none;transition:opacity .6s ease-in-out .15s;position:absolute;top:0;left:0;right:0;z-index:2;}
 #splash.lobby .wl-top{opacity:1;pointer-events:auto;}
-.wl-back{background:transparent;border:1px solid var(--gold-lite);border-radius:6px;padding:6px 11px;font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--ink-muted);}
-.wl-clock{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--ink);}
-.wl-clock span{font-size:9px;letter-spacing:.18em;color:var(--ink-faint);margin-right:5px;}
 .sp-logo{flex-shrink:0;display:flex;flex-direction:column;align-items:center;margin-top:calc((var(--app-h, 100svh) - 470px) / 2);transition:margin-top .55s cubic-bezier(.2,.8,.2,1);}
-#splash.lobby .sp-logo{margin-top:0;}
+#splash.lobby .sp-logo{margin-top:0;max-height:0;opacity:0;overflow:hidden;pointer-events:none;}
+.sp-logo{max-height:600px;transition:margin-top .55s cubic-bezier(.2,.8,.2,1),max-height .45s ease,opacity .25s ease;}
+#splash.lobby .wl-spacer{height:calc(68px + env(safe-area-inset-top));}
+.wl-spacer{flex-shrink:0;height:0;}
 .sp-icon{width:180px;height:180px;border-radius:40px;box-shadow:0 10px 30px rgba(28,61,110,.18);margin-bottom:22px;transition:width .55s cubic-bezier(.2,.8,.2,1),height .55s cubic-bezier(.2,.8,.2,1),border-radius .55s,margin .55s;}
 #splash.lobby .sp-icon{width:72px;height:72px;border-radius:17px;margin-bottom:6px;box-shadow:0 6px 16px rgba(28,61,110,.16);}
 .sp-title{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:.02em;transition:font-size .55s;}
@@ -302,9 +305,9 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 .sp-line2.show{opacity:1;}
 .sp-cursor{display:inline-block;width:2px;height:1em;background:var(--gold);margin-left:2px;vertical-align:-2px;animation:blink .8s step-end infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.wl-body{flex:1;min-height:0;overflow-y:auto;display:none;flex-direction:column;gap:12px;padding:2px 16px 12px;}
-#splash.lobby .wl-body{display:flex;animation:wlIn .45s ease .25s both;}
-@keyframes wlIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+.wl-body{flex:1;min-height:0;overflow-y:auto;display:none;flex-direction:column;gap:12px;padding:12px 16px 12px;}
+#splash.lobby .wl-body{display:flex;animation:wlIn .6s cubic-bezier(.22,.61,.36,1) .3s both;}
+@keyframes wlIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 #splash.instant *{transition:none !important;animation:none !important;}
 .sp-foot{flex-shrink:0;margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;direction:rtl;padding:8px 14px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--gold-lite);font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
 /* continue card - the preferred (navy) choice */
@@ -347,8 +350,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   .row-lbl{letter-spacing:.08em;}
 }
 @media (max-width:380px){
-  .back-btn{padding:6px 9px;font-size:12px;}
-  .header-title{font-size:17px;}
+  .hdr-title h1{font-size:15.5px;}
   .ap-btn{padding:0 12px 0 14px;gap:8px;}
   .ap-name,.ap-icao{font-size:13px;}
   .ap-freq{font-size:11px;}
@@ -414,10 +416,11 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 </div>
 
 <div id="splash" class="gone" aria-hidden="true">
-  <div class="wl-top">
-    <button type="button" class="wl-back" dir="rtl" onclick="backToApp()">חזרה ל&nbsp;&nbsp;<span dir="ltr">AirCheck+</span></button>
-    <div class="wl-clock"><span>UTC</span><b id="wlClock">--:--</b></div>
+  <div class="wl-top header">
+    <div class="hdr-rail"><div class="hdr-glyph" aria-hidden="true"><img id="wlIcon" alt=""></div><div class="hdr-title"><h1>AirATIS</h1><p>Tap-fast ATIS capture</p></div></div>
+    <div class="hdr-clock"><div class="hdr-clock-row"><span class="hdr-clock-lbl">UTC</span><span id="wlClock" style="font-size:16px;font-weight:700;line-height:1">--:--</span></div><span class="hdr-age" style="visibility:hidden" aria-hidden="true">.</span></div>
   </div>
+  <div class="wl-spacer"></div>
   <div class="sp-logo">
     <img class="sp-icon" id="spIcon" alt="">
     <div class="sp-title">AirATIS</div>
@@ -425,13 +428,12 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
     <div class="sp-lines"><div class="sp-line1" id="spLine1"></div><div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div></div>
   </div>
   <div class="wl-body" id="wlBody"></div>
-  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.032 · built by eligrt</span><span class="footer-pad"></span></div>
+  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.036 · built by eligrt</span><span class="footer-pad"></span></div>
 </div>
 
 <div class="header">
-  <div class="header-title">AirATIS</div>
+  <div class="hdr-rail"><div class="hdr-glyph" aria-hidden="true"><img id="hdrIcon" alt=""></div><div class="hdr-title"><h1>AirATIS</h1><p>Tap-fast ATIS capture</p></div></div>
   <div class="hdr-clock"><div class="hdr-clock-row"><span class="hdr-clock-lbl">UTC</span><span id="utcClock">--:--</span></div><span class="hdr-age" id="age"></span></div>
-  <button class="back-btn" onclick="backToApp()">חזרה ל&nbsp;&nbsp;<span dir="ltr">AirCheck+</span></button>
 </div>
 
 <div class="field-row">
@@ -462,7 +464,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirCheck+ · AirATIS · v1.01.032 · built by eligrt</span><span class="footer-pad"></span></div>
+<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.036 · built by eligrt</span><span class="footer-pad"></span></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -1297,15 +1299,7 @@ document.addEventListener('click', e => {
 document.addEventListener('dblclick', e => e.preventDefault(), {passive:false});
 document.addEventListener('gesturestart', e => e.preventDefault(), {passive:false});
 
-// AirATIS lives in its own repo - AirCheck+ is resolved against its own URL.
-// ?from= may be a full URL or a file name relative to the AirCheck repo.
-const AIRCHECK_BASE = 'https://eligrt.github.io/AirCheck/';
-function backToApp(){
-  const from = new URLSearchParams(window.location.search).get('from') || 'AirCheck_RD.html';
-  const url = new URL(from, AIRCHECK_BASE);
-  url.searchParams.set('resume','1');
-  window.location.href = url.href;
-}
+document.getElementById('hdrIcon').src = document.getElementById('appIcon').href;
 
 // ── UTC CLOCK ──────────────────────────────────────────
 function tickClock(){
@@ -1358,12 +1352,13 @@ function showWelcome(instant){
 function hideWelcome(){
   const sp = document.getElementById('splash');
   sp.classList.add('fade');
-  setTimeout(() => { sp.classList.add('gone'); sp.classList.remove('fade','instant'); }, 300);
+  setTimeout(() => { sp.classList.add('gone'); sp.classList.remove('fade','instant'); }, 460);
   sp.setAttribute('aria-hidden','true');
 }
 function runSplash(){
   const sp = document.getElementById('splash');
   document.getElementById('spIcon').src = document.getElementById('appIcon').href;
+  document.getElementById('wlIcon').src = document.getElementById('appIcon').href;
   renderWelcome();
   sp.classList.remove('gone');
   let done = false;
