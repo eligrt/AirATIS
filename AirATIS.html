@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirATIS.html · v1.01.040 · built by eligrt -->
+<!-- AirATIS.html · v1.01.041 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -34,16 +34,16 @@ button:active{opacity:.75;}
 .mono{font-family:var(--font-mono);}
 
 /* ── HEADER ── */
-.header{background:var(--ink);padding:calc(10px + env(safe-area-inset-top)) 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:rtl;flex-shrink:0;position:relative;}
-.hdr-clock{flex:0 0 auto;height:35px;justify-content:flex-start;display:flex;flex-direction:column;align-items:flex-start;color:#f4ecdc;font-family:var(--font-mono);direction:ltr;pointer-events:none;}
-.hdr-clock-lbl{font-size:9px;opacity:.75;letter-spacing:.18em;line-height:1;}
+.header{background:var(--ink);padding:calc(10px + env(safe-area-inset-top)) 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:rtl;flex-shrink:0;position:relative;box-sizing:border-box;min-height:calc(58px + env(safe-area-inset-top));}
+.hdr-clock{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;color:#f4ecdc;font-family:var(--font-mono);direction:ltr;pointer-events:none;}
+.hdr-clock-lbl{font-size:10px;opacity:.75;letter-spacing:.18em;line-height:1;}
 .hdr-clock-row{display:flex;align-items:baseline;gap:6px;}
-.hdr-age{margin-top:4px;font-size:9px;font-weight:700;letter-spacing:.1em;line-height:1;padding:2px 6px;border-radius:3px;color:rgba(244,236,220,.55);border:1px solid rgba(244,236,220,.25);}
+.hdr-age{position:absolute;left:16px;bottom:3px;margin:0;white-space:nowrap;font-size:9px;font-weight:700;letter-spacing:.1em;line-height:1;padding:2px 6px;border-radius:3px;color:rgba(244,236,220,.55);border:1px solid rgba(244,236,220,.25);}
 .hdr-age.none{visibility:hidden;}
 .hdr-age.fresh{color:#9fe0b5;border-color:rgba(159,224,181,.45);}
 .hdr-age.stale{color:#f5b94a;border-color:rgba(245,185,74,.6);}
 .hdr-age.check{color:#f5b94a;border-color:rgba(245,185,74,.6);}
-#utcClock{font-size:16px;font-weight:700;line-height:1;}
+#utcClock{font-size:21px;font-weight:700;line-height:1;}
 .hdr-rail{display:flex;align-items:center;gap:10px;min-width:0;}
 .hdr-glyph{width:38px;height:38px;flex:0 0 38px;border-radius:9px;overflow:hidden;border:1px solid var(--gold);background:var(--paper);}
 .hdr-glyph img{width:100%;height:100%;display:block;object-fit:cover}
@@ -419,7 +419,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 <div id="splash" class="gone" aria-hidden="true">
   <div class="wl-top header">
     <div class="hdr-rail"><div class="hdr-glyph" aria-hidden="true"><img id="wlIcon" alt=""></div><div class="hdr-title"><h1>AirATIS</h1><p>Tap-fast ATIS capture</p></div></div>
-    <div class="hdr-clock"><div class="hdr-clock-row"><span class="hdr-clock-lbl">UTC</span><span id="wlClock" style="font-size:16px;font-weight:700;line-height:1">--:--</span></div><span class="hdr-age" style="visibility:hidden" aria-hidden="true">.</span></div>
+    <div class="hdr-clock"><div class="hdr-clock-row"><span class="hdr-clock-lbl">UTC</span><span id="wlClock" style="font-size:21px;font-weight:700;line-height:1">--:--</span></div></div>
   </div>
   <div class="wl-spacer"></div>
   <div class="sp-logo">
@@ -429,7 +429,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
     <div class="sp-lines"><div class="sp-line1" id="spLine1"></div><div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div></div>
   </div>
   <div class="wl-body" id="wlBody"></div>
-  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.040 · built by eligrt</span><span class="footer-pad"></span></div>
+  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.041 · built by eligrt</span><span class="footer-pad"></span></div>
 </div>
 
 <div class="header">
@@ -465,7 +465,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.040 · built by eligrt</span><span class="footer-pad"></span></div>
+<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.041 · built by eligrt</span><span class="footer-pad"></span></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
