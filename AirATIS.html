@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirATIS.html · v1.01.041 · built by eligrt -->
+<!-- AirATIS.html · v1.01.042 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -429,7 +429,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
     <div class="sp-lines"><div class="sp-line1" id="spLine1"></div><div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div></div>
   </div>
   <div class="wl-body" id="wlBody"></div>
-  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.041 · built by eligrt</span><span class="footer-pad"></span></div>
+  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.042 · built by eligrt</span><span class="footer-pad"></span></div>
 </div>
 
 <div class="header">
@@ -465,7 +465,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.041 · built by eligrt</span><span class="footer-pad"></span></div>
+<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.042 · built by eligrt</span><span class="footer-pad"></span></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
@@ -1189,6 +1189,7 @@ function render(){
   renderTape();
   renderAge();
   document.body.classList.toggle('done-mode', !S.kpOpen);
+  if(!S.kpOpen) trackDone();
   document.getElementById('bottom').innerHTML = S.kpOpen ? keypadHTML() : donePanelHTML();
   if(!S.kpOpen){
     const d = document.querySelector('.done');
@@ -1288,7 +1289,7 @@ document.addEventListener('click', e => {
     case 'wlcont': hideWelcome(); break;
     case 'wlnew': {   // show the pressed tile for a moment, then start the new ATIS there
       const id = b.dataset.id; b.classList.add('wl-press');
-      setTimeout(() => { lsSet(K_AP, id); S = blank(id); save(); render(); hideWelcome(); }, 180);
+      setTimeout(() => { lsSet(K_AP, id); S = blank(id); save(); trackStart(id); render(); hideWelcome(); }, 180);
       break;
     }
     case 'reload': forceReload(); break;
@@ -1301,6 +1302,91 @@ document.addEventListener('dblclick', e => e.preventDefault(), {passive:false});
 document.addEventListener('gesturestart', e => e.preventDefault(), {passive:false});
 
 document.getElementById('hdrIcon').src = document.getElementById('appIcon').href;
+
+// ── USAGE STATS (anonymous) ────────────────────────────
+// Sends only: a random device id, OS, home-screen or browser, app version, airfield, and counters for
+// "ATIS started" / "ATIS done". No ATIS content (wind, QNH, remarks...) is ever sent.
+// Failures are silent. Unsent events are kept on the phone and retried on the next open or tap.
+const TRK_DB = 'https://aircheck-80530-default-rtdb.europe-west1.firebasedatabase.app/airatis';
+const K_DEV = 'airatis_dev', K_TRK = 'airatis_trk', K_Q = 'airatis_q';
+function trkDevId(){
+  let id = lsGet(K_DEV);
+  if(!id || !/^[a-z0-9]{8,32}$/.test(id)){
+    const a = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    id = '';
+    try{ const r = new Uint8Array(12); crypto.getRandomValues(r); r.forEach(v => { id += a[v % 36]; }); }
+    catch(e){ for(let i=0;i<12;i++) id += a[Math.floor(Math.random()*36)]; }
+    lsSet(K_DEV, id);
+  }
+  return id;
+}
+function trkInfo(){
+  const ua = navigator.userAgent || '';
+  const os = /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : 'Other';
+  let pwa = window.navigator.standalone === true;
+  try{ if(window.matchMedia('(display-mode: standalone)').matches) pwa = true; }catch(e){}
+  const m = (document.querySelector('.footer-ver') || {}).textContent || '';
+  return { os:os, pwa:pwa, v:(m.match(/v\d+\.\d+\.\d+/) || [''])[0] };
+}
+function trkDay(t){
+  const d = new Date(t);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function trkQueue(){ try{ return JSON.parse(lsGet(K_Q)||'[]'); }catch(e){ return []; } }
+async function trkSend(ev){
+  const i = trkInfo(), id = trkDevId(), base = '';   // paths are relative to airatis/devices/<id>
+  const inc = {'.sv':{increment:1}}, now = {'.sv':'timestamp'};
+  const p = {};
+  p[base+'os'] = i.os; p[base+'pwaInstalled'] = i.pwa; if(i.v) p[base+'appVersion'] = i.v;
+  p[base+'lastSeen'] = now;
+  if(ev.k === 'open'){
+    p[base+'lastOpenedAt'] = now;
+  } else {
+    const s = ev.k === 'start', f = s ? 's' : 'd';
+    p[base+(s ? 'started' : 'done')] = inc;
+    p[base+(s ? 'lastStartedAt' : 'lastDoneAt')] = ev.t;
+    p[base+'daily/'+trkDay(ev.t)+'/'+f] = inc;
+    p[base+'ap/'+ev.ap+'/'+f] = inc;
+  }
+  try{
+    const r = await fetch(TRK_DB+'/devices/'+id+'.json', { method:'PATCH', body:JSON.stringify(p), keepalive:true });
+    return r.ok;
+  }catch(e){ return false; }
+}
+let _trkBusy = false;
+async function trkFlush(){
+  if(_trkBusy) return;
+  _trkBusy = true;
+  try{
+    while(true){
+      const q = trkQueue();
+      if(!q.length) break;
+      if(!(await trkSend(q[0]))) break;
+      const r = trkQueue(); r.shift(); lsSet(K_Q, JSON.stringify(r));
+    }
+  }catch(e){}
+  _trkBusy = false;
+}
+function trkPush(ev){
+  const q = trkQueue();
+  if(!(ev.k === 'open' && q.some(e => e.k === 'open'))){ q.push(ev); lsSet(K_Q, JSON.stringify(q.slice(-50))); }
+  trkFlush();
+}
+let _trk = null;
+try{ _trk = JSON.parse(lsGet(K_TRK)||'null'); }catch(e){}
+// one "started" per tap on an airfield tile; one "done" the first time that ATIS reaches the summary
+function trackStart(ap){
+  _trk = { ap:ap, t:Date.now(), done:false };
+  lsSet(K_TRK, JSON.stringify(_trk));
+  trkPush({ k:'start', ap:ap, t:_trk.t });
+}
+function trackDone(){
+  if(!_trk || _trk.done) return;
+  _trk.done = true;
+  lsSet(K_TRK, JSON.stringify(_trk));
+  trkPush({ k:'done', ap:_trk.ap, t:Date.now() });
+}
+window.addEventListener('online', trkFlush);
 
 // ── UTC CLOCK ──────────────────────────────────────────
 function tickClock(){
@@ -1418,6 +1504,7 @@ render();
 tickClock();
 setInterval(tickClock, 1000);
 runSplash();
+trkPush({ k:'open', t:Date.now() });
 </script>
 </body>
 </html>
