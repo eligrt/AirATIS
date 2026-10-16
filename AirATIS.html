@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirATIS.html · v1.01.042 · built by eligrt -->
+<!-- AirATIS.html · v1.01.043 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -280,6 +280,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 .footer-refresh:active{opacity:.4;}
 .footer-ver{flex:1;text-align:center;direction:ltr;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;letter-spacing:.06em;}
 .footer-pad{display:none;}
+.page-footer,.sp-foot{min-height:calc(41px + env(safe-area-inset-bottom));}  /* same footer height in all LSA apps */
 
 /* ── SPLASH -> WELCOME: the splash animates into the start screen ── */
 #splash{position:fixed;top:0;left:0;right:0;margin:0 auto;width:100%;height:100svh;height:var(--app-h, 100svh);z-index:500;background:var(--paper);display:flex;flex-direction:column;align-items:stretch;overflow:hidden;transition:opacity .32s ease-in-out;}
@@ -429,7 +430,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
     <div class="sp-lines"><div class="sp-line1" id="spLine1"></div><div class="sp-line2" id="spLine2">LISTEN · TAP · FLY</div></div>
   </div>
   <div class="wl-body" id="wlBody"></div>
-  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.042 · built by eligrt</span><span class="footer-pad"></span></div>
+  <div class="sp-foot"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.043 · built by eligrt</span><span class="footer-pad"></span></div>
 </div>
 
 <div class="header">
@@ -465,7 +466,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.042 · built by eligrt</span><span class="footer-pad"></span></div>
+<div class="page-footer"><button type="button" class="footer-refresh" data-act="reload">רענון</button><span class="footer-ver">AirATIS · v1.01.043 · built by eligrt</span><span class="footer-pad"></span></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
