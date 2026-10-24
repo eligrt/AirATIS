@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirATIS.html · v1.01.047 · built by eligrt -->
+<!-- AirATIS.html · v1.01.048 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -34,7 +34,7 @@ button:active{opacity:.75;}
 .mono{font-family:var(--font-mono);}
 
 /* ── HEADER ── */
-.header{background:var(--ink);padding:calc(10px + env(safe-area-inset-top)) 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:ltr;flex-shrink:0;position:relative;box-sizing:border-box;min-height:calc(58px + env(safe-area-inset-top));}
+.header{background:var(--ink);padding:calc(10px + env(safe-area-inset-top) + var(--lsa-hdr-extra,0px)) 16px 8px;display:flex;align-items:center;justify-content:space-between;direction:ltr;flex-shrink:0;position:relative;box-sizing:border-box;min-height:calc(58px + env(safe-area-inset-top) + var(--lsa-hdr-extra,0px));}
 .hdr-clock{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;color:#f4ecdc;font-family:var(--font-mono);direction:ltr;pointer-events:none;}
 .hdr-clock-lbl{font-size:10px;opacity:.75;letter-spacing:.18em;line-height:1;}
 .hdr-clock-row{display:flex;align-items:baseline;gap:6px;}
@@ -51,7 +51,7 @@ button:active{opacity:.75;}
 .hdr-title p{color:var(--gold-lite);font-weight:500;margin-top:1px;line-height:1.3;font-size:10.5px;direction:ltr;text-align:left;}
 
 /* ── AIRFIELD ROW ── */
-.field-row{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:5px 16px;background:rgba(28,61,110,.06);border-bottom:1px solid var(--paper-edge);}
+.field-row{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:5px 16px;background:linear-gradient(rgba(28,61,110,.06),rgba(28,61,110,.06)),var(--paper);border-bottom:1px solid var(--paper-edge);}
 .ap-btn{flex:1;min-width:0;height:38px;display:flex;align-items:center;gap:10px;border-radius:21px;border:1.5px solid var(--ink);background:var(--ink);color:#f4ecdc;padding:0 14px 0 16px;text-align:left;}
 .ap-icao{font-family:var(--font-mono);font-weight:700;font-size:14px;letter-spacing:.02em;}
 .ap-name{flex:1;min-width:0;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -81,7 +81,7 @@ button:active{opacity:.75;}
 .age.stale{color:var(--amber-ink);border-color:rgba(245,158,11,.6);}
 
 /* ── TAPE ── */
-.tape{flex-shrink:0;padding:6px 12px;display:flex;gap:8px;}
+.tape{flex-shrink:0;padding:6px 12px;display:flex;gap:8px;background:var(--paper);}
 .tape-rows{flex:1;min-width:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;align-content:start;
   --h1:clamp(38px, 5.2svh, 46px); --h2:clamp(54px, 7.6svh, 64px);
   grid-template-rows:var(--h1) var(--h2) var(--h2) var(--h1) var(--h1);}
@@ -115,7 +115,7 @@ body.done-mode .row-val .lyr{font-size:1em;line-height:1.15;}
 .q-badge{width:22px;height:22px;border-radius:11px;background:var(--amber);color:#1a1308;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
 /* ── KEYPAD ── */
-.bottom{flex:1;display:flex;flex-direction:column;min-height:0;position:relative;}
+.bottom{flex:1;display:flex;flex-direction:column;min-height:0;position:relative;background:var(--paper);}
 .kp{flex:1;display:flex;flex-direction:column;gap:6px;padding:8px 14px 6px;background:var(--paper-hi);border-top:1px dashed var(--gold);min-height:0;}
 .hint{flex-shrink:0;font-size:13px;font-weight:500;color:var(--ink-muted);text-align:center;}
 .grid{flex:1;display:grid;gap:6px;min-height:0;grid-auto-rows:minmax(34px,1fr);}
@@ -292,7 +292,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 .sp-logo{flex-shrink:0;display:flex;flex-direction:column;align-items:center;margin-top:calc((var(--app-h, 100svh) - 470px) / 2);transition:margin-top .55s cubic-bezier(.2,.8,.2,1);}
 #splash.lobby .sp-logo{margin-top:0;max-height:0;opacity:0;overflow:hidden;pointer-events:none;}
 .sp-logo{max-height:600px;transition:margin-top .55s cubic-bezier(.2,.8,.2,1),max-height .45s ease,opacity .25s ease;}
-#splash.lobby .wl-spacer{height:calc(68px + env(safe-area-inset-top));}
+#splash.lobby .wl-spacer{height:calc(68px + env(safe-area-inset-top) + var(--lsa-hdr-extra,0px));}
 .wl-spacer{flex-shrink:0;height:0;}
 .sp-icon{width:180px;height:180px;border-radius:40px;box-shadow:0 10px 30px rgba(28,61,110,.18);margin-bottom:22px;transition:width .55s cubic-bezier(.2,.8,.2,1),height .55s cubic-bezier(.2,.8,.2,1),border-radius .55s,margin .55s;}
 #splash.lobby .sp-icon{width:72px;height:72px;border-radius:17px;margin-bottom:6px;box-shadow:0 6px 16px rgba(28,61,110,.16);}
@@ -359,7 +359,7 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
 }
 @media (max-height:720px){
   .field-row{padding:5px 16px;}
-  .header{padding:calc(7px + env(safe-area-inset-top)) 16px 6px;}
+  .header{padding:calc(7px + env(safe-area-inset-top) + var(--lsa-hdr-extra,0px)) 16px 6px;}
   .page-footer{padding-top:5px;padding-bottom:calc(5px + env(safe-area-inset-bottom));}
   .row-val{font-size:15px;}
   .tape{padding:4px 12px;}
@@ -406,10 +406,14 @@ body.done-mode .row[data-id="rmk"] .row-val{white-space:normal;overflow:visible;
   --lsa-hdr-min:58px;                                   /* navy header content height */
   --lsa-foot-h:33px;                                    /* footer content height */
   --lsa-foot-pad:max(8px,calc(env(safe-area-inset-bottom,0px) - 16px)); /* sits low, clear of the home bar */
+  --lsa-navy:#1c3d6e;                                   /* body/html background: colours the iPhone status bar fade */
+  --lsa-hdr-extra:min(12px,env(safe-area-inset-top,0px)); /* 12px on iPhone only, 0 on desktop and browser tabs */
 }
 *{overscroll-behavior:none;}                            /* no rubber-band, no scroll chaining */
 html,body{overscroll-behavior:none;}
-.lsa-hdr{box-sizing:border-box;min-height:calc(var(--lsa-hdr-min) + env(safe-area-inset-top,0px));padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:10px;}
+body{background:var(--lsa-navy);}                       /* app containers must carry their own paper background */
+@media (max-width:599px){html{background:var(--lsa-navy);}}
+.lsa-hdr{box-sizing:border-box;min-height:calc(var(--lsa-hdr-min) + env(safe-area-inset-top,0px) + var(--lsa-hdr-extra));padding-top:calc(10px + env(safe-area-inset-top,0px) + var(--lsa-hdr-extra));padding-bottom:10px;}
 .lsa-foot{box-sizing:border-box;flex:0 0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;direction:ltr;
   height:calc(var(--lsa-foot-h) + var(--lsa-foot-pad));padding:0 12px var(--lsa-foot-pad);margin:0;
   background:var(--paper-hi,#fbf6e8);border-top:1px solid var(--gold-lite,#d4b878);
@@ -431,6 +435,22 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
 .hdr-clock>.hdr-clock-lbl,.strip-clock>.strip-clock-lbl{order:2;font-size:9px!important;line-height:1;letter-spacing:.22em;margin:0!important;}
 .hdr-clock>:not(.hdr-clock-lbl),.strip-clock>:not(.strip-clock-lbl){order:1;}
 .hdr-clock-row{display:flex;flex-direction:column-reverse!important;align-items:center!important;gap:3px!important;}
+/* header family v2: icon+name LEFT, optional middle, UTC RIGHT (add class hdr-fam next to lsa-hdr) */
+.hdr-fam{direction:ltr!important;display:flex;justify-content:space-between;align-items:center;background:var(--ink);padding-left:16px;padding-right:16px;gap:6px}
+.hdr-fam .hdr-rail{display:flex;align-items:center;gap:10px;min-width:0}
+.hdr-fam .hdr-glyph{display:block;width:38px;height:38px;flex:0 0 38px;border-radius:9px;overflow:hidden;border:1px solid var(--gold);background:var(--paper)}
+.hdr-fam .hdr-glyph img{width:100%;height:100%;display:block;object-fit:cover}
+.hdr-fam .hdr-title{direction:ltr;text-align:left}
+.hdr-fam .hdr-title h1{font-size:16.5px;line-height:1.25;font-weight:700;letter-spacing:-.1px;color:var(--paper);margin:0;white-space:nowrap}
+.hdr-fam .hdr-title p{color:var(--gold-lite);font-weight:500;margin:1px 0 0;line-height:1.3;font-size:10.5px}
+.hdr-fam .hdr-clock{color:var(--paper);font-family:var(--font-mono,monospace);direction:ltr;flex:0 0 auto}
+.hdr-fam .hdr-utc{font-size:21px;font-weight:700;line-height:1}
+/* fonts pinned in every app: header text IBM Plex Sans Hebrew, clock and footer JetBrains Mono */
+.hdr-fam .hdr-title h1,.hdr-fam .hdr-title p{font-family:'IBM Plex Sans Hebrew',sans-serif}
+.hdr-fam .hdr-clock,.hdr-fam .hdr-utc,.hdr-fam .hdr-clock-lbl{font-family:'JetBrains Mono',monospace}
+.lsa-foot,.lsa-foot-ver,.lsa-foot-slot{font-family:'JetBrains Mono',monospace}
+.lsa-foot-reload{font-family:'IBM Plex Sans Hebrew',sans-serif}
+.lsa-hdr.hdr-fam .hdr-clock-lbl{font-size:9px;letter-spacing:.22em;opacity:.75}
 /* LSA-ALIGN v1 END */
 </style>
 </head>
@@ -462,7 +482,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
   </div>
   <div class="wl-body" id="wlBody"></div>
   <div class="lsa-skip">tap to skip</div>
-  <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver">AirATIS · v1.01.047 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();forceReload()">טען מחדש</button></div>
+  <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver">AirATIS · v1.01.048 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();forceReload()">טען מחדש</button></div>
 </div>
 
 <div class="header">
@@ -498,7 +518,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="lsa-foot pf" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver">AirATIS · v1.01.047 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="forceReload()">טען מחדש</button></div>
+<div class="lsa-foot pf" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver">AirATIS · v1.01.048 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="forceReload()">טען מחדש</button></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
