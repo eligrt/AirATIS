@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- AirATIS.html · v1.01.048 · built by eligrt -->
+<!-- AirATIS.html · v1.01.049 · built by eligrt -->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -452,6 +452,8 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
 .lsa-foot-reload{font-family:'IBM Plex Sans Hebrew',sans-serif}
 .lsa-hdr.hdr-fam .hdr-clock-lbl{font-size:9px;letter-spacing:.22em;opacity:.75}
 /* LSA-ALIGN v1 END */
+/* v1.01.049: while the cream splash is up (not the lobby, which has a navy header), html/body are cream so the iPhone status bar fade is cream, not navy */
+html:has(#splash:not(.gone):not(.lobby)),body:has(#splash:not(.gone):not(.lobby)){background:var(--paper);}
 </style>
 </head>
 <body>
@@ -482,7 +484,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
   </div>
   <div class="wl-body" id="wlBody"></div>
   <div class="lsa-skip">tap to skip</div>
-  <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver">AirATIS · v1.01.048 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();forceReload()">טען מחדש</button></div>
+  <div class="lsa-foot sp" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver">AirATIS · v1.01.049 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="event.stopPropagation();forceReload()">טען מחדש</button></div>
 </div>
 
 <div class="header">
@@ -518,7 +520,7 @@ button.lsa-foot-slot{cursor:pointer;padding:8px 0;}
   <div class="am-btns"><button type="button" class="am-no" data-act="amno">Cancel</button><button type="button" class="am-ok danger" id="amOk" data-act="amok"></button></div>
 </div></div>
 
-<div class="lsa-foot pf" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver">AirATIS · v1.01.048 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="forceReload()">טען מחדש</button></div>
+<div class="lsa-foot pf" dir="ltr"><span class="lsa-foot-slot"></span><span class="lsa-foot-ver">AirATIS · v1.01.049 · built by eligrt</span><button type="button" class="lsa-foot-reload" onclick="forceReload()">טען מחדש</button></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────
